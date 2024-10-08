@@ -1,0 +1,28 @@
+---
+
+services:
+  app:  # Combine both front-end and back-end into a single service
+    build: ../../  # This assumes your Dockerfile is in the root directory
+    environment:
+      TZ: America/New_York
+      PORT: 3000
+      DB_CONNECT: "mongodb://joshgoold2:D94uw6y8!!@mongodb:27017/?authSource=admin"
+    ports:
+      - "8080:5173"  # Expose the application port
+    depends_on:
+      - mongodb
+
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: joshgoold2  # Correct MongoDB environment variables
+      MONGO_INITDB_ROOT_PASSWORD: D94uw6y8!!
+    volumes:
+      - mongo-data:/data/db  # Persist MongoDB data even after restart
+
+volumes:
+  mongo-data:
