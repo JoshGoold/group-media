@@ -12,7 +12,7 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          "http://localhost:3000/create-group-conversation",
+          "http://localhost:3003/create-group-conversation",
           {
             groupid: groupid,
             message: message,

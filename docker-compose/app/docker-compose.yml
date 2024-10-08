@@ -5,8 +5,8 @@ services:
     build: ../../  # This assumes your Dockerfile is in the root directory
     environment:
       TZ: America/New_York
-      PORT: 3000
-      DB_CONNECT: "mongodb://joshgoold2:D94uw6y8!!@mongodb:27017/?authSource=admin"
+      SERVER_PORT: 3003
+      DB_CONNECT: 'mongodb+srv://joshgoold2:D94uw6y8!!@nodejs-1.t5hzt.mongodb.net/?retryWrites=true&w=majority&appName=nodejs-1'
     ports:
       - "8080:5173"  # Expose the application port
     depends_on:

@@ -13,7 +13,7 @@ const CreateConversation = (props) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          "http://localhost:3000/create-conversation",
+          "http://localhost:3003/create-conversation",
           {
             toUsername: props.username,
             message: message,

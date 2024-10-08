@@ -33,7 +33,7 @@ const Register = () => {
       return; // Exit function if email is invalid
     }
     try {
-      const response = await axios.post(`http://localhost:3000/register`, {
+      const response = await axios.post(`http://localhost:3003/register`, {
         username: userInfo.username,
         email: userInfo.email,
         password: userInfo.password,

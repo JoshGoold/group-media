@@ -30,7 +30,7 @@ const [windowWidth, setWindowWidth] = useState(window.screen.width);
 
 async function getData(){
     try {
-        const response = await axios.get("http://localhost:3000/home-feed",{withCredentials: true})
+        const response = await axios.get("http://localhost:3003/home-feed",{withCredentials: true})
 
         if(response.data.Success){
             setFeed(response.data.feed)
@@ -46,7 +46,7 @@ async function getData(){
 const likePost = async (post_id, username) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/like-post",
+        "http://localhost:3003/like-post",
         {
           postId: post_id,
           profileUsername: username,
@@ -74,7 +74,7 @@ const likePost = async (post_id, username) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment-post`,
+        `http://localhost:3003/comment-post`,
         {
           postId: id,
           profileUsername: username,
@@ -115,7 +115,7 @@ useEffect(()=>{
             >
              
               <h1 onClick={()=> nav(`/user-profile/${post.username}`)} className='cursor-pointer font-bold my-3'>{post.username}</h1>
-              {post.postImg ? (<img src={`http://localhost:3000${post.postImg}`} alt="Post" />) : ""}
+              {post.postImg ? (<img src={`http://localhost:3003${post.postImg}`} alt="Post" />) : ""}
               {post.letterHead ? (<h1 className='font-bold text-2xl'>{post.letterHead}</h1>) : ""}
               {post.postContent ? (<p>{post.postContent}</p>) : ""}
               {post.letterContent ? (<p>{post.letterContent}</p>) : ""}

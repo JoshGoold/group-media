@@ -7,7 +7,7 @@ const Follow = (props) => {
     if (!props.followState) {
       try {
         const response = await axios.get(
-          `http://localhost:3000/follow?username=${props.username}`,
+          `http://localhost:3003/follow?username=${props.username}`,
           { withCredentials: true }
         );
         if (response.data.Success) {

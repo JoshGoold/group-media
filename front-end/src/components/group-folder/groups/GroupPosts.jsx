@@ -12,7 +12,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
   const likePost = async (post_id) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/like-group-post",
+        "http://localhost:3003/like-group-post",
         {
           postId: post_id,
           groupid: groupid
@@ -42,7 +42,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment-group-post`,
+        `http://localhost:3003/comment-group-post`,
         {
           postId: id,
           groupid: groupid,
@@ -65,7 +65,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
   async function deletePost(id) {
     try {
       const response = await axios.post(
-        `http://localhost:3000/delete-group-post`,
+        `http://localhost:3003/delete-group-post`,
         {
           id: id,
           groupid: groupid
@@ -101,7 +101,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
                 🔴
               </button>
               <div className="flex justify-center mb-3">
-              <img className="" src={`http://localhost:3000${post.postImg}`} alt="Post" /></div>
+              <img className="" src={`http://localhost:3003${post.postImg}`} alt="Post" /></div>
               <p>{post.postContent}</p>
               <small className="text-sm text-gray-400 font-thin">
                 {curMonth}/{post.createdAt}

@@ -16,7 +16,7 @@ const ProfileHead = (props) => {
       formData.append("img", file);
 
       const response = await axios.post(
-        "http://localhost:3000/new-profilepicture",
+        "http://localhost:3003/new-profilepicture",
         formData,
         {
           headers: {
@@ -45,7 +45,7 @@ const ProfileHead = (props) => {
             className="rounded-full"
             height={200}
             width={200}
-            src={`http://localhost:3000${props.userData.profilepic}`}
+            src={`http://localhost:3003${props.userData.profilepic}`}
             alt="no image"
           />
           <button

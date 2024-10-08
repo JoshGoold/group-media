@@ -23,7 +23,7 @@ const CreatePost = (props) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/new-post",
+        "http://localhost:3003/new-post",
         formData,
         {
           headers: {

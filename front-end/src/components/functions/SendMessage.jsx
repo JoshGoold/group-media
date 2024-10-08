@@ -8,7 +8,7 @@ const SendMessage = (props) => {
     if (message.length > 0) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/send-message",
+          "http://localhost:3003/send-message",
           {
             message: message,
             toUsername: props.username,

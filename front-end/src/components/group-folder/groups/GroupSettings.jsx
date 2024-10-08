@@ -13,7 +13,7 @@ const GroupSettings = ({groupid, getData}) => {
         formData.append("groupid", groupid)
   
         const response = await axios.post(
-          "http://localhost:3000/new-group-profilepicture",
+          "http://localhost:3003/new-group-profilepicture",
           formData,
           
           {

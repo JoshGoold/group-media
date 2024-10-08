@@ -8,7 +8,7 @@ const YourGroups = ({user}) => {
   const nav = useNavigate()
   async function getGroups(){
     try {
-        const response = await axios.get(`http://localhost:3000/your-groups`,{withCredentials: true})
+        const response = await axios.get(`http://localhost:3003/your-groups`,{withCredentials: true})
         if(response.data.Success){
             setGroups(response.data.groups)
         } else{
@@ -30,7 +30,7 @@ useEffect(()=>{
                     {groups.map((group, index)=>(
                         <div onClick={()=> nav(`/dashboard/${user}/groups/${group.groupName}/${String(group._id)}`)} key={index} className="bg-white p-3 cursor-pointer rounded-md">
                             <div className="flex gap-2 my-2 items-center">
-                            <img className='rounded-full' src={`http://localhost:3000${group.groupProfilePicture}`} height={100} width={100}/>
+                            <img className='rounded-full' src={`http://localhost:3003${group.groupProfilePicture}`} height={100} width={100}/>
                             <h1 className='font-bold text-2xl'>{group.groupName}</h1>
                             </div>
                             <p className='my-2'>{group.groupDescription}</p>

@@ -18,7 +18,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
   const handleGroupConversations = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/group-message-history?groupid=${groupid}`,
+        `http://localhost:3003/group-message-history?groupid=${groupid}`,
         {
           withCredentials: true,
         }

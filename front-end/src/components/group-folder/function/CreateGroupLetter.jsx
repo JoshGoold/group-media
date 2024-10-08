@@ -12,7 +12,7 @@ const CreateGroupLetter = ({getData, groupid}) => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:3000/new-group-letter",
+          "http://localhost:3003/new-group-letter",
           {
             title: letter.title,
             contents: letter.content,

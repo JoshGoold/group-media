@@ -24,7 +24,7 @@ const Conversations = (props) => {
   const handleUserConversations = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/message-history?username=${props.user.username}`,
+        `http://localhost:3003/message-history?username=${props.user.username}`,
         {
           withCredentials: true,
         }

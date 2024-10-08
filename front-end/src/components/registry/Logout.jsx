@@ -7,7 +7,7 @@ const Logout = () => {
   // Logout handler
   const handleLogout = () => {
     axios
-      .post("http://localhost:3000/logout", { withCredentials: true })
+      .post("http://localhost:3003/logout", { withCredentials: true })
       .then((res) => {
         if (res.data.Message === "Success") {
           nav("/login");

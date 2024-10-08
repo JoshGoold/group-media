@@ -21,7 +21,7 @@ const Letter = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment-letter`,
+        `http://localhost:3003/comment-letter`,
         {
           letterId: id,
           profileUsername: username,
@@ -44,7 +44,7 @@ const Letter = (props) => {
   const likeLetter = async (letter_id, username) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/like-letter",
+        "http://localhost:3003/like-letter",
         {
           letterId: letter_id,
           profileUsername: username,
@@ -65,7 +65,7 @@ const Letter = (props) => {
   async function deleteLetter(id) {
     try {
       const response = await axios.post(
-        `http://localhost:3000/delete-letter`,
+        `http://localhost:3003/delete-letter`,
         {
           id: id,
         },
@@ -91,7 +91,7 @@ const Letter = (props) => {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/edit-letter",
+          "http://localhost:3003/edit-letter",
           {
             id: editState.letterid,
             title: editState.title,

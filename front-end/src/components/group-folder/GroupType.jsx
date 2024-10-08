@@ -19,7 +19,7 @@ const GroupType = () => {
   async function getGroups() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/groups?category=${grouptype}`,
+        `http://localhost:3003/groups?category=${grouptype}`,
         { withCredentials: true }
       );
       if (response.data.Success) {
@@ -48,7 +48,7 @@ const GroupType = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3000/create-group",
+        "http://localhost:3003/create-group",
         {
           group_name: group.group_name,
           group_description: group.group_description,
@@ -73,7 +73,7 @@ const GroupType = () => {
   async function joinGroup(id) {
     try {
       const response = await axios.post(
-        "http://localhost:3000/join-group",
+        "http://localhost:3003/join-group",
         {
           groupid: id,
         },
@@ -93,7 +93,7 @@ const GroupType = () => {
   async function requestGroup(id) {
     try {
       const response = await axios.post(
-        "http://localhost:3000/request-group",
+        "http://localhost:3003/request-group",
         {
           groupid: id,
         },
@@ -237,7 +237,7 @@ const GroupType = () => {
                 <div className="flex gap-2 my-2 items-center">
                   <img
                     className="rounded-full"
-                    src={`http://localhost:3000${group.groupProfilePicture}`}
+                    src={`http://localhost:3003${group.groupProfilePicture}`}
                     height={100}
                     width={100}
                   />

@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:3000/collect-cookie", {
+        .get("http://localhost:3003/collect-cookie", {
           withCredentials: true, // Include session cookies in the request
         })
         .then((res) => {
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/message-history?username=${username}`,
+        `http://localhost:3003/message-history?username=${username}`,
         {
           withCredentials: true,
         }

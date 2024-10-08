@@ -21,7 +21,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment-group-letter`,
+        `http://localhost:3003/comment-group-letter`,
         {
           letterId: letterid,
           groupid: id,
@@ -44,7 +44,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   const likeLetter = async (letter_id) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/like-group-letter",
+        "http://localhost:3003/like-group-letter",
         {
           letterId: letter_id,
           groupid: groupid,
@@ -66,7 +66,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   async function deleteLetter(id) {
     try {
       const response = await axios.post(
-        `http://localhost:3000/delete-group-letter`,
+        `http://localhost:3003/delete-group-letter`,
         {
           id: id,
           groupid: groupid
@@ -92,7 +92,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/edit-group-letter",
+          "http://localhost:3003/edit-group-letter",
           {
             id: editState.letterid,
             title: editState.title,

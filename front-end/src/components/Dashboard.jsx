@@ -56,7 +56,7 @@ const Dashboard = () => {
   const handleUserProfile = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/user-profile?username=${username}`,
+        `http://localhost:3003/user-profile?username=${username}`,
         {
           withCredentials: true,
         }

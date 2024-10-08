@@ -10,7 +10,7 @@ const UserPost = (props) => {
   const likePost = async (post_id, username) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/like-post",
+        "http://localhost:3003/like-post",
         {
           postId: post_id,
           profileUsername: username,
@@ -33,7 +33,7 @@ const UserPost = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment-post`,
+        `http://localhost:3003/comment-post`,
         {
           postId: id,
           profileUsername: username,
@@ -56,7 +56,7 @@ const UserPost = (props) => {
   // async function deletePost(id) {
   //   try {
   //     const response = await axios.post(
-  //       `http://localhost:3000/delete-post`,
+  //       `http://localhost:3003/delete-post`,
   //       {
   //         id: id,
   //       },
@@ -91,7 +91,7 @@ const UserPost = (props) => {
               >
                 🔴
               </button>
-              <img src={`http://localhost:3000${post.postImg}`} alt="Post" />
+              <img src={`http://localhost:3003${post.postImg}`} alt="Post" />
               <p>{post.postContent}</p>
               <div className="flex justify-between items-center">
                 <small

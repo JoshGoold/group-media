@@ -12,7 +12,7 @@ const CreateLetter = (props) => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:3000/new-letter",
+          "http://localhost:3003/new-letter",
           {
             title: letter.title,
             contents: letter.content,

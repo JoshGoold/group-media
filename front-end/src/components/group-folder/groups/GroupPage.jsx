@@ -34,7 +34,7 @@ const GroupPage = () => {
 
     async function getGroupData(){
         try {
-            const response = await axios.get(`http://localhost:3000/group-data?id=${groupid}`,{withCredentials:true})
+            const response = await axios.get(`http://localhost:3003/group-data?id=${groupid}`,{withCredentials:true})
             if(response.data.Success){
                 setGroupData((prev)=> ({...prev, 
                     groupAccess: response.data.groupData.groupAccess,
@@ -69,7 +69,7 @@ const GroupPage = () => {
         </div>
         <div className="flex items-center gap-3">
             <h1 className='text-white text-3xl font-thin'>Welcome to the {groupname}</h1>
-            <img className='rounded-full' height={70} width={70} src={`http://localhost:3000${groupData.groupProfilePic}`}/>
+            <img className='rounded-full' height={70} width={70} src={`http://localhost:3003${groupData.groupProfilePic}`}/>
         </div>
         </div>
         <div className="">

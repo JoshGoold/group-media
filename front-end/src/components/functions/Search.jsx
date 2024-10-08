@@ -12,7 +12,7 @@ const Search = () => {
   async function userSearch() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/user-search?searchQuery=${query}`
+        `http://localhost:3003/user-search?searchQuery=${query}`
       );
       if (response.data.Message === "Success") {
         setUserList(response.data.list);

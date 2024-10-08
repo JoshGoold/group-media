@@ -24,7 +24,7 @@ const CreateGroupPost = ({getData, groupid}) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/new-group-post",
+        "http://localhost:3003/new-group-post",
         formData,
         {
           headers: {
