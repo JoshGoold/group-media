@@ -237,7 +237,7 @@ const GroupType = () => {
                 <div className="flex gap-2 my-2 items-center">
                   <img
                     className="rounded-full"
-                    src={`http://localhost:3003${group.groupProfilePicture}`}
+                    src={group.profilepic}
                     height={100}
                     width={100}
                   />

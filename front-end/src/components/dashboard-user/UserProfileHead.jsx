@@ -11,7 +11,7 @@ const UserProfileHead = (props) => {
            className="rounded-full"
             height={200}
             width={200}
-            src={`http://localhost:3003${props.userData.profilepic}`}
+            src={props.userData.profilepic}
             alt="no image"
           />
         </div>

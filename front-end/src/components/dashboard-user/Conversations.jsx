@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 import SendMessage from "../functions/SendMessage";
-import pic from "../../assets/defaultpic.png";
 
 const Conversations = (props) => {
   const [open, setOpen] = useState({
@@ -73,7 +72,7 @@ const Conversations = (props) => {
                   }))}
                 }
               >
-                <img className="" height={50} width={50} src={pic} />
+                <img className="" height={50} width={50} src={props.userData.profilepic} />
                 <span>{conversation.head}</span>
                 {!open.state && (
                 <small className="text-gray-400 flex items-center font-thin">{conversation?.msgs[conversation?.msgs?.length - 1].split(":")[0] === "You" ? "" : "🔵"}&nbsp; {conversation?.msgs[conversation?.msgs?.length-1]}</small>

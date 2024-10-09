@@ -8,7 +8,8 @@ services:
       SERVER_PORT: 3003
       DB_CONNECT: 'mongodb+srv://joshgoold2:D94uw6y8!!@nodejs-1.t5hzt.mongodb.net/?retryWrites=true&w=majority&appName=nodejs-1'
     ports:
-      - "8080:5173"  # Expose the application port
+      - "8080:8080"  # Expose the application port
+      - "3003:3003"  # Expose the application port
     depends_on:
       - mongodb
 

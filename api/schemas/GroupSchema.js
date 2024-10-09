@@ -11,7 +11,7 @@ const GroupSchema = new mongoose.Schema({
     },
     groupProfilePicture: {
         type: String,
-        default: "/profilepictures/defaultgroup.png"
+        default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
     },
     groupCategory: {
         type: String,
@@ -29,7 +29,7 @@ const GroupSchema = new mongoose.Schema({
         },
         participant_profilePic: {
             type: String,
-            default: "/profilepictures/defaultpic"
+            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
         }
     }],
     memberCount: {
@@ -44,7 +44,7 @@ const GroupSchema = new mongoose.Schema({
         },
         admin_profilePic: {
             type: String,
-            default: "/profilepictures/defaultpic"
+            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
         }
     }],
     groupModerators: [{
@@ -56,7 +56,7 @@ const GroupSchema = new mongoose.Schema({
         },
         moderator_profilePic: {
             type: String,
-            default: "/profilepictures/defaultpic"
+            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
         }
     }],
     owner: {
@@ -72,7 +72,7 @@ const GroupSchema = new mongoose.Schema({
         },
         participant_profilePic: {
             type: String,
-            default: "/profilepictures/defaultpic"
+            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
         }
     }],
     posts: [

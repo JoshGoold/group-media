@@ -49,7 +49,7 @@ const GroupMembers = ({groupData, groupid, getData}) => {
       {groupData.participants.map((person, index)=>(
         <div className="text-white" key={index}>
             <ul className='flex items-center gap-2'>
-              <li onClick={()=>nav(`/user-profile/${person.participant_name}`)}><img className='rounded-full' height={50} width={50} src={`http://localhost:3003${person.participant_profilePic}`} alt="" /></li>
+              <li onClick={()=>nav(`/user-profile/${person.participant_name}`)}><img className='rounded-full' height={50} width={50} src={person.participant_profilePic} alt="" /></li>
               <li onClick={()=>nav(`/user-profile/${person.participant_name}`)}>{person.participant_name}</li>
             </ul>
         </div>
@@ -61,7 +61,7 @@ const GroupMembers = ({groupData, groupid, getData}) => {
           <div className="">
           {groupData?.requested.map((request, index)=>(
             <ul key={index} className="flex text-white items-center gap-2">
-              <li><img className='rounded-full' height={50} width={50} src={`http://localhost:3003${request.participant_profilePic}`}/></li>
+              <li><img className='rounded-full' height={50} width={50} src={request.participant_profilePic}/></li>
               <li  onClick={()=>nav(`/user-profile/${request.participant_name}`)}>{request.participant_name}</li>
               <li><button onClick={()=>acceptRequest(request.participant_name)} className='bg-green-500 p-2 rounded-md'>Accept</button></li>
               <li><button onClick={()=>denyRequest(request.participant_name)} className='bg-red-500 p-2 rounded-md'>Deny</button></li>

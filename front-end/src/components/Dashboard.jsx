@@ -108,7 +108,7 @@ const Dashboard = () => {
       <div className="w-full">
         {navState.home && (
           <div className="">
-            <Home handleUserProfile={handleUserProfile}/>
+            <Home userData={userData} handleUserProfile={handleUserProfile}/>
           </div>
         )}
         {navState.profile && (

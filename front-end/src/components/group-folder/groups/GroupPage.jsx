@@ -42,12 +42,12 @@ const GroupPage = () => {
                     groupCategory: response.data.groupData.groupCategory,
                     groupDescription: response.data.groupData.groupDescription,
                     groupModerators: response.data.groupData.groupModerators,
-                    groupProfilePic: response.data.groupData.groupProfilePicture,
+                    groupProfilePic: response.data.profilepic,
                     letters: response.data.groupData.letters,
                     memberCount: response.data.groupData.memberCount,
                     owner: response.data.groupData.owner,
                     participants: response.data.groupData.participants,
-                    posts: response.data.groupData.posts,
+                    posts: response.data.groupPosts,
                     requested: response.data.groupData.requested_participants,
                 }))
             } else{
@@ -69,7 +69,7 @@ const GroupPage = () => {
         </div>
         <div className="flex items-center gap-3">
             <h1 className='text-white text-3xl font-thin'>Welcome to the {groupname}</h1>
-            <img className='rounded-full' height={70} width={70} src={`http://localhost:3003${groupData.groupProfilePic}`}/>
+            <img className='rounded-full' height={70} width={70} src={groupData.groupProfilePic}/>
         </div>
         </div>
         <div className="">

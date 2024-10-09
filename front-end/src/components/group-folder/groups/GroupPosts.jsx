@@ -101,7 +101,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
                 🔴
               </button>
               <div className="flex justify-center mb-3">
-              <img className="" src={`http://localhost:3003${post.postImg}`} alt="Post" /></div>
+              <img className="" src={post.img} alt="Post" /></div>
               <p>{post.postContent}</p>
               <small className="text-sm text-gray-400 font-thin">
                 {curMonth}/{post.createdAt}

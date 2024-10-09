@@ -12,7 +12,7 @@ COPY api /app/api
 COPY front-end /app/front-end
 
 # Install dependencies and run builds
-RUN cd /app/front-end && npm install && npm run build \
+RUN cd /app/front-end && npm install && npm i -g serve && npm run build \
     && cd /app/api && npm install --production
 
 # Stage 2: Final Stage - production
@@ -38,6 +38,9 @@ COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 # Finish | Set WORKDIR and expose dashboard port
 WORKDIR /app/
 EXPOSE 8080
+
+WORKDIR /app/api
+EXPOSE 3003 3000
 
 # Start Supervisor to manage Node.js services
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

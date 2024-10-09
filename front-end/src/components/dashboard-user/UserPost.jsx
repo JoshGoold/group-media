@@ -91,7 +91,7 @@ const UserPost = (props) => {
               >
                 🔴
               </button>
-              <img src={`http://localhost:3003${post.postImg}`} alt="Post" />
+              <img src={post.img} alt="Post" />
               <p>{post.postContent}</p>
               <div className="flex justify-between items-center">
                 <small

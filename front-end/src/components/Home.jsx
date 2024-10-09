@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Home = () => {
+const Home = ({userData}) => {
     const [feed, setFeed] = useState([])
     const [curMonth, setCurMonth] = useState("");
     const nav = useNavigate()
@@ -40,7 +40,22 @@ async function getData(){
         }
     } catch (error) {
         console.error(error)
+    }finally{
+      getRecommended()
     }
+}
+
+async function getRecommended(){
+  try {
+    const response = await axios.get("http://localhost:3003/recomendation", {withCredentials: true})
+    if(response.data.Success){
+      setFeed(prevFeed => [...response.data.recomended, ...prevFeed])
+    }else{
+      alert(response.data.Message)
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const likePost = async (post_id, username) => {
@@ -56,7 +71,6 @@ const likePost = async (post_id, username) => {
       if (response.data.Success) {
         alert(response.data.Message);
         props.handleUserProfile();
-        window.location.reload()
       } else {
         alert(response.data);
       }
@@ -86,7 +100,6 @@ const likePost = async (post_id, username) => {
         alert(response.data.Message);
         props.handleUserProfile();
         setCommentP("");
-        window.location.reload()
       } else {
         alert(response.data);
       }
@@ -113,9 +126,12 @@ useEffect(()=>{
               id={post._id}
               key={index}
             >
+              {!userData.following.some(user => user.username === post.username) && (
+                <h1 className="font-bold">Recommended to you:</h1>
+              )}
              
               <h1 onClick={()=> nav(`/user-profile/${post.username}`)} className='cursor-pointer font-bold my-3'>{post.username}</h1>
-              {post.postImg ? (<img src={`http://localhost:3003${post.postImg}`} alt="Post" />) : ""}
+              {post.img ? (<img src={post.img} alt="Post" />) : ""}
               {post.letterHead ? (<h1 className='font-bold text-2xl'>{post.letterHead}</h1>) : ""}
               {post.postContent ? (<p>{post.postContent}</p>) : ""}
               {post.letterContent ? (<p>{post.letterContent}</p>) : ""}

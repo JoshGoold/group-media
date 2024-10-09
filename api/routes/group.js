@@ -5,8 +5,10 @@ const Conversation = require("../schemas/ConversationSchema");
 
 const multer = require("multer");
 
-
+const fs = require('fs');
 const path = require("path");
+const imageResizer = require("../js/imageResize")
+const getBase64 = require("../js/getBase64")
 
 const express = require("express")
 
@@ -54,8 +56,16 @@ groupRoutes.post("/create-group", async (req, res) => {
         if (!groups || groups.length === 0) { 
           return res.status(404).send({ Message: "No groups found", Success: false });
         }
+        const arr = await Promise.all(groups.map(async (group) => {
+          const filepath = group.groupProfilePicture;
+          const base64Image = await getBase64(filepath);
+          return {
+              profilepic: `data:image/webp;base64,${base64Image}`,
+              ...group._doc,
+          };
+      }));
         
-      res.status(200).send({groups: groups, Success: true})
+      res.status(200).send({groups: arr, Success: true})
       } catch (error) {
         res.status(500).send({Message: `Server Error --> ${error.message}`, Success: false })
         console.error(`Server error ---> ${error}`)
@@ -126,8 +136,16 @@ groupRoutes.post("/create-group", async (req, res) => {
        if (!groups || groups.length === 0) { 
          return res.status(404).send({ Message: "No groups found", Success: false });
        }
+       const arr = await Promise.all(groups.map(async (group) => {
+        const filepath = group.groupProfilePicture;
+        const base64Image = await getBase64(filepath);
+        return {
+            profilepic: `data:image/webp;base64,${base64Image}`,
+            ...group._doc,
+        };
+    }));
        
-     res.status(200).send({groups: groups, Success: true})
+     res.status(200).send({groups: arr, Success: true})
      } catch (error) {
        res.status(500).send({Message: `Server Error --> ${error.message}`, Success: false })
        console.error(`Server error ---> ${error}`)
@@ -372,24 +390,20 @@ groupRoutes.post("/create-group", async (req, res) => {
     }
   });
   
-  // Configure multer for file storage
-  const gppStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "profilepictures/");
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname));
-    },
-  });
-  const gppUpload = multer({ storage: gppStorage });
+  
+  const gppUpload = multer({ storage: multer.memoryStorage() });
   
   groupRoutes.post("/new-group-profilepicture", gppUpload.single("img"), async (req, res) => {
-    const img = req.file ? `/profilepictures/${req.file.filename}` : null;
+    const img = req.file.buffer
     const {groupid} = req.body;
   
     if (!req.session.userObject) {
       return res.status(401).send("Unauthorized");
     }
+    const resizedImg = await imageResizer(img);
+
+    const outputPath = path.join(__dirname, '../profilepictures/', `resized-image-${Date.now()}.webp`);
+    fs.writeFileSync(outputPath, resizedImg);
   
     try {
       const group = await Group.findOne({
@@ -401,7 +415,7 @@ groupRoutes.post("/create-group", async (req, res) => {
       }
   
       // Update profile picture
-      group.groupProfilePicture = img;
+      group.groupProfilePicture = outputPath;
   
       // Save the updated user
       await group.save();
@@ -417,21 +431,14 @@ groupRoutes.post("/create-group", async (req, res) => {
         .send({ Message: "Internal server error", Success: false });
     }
   });
+
   
-  // Configure multer for file storage
-  const GroupStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "uploads/"); // Save files in 'uploads/' folder
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); // Unique file name
-    },
-  });
-  const GroupUpload = multer({ storage: GroupStorage });
+  
+  const GroupUpload = multer({ storage: multer.memoryStorage() });
   
   groupRoutes.post("/new-group-post", GroupUpload.single("img"), async (req, res) => {
     const { description, groupid } = req.body;
-    const img = req.file ? `/uploads/${req.file.filename}` : null; // Path for accessing the uploaded image
+    const img = req.file.buffer
   
     if (req.session.userObject) {
       try {
@@ -442,9 +449,13 @@ groupRoutes.post("/create-group", async (req, res) => {
         if (!group) {
           return res.status(404).send("No user found");
         }
+        const resizedImg = await imageResizer(img);
+
+        const outputPath = path.join(__dirname, '../uploads/', `resized-image-${Date.now()}.webp`);
+        fs.writeFileSync(outputPath, resizedImg);
   
         // Push the post with the image URL to the user's posts
-        group.posts.push({ postImg: img, postContent: description });
+        group.posts.push({ postImg: outputPath, postContent: description });
         await group.save();
   
         return res.status(200).send("Successfully uploaded post");
@@ -542,9 +553,23 @@ groupRoutes.post("/create-group", async (req, res) => {
         if(!group){
           return res.status(404).send({Message: "No group found", Success: false})
         }
-        res.status(200).send({Success: true, groupData: group})
+        const filepath = group.groupProfilePicture;
+        const base64Image = await getBase64(filepath);
+
+          const posts = await Promise.all(
+          group.posts.map(async (post) => {
+            const filePath = post.postImg;
+            const base64PostImage = await getBase64(filePath);
+            return {
+                img: `data:image/webp;base64,${base64PostImage}`,
+                ...post._doc,
+            };
+          })
+          )
+
+        res.status(200).send({Success: true, groupData: group, groupPosts: posts, profilepic: `data:image/webp;base64,${base64Image}`})
       } catch (error) {
-        console.error(`Server Error --> ${error.message}`)
+        console.error(`Server Error --> ${error}`)
         res.status(500).send({Message: `Server Error --> ${error.message}`, Success: false})
       }
     } else{
@@ -681,57 +706,7 @@ groupRoutes.post("/create-group", async (req, res) => {
     }
   });
 
-    // Configure multer for file storage
-    const ppStorage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, "profilepictures/");
-      },
-      filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-      },
-    });
-    const ppUpload = multer({ storage: ppStorage });
-    
-    groupRoutes.post("/new-group-profilepicture", ppUpload.single("img"), async (req, res) => {
-      const img = req.file ? `/profilepictures/${req.file.filename}` : null;
-      const groupid = req.body.groupid;
-    
-      if (!req.session.userObject) {
-        return res.status(401).send("Unauthorized");
-      }
-
-     
-    
-      try {
-        const group = await Group.findOne({
-          _id: groupid,
-        });
-    
-        if (!group) {
-          return res.status(404).send("No user found");
-        } 
-
-        if(!req.session.userObject.objID !== group.owner.id){
-          return res.status(400).send({Message: "You must be owner of group to change profile picture", Success: false})
-        }
-    
-        // Update profile picture
-        group.groupProfilePicture = img;
-    
-        // Save the updated user
-        await group.save();
-    
-        // Send success response
-        return res
-          .status(200)
-          .send({ Message: "Profile picture updated successfully", Success: true });
-      } catch (error) {
-        console.error(error);
-        return res
-          .status(500)
-          .send({ Message: "Internal server error", Success: false });
-      }
-    });
+ 
 
     groupRoutes.post("/accept-participant", async (req, res) => {
       const { username, groupid } = req.body;
