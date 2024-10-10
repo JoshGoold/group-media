@@ -12,6 +12,8 @@ services:
       - "3003:3003"  # Expose the application port
     depends_on:
       - mongodb
+    networks:
+      - my_network  # Add to the shared network
 
 
   mongodb:
@@ -24,6 +26,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: D94uw6y8!!
     volumes:
       - mongo-data:/data/db  # Persist MongoDB data even after restart
+    networks:
+      - my_network  # Add to the shared network
 
 volumes:
   mongo-data:
+
+networks:
+  my_network:
