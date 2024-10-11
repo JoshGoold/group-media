@@ -25,6 +25,7 @@ npm i express express-session
 npm i mongoose
 ```
 ### Example Connection
+```
   mongoose
   .connect(process.env.DB_CONNECT)
   .then(() => {
@@ -37,3 +38,4 @@ npm i mongoose
   .catch((e) => {
     console.log("DATABASE FAILURE: ", e.message);
   });
+```
