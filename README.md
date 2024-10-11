@@ -39,3 +39,5 @@ npm i mongoose
     console.log("DATABASE FAILURE: ", e.message);
   });
 ```
+# Containerized with docker
+
