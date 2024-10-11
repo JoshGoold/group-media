@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:3003/collect-cookie", {
+        .get("http://127.0.0.1:3003/collect-cookie", {
           withCredentials: true, // Include session cookies in the request
         })
         .then((res) => {
@@ -22,7 +22,10 @@ export const UserProvider = ({ children }) => {
             nav("/login");
           }
         })
-        .catch((err) => console.error(err.message, "Axios error"));
+        .catch((err) => {
+          console.error('Axios error:', err.response ? err.response.data : err.message);
+        });
+        
     } catch (error) {
       console.error(error.message, "Internal server error");
     }
@@ -31,7 +34,7 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `http://localhost:3003/message-history?username=${username}`,
+        `http://127.0.0.1:3003/message-history?username=${username}`,
         {
           withCredentials: true,
         }

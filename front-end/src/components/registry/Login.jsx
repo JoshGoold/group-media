@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3003/login`,
+        `http://127.0.0.1:3003/login`,
         {
           username: userInfo.username,
           password: userInfo.password,
