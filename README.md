@@ -8,3 +8,32 @@ My Goal of the project was to create strict communities where people can find an
 ```
   npm create vite@latest
 ```
+
+## Tailwind Css
+```
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init
+
+```
+
+## Express && Express session
+```
+npm i express express-session
+```
+## Utilized MongoDB for scalalibity and ease of use
+```
+npm i mongoose
+```
+### Example Connection
+  mongoose
+  .connect(process.env.DB_CONNECT)
+  .then(() => {
+    console.log("DATABASE INITIALIZED");
+    //Start node js server after database connects
+    app.listen(process.env.SERVER_PORT, () => {
+      console.log(`SERVER STARTED ON PORT: ${process.env.SERVER_PORT}`);
+    });
+  })
+  .catch((e) => {
+    console.log("DATABASE FAILURE: ", e.message);
+  });
