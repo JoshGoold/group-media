@@ -9,22 +9,28 @@ import UserProfileHead from "./dashboard-user/UserProfileHead.jsx";
 import UserLetter from "./dashboard-user/UserLetter.jsx";
 import UserPost from "./dashboard-user/UserPost.jsx";
 import Follow from "./functions/Follow.jsx";
+import {jwtDecode} from 'jwt-decode';
+
+
+
 const UserProfile = () => {
   
   const [user, setUser] = useState("")
-  const getUserFromToken = () => {
+  const getUserFromToken = async () => {
     const token = localStorage.getItem('token');
-  
+
     if (token) {
       try {
         // Decode the token to get the payload (username, email, etc.)
-        const decodedToken = jwt_decode(token);
-  
+        const decodedToken = jwtDecode(token);
+
+        console.log('Decoded Token:', decodedToken);
+
         // Access the username or any other property from the token
         const username = decodedToken.username;
-  
+
         console.log('Decoded Username:', username);
-        return username;
+        setUser(username)
       } catch (error) {
         console.error('Error decoding token:', error);
         return null;
@@ -36,8 +42,7 @@ const UserProfile = () => {
   };
 
   useEffect(()=>{
-    const user_name = getUserFromToken()
-    setUser(user_name)
+      getUserFromToken()
   },[])
 
   const { username } = useParams();
