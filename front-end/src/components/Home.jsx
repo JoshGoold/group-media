@@ -132,7 +132,7 @@ const likePost = async (post_id, username) => {
 useEffect(()=>{
     getData()
     getMonth();
-},[])
+},[token])
 
 
 

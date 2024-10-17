@@ -50,7 +50,7 @@ const Conversations = (props) => {
   };
   useEffect(() => {
     handleUserConversations();
-  }, []);
+  }, [token]);
 
   // Scroll to bottom whenever the component mounts or updates
   useEffect(() => {

@@ -126,7 +126,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     handleUserProfile();
-  }, [username]);
+  }, [token]);
 
   useEffect(() => {
     checkFollowing();

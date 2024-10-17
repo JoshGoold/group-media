@@ -30,7 +30,7 @@ const YourGroups = ({user}) => {
 }
 useEffect(()=>{
   getGroups()
-},[])
+},[token])
 
   return (
     <div>

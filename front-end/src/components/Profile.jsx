@@ -99,7 +99,7 @@ const Profile = () => {
   // Fetch user profile and conversations
   useEffect(() => {
     handleUserProfile();
-  }, [user]);
+  }, [token]);
 
   return (
     <div className="flex  h-screen">

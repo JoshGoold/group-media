@@ -46,7 +46,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
   };
   useEffect(() => {
     handleGroupConversations();
-  }, []);
+  }, [token]);
 
   // Scroll to bottom whenever the component mounts or updates
   useEffect(() => {

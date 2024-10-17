@@ -69,7 +69,7 @@ const GroupPage = () => {
 
     useEffect(()=>{
         getGroupData()
-    },[groupData])
+    },[token])
   return (
     <div className="p-3 overflow-scroll h-screen hide-scrollbar">
         <div className="flex justify-between p-4">
