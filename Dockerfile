@@ -12,7 +12,7 @@ COPY api /app/api
 COPY front-end /app/front-end
 
 # Install dependencies and run builds
-RUN cd /app/front-end && npm install && npm run build && npm start \
+RUN cd /app/front-end && npm install && npm run build \
     && cd /app/api && npm install --production
 
 # Stage 2: Final Stage - production
