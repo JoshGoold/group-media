@@ -13,6 +13,7 @@ const UserProfile = () => {
   const { user } = useContext(UserContext);
   const { username } = useParams();
   const nav = useNavigate();
+  const token = localStorage.getItem('token');
 
   const [following, setFollowing] = useState(false);
   const [state, setState] = useState("Letters")
@@ -47,8 +48,10 @@ const UserProfile = () => {
       const response = await axios.get(
         `http://localhost:3003/user-profile?username=${username}`,
         {
-          withCredentials: true,
-        }
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
 
       if (response.data.Success) {

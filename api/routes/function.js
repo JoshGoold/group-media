@@ -36,14 +36,12 @@ functionRoutes.get("/user-search", async (req, res) => {
   });
   
   //follow endpoint
-  functionRoutes.get("/follow", async (req, res) => {
+  functionRoutes.get("/follow", auth, async (req, res) => {
     const { username } = req.query;
-    if (req.session.userObject) {
+
       try {
         const user = await User.findOne({ username: username });
-        const you = await User.findOne({
-          username: req.session.userObject.username,
-        });
+  
   
         if (!user) {
           res.status(300).send("No users found.");
@@ -51,8 +49,8 @@ functionRoutes.get("/user-search", async (req, res) => {
   
         const existingFollower = user.followers.find(
           (follower) =>
-            follower.id.equals(req.session.userObject.id) ||
-            follower.username === req.session.userObject.username
+            follower.id.equals(req.user._id) ||
+            follower.username === req.user.username
         );
   
         if (existingFollower) {
@@ -60,11 +58,11 @@ functionRoutes.get("/user-search", async (req, res) => {
           return;
         }
   
-        user.followers.push({ id: you._id, username: you.username });
+        user.followers.push({ id: req.user._id, username: req.user.username });
         you.following.push({ id: user._id, username: user.username });
   
         await user.save();
-        await you.save();
+        await req.user.save();
   
         res.status(200).send({
           Message: `You are now following ${user.username}`,
@@ -73,16 +71,13 @@ functionRoutes.get("/user-search", async (req, res) => {
       } catch (error) {
         res.status(400).send("error occurred: ", error.message);
       }
-    } else {
-      res.status(401).send("You must be logged in to add a friend");
-    }
+    
   });
   
-  functionRoutes.get("/user-profile", async (req, res) => {
+  functionRoutes.get("/user-profile", auth, async (req, res) => {
     const { username } = req.query;
   
     try {
-      if (req.session.userObject) {
         const user = await User.findOne({ username: username }).select(
           "username followers following id email profilepic letters posts"
         );
@@ -117,25 +112,19 @@ functionRoutes.get("/user-search", async (req, res) => {
           Success: true,
         });
         console.log("user found: ", user.username);
-      } else {
-        res.status(401).send("You must be logged in to view an account");
-      }
+      
     } catch (error) {
       console.error(error);
       res.status(500).send(`Internal server error --> ${error}`);
     }
   });
   
-  functionRoutes.post("/delete-letter", async (req, res) => {
+  functionRoutes.post("/delete-letter", auth, async (req, res) => {
     const { id } = req.body;
   
     try {
-      if (req.session.userObject) {
-        const user = await User.findOne({
-          username: req.session.userObject.username,
-        });
   
-        const letter = user.letters.find((letter) => letter._id.equals(id));
+        const letter = req.user.letters.find((letter) => letter._id.equals(id));
   
         if (!letter) {
           res.status(404).send({ Message: "no letters found", Success: false });
@@ -143,28 +132,23 @@ functionRoutes.get("/user-search", async (req, res) => {
   
         await letter.deleteOne();
   
-        await user.save();
+        await req.user.save();
   
         res.send({ Message: "letter deleted successfully", Success: true });
-      } else {
-        res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
+     
     } catch (error) {
       console.error(error);
       res.send(error.message);
     }
   });
   
-  functionRoutes.post("/delete-post", async (req, res) => {
+  functionRoutes.post("/delete-post", auth, async (req, res) => {
     const { id } = req.body;
   
     try {
-      if (req.session.userObject) {
-        const user = await User.findOne({
-          username: req.session.userObject.username,
-        });
+ 
   
-        const post = user.posts.find((post) => post._id.equals(id));
+        const post = req.user.posts.find((post) => post._id.equals(id));
   
         if (!letter) {
           res.status(404).send({ Message: "no posts found", Success: false });
@@ -175,32 +159,24 @@ functionRoutes.get("/user-search", async (req, res) => {
         await user.save();
   
         res.send({ Message: "post deleted successfully", Success: true });
-      } else {
-        res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
+     
     } catch (error) {
       console.error(error);
       res.send(error.message);
     }
   });
   
-  functionRoutes.post("/edit-letter", async (req, res) => {
+  functionRoutes.post("/edit-letter", auth, async (req, res) => {
     const { id, content, title } = req.body;
     try {
-      if (!req.session.userObject) {
-        return res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
-      const user = await User.findOne({
-        username: req.session.userObject.username,
-      });
   
-      if (!user) {
+      if (!req.user) {
         return res
           .status(404)
           .send({ Message: "No users found", Success: false });
       }
   
-      const letter = user.letters.find((letter) => letter._id.equals(id));
+      const letter = req.user.letters.find((letter) => letter._id.equals(id));
   
       if (!letter) {
         return res
@@ -211,7 +187,7 @@ functionRoutes.get("/user-search", async (req, res) => {
       letter.letterContent = content;
       letter.letterHead = title;
   
-      await user.save();
+      await req.user.save();
   
       res.send({ Message: "Edit success", Success: true });
     } catch (error) {
@@ -220,21 +196,13 @@ functionRoutes.get("/user-search", async (req, res) => {
     }
   });
   
-  functionRoutes.post("/new-letter", async (req, res) => {
+  functionRoutes.post("/new-letter", auth, async (req, res) => {
     const { title, contents } = req.body;
   
-    if (req.session.userObject) {
       try {
-        const user = await User.findOne({
-          username: req.session.userObject.username,
-        }).select("letters");
   
-        if (!user) {
-          return res.status(404).send("No user found");
-        }
-  
-        user.letters.push({ letterContent: contents, letterHead: title });
-        await user.save();
+        req.user.letters.push({ letterContent: contents, letterHead: title });
+        await req.user.save();
   
         return res
           .status(200)
@@ -243,15 +211,12 @@ functionRoutes.get("/user-search", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Internal server error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to post a letter");
-    }
+    
   });
   
-  functionRoutes.post("/like-letter", async (req, res) => {
+  functionRoutes.post("/like-letter", auth, async (req, res) => {
     const { letterId, profileUsername } = req.body;
   
-    if (req.session.userObject) {
       try {
         const user = await User.findOne({ username: profileUsername });
         if (!user) {
@@ -264,7 +229,7 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         const alreadyLiked = letter.likes.find(
-          (like) => like.likerUsername === req.session.userObject.username
+          (like) => like.likerUsername === req.user.username
         );
         if (alreadyLiked) {
           res.status(400).send("You have already liked this letter");
@@ -272,8 +237,8 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         letter.likes.push({
-          likerId: req.session.userObject.id,
-          likerUsername: req.session.userObject.username,
+          likerId: req.user._id,
+          likerUsername: req.user.username,
         });
         await user.save();
   
@@ -284,14 +249,12 @@ functionRoutes.get("/user-search", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to like a letter");
-    }
+    
   });
-  functionRoutes.post("/comment-letter", async (req, res) => {
+  functionRoutes.post("/comment-letter", auth, async (req, res) => {
     const { letterId, comment, profileUsername } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const user = await User.findOne({ username: profileUsername });
         if (!user) {
@@ -304,8 +267,8 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         letter.comments.push({
-          commenterId: req.session.userObject.id,
-          commenterUsername: req.session.userObject.username,
+          commenterId: req.user._id,
+          commenterUsername: req.user.username,
           comment: comment,
         });
         await user.save();
@@ -317,22 +280,17 @@ functionRoutes.get("/user-search", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to comment on a letter");
-    }
+    
   });
   
 
   
   const ppUpload = multer({ storage: multer.memoryStorage() });
   
-  functionRoutes.post("/new-profilepicture", ppUpload.single("img"), async (req, res) => {
+  functionRoutes.post("/new-profilepicture", ppUpload.single("img"), auth, async (req, res) => {
 
     const img = req.file.buffer
   
-    if (!req.session.userObject) {
-      return res.status(401).send("Unauthorized");
-    }
 
     const resizedImg = await imageResizer(img);
 
@@ -340,19 +298,13 @@ functionRoutes.get("/user-search", async (req, res) => {
         fs.writeFileSync(outputPath, resizedImg);
   
     try {
-      const user = await User.findOne({
-        username: req.session.userObject.username,
-      });
   
-      if (!user) {
-        return res.status(404).send("No user found");
-      }
-  
+
       // Update profile picture
-      user.profilepic = outputPath;
+      req.user.profilepic = outputPath;
   
       // Save the updated user
-      await user.save();
+      await req.user.save();
   
       // Send success response
       return res
@@ -369,43 +321,32 @@ functionRoutes.get("/user-search", async (req, res) => {
  
   const upload = multer({ storage: multer.memoryStorage() });
   
-  functionRoutes.post("/new-post", upload.single("img"), async (req, res) => {
+  functionRoutes.post("/new-post", upload.single("img"), auth, async (req, res) => {
     const { description } = req.body;
     const img = req.file.buffer
   
-    if (req.session.userObject) {
       try {
-        const user = await User.findOne({
-          username: req.session.userObject.username,
-        }).select("posts");
 
         const resizedImg = await imageResizer(img);
 
         const outputPath = path.join(__dirname, '../uploads/', `resized-image-${Date.now()}.webp`);
         fs.writeFileSync(outputPath, resizedImg);
   
-        if (!user) {
-          return res.status(404).send("No user found");
-        }
-  
         // Push the post with the image URL to the user's posts
-        user.posts.push({ postImg: outputPath, postContent: description });
-        await user.save();
+        req.user.posts.push({ postImg: outputPath, postContent: description });
+        await req.user.save();
   
         return res.status(200).send("Successfully uploaded post");
       } catch (error) {
         console.error(error);
         return res.status(500).send(`Error occurred: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to add a new post");
-    }
+   
   });
   
-  functionRoutes.post("/like-post", async (req, res) => {
+  functionRoutes.post("/like-post", auth, async (req, res) => {
     const { postId, profileUsername } = req.body;
   
-    if (req.session.userObject) {
       try {
         const user = await User.findOne({ username: profileUsername });
         if (!user) {
@@ -419,7 +360,7 @@ functionRoutes.get("/user-search", async (req, res) => {
   
         // Prevent duplicate likes
         const alreadyLiked = post.likes.find(
-          (like) => like.likerUsername === req.session.userObject.username
+          (like) => like.likerUsername === req.user.username
         );
         if (alreadyLiked) {
           res.status(400).send("You have already liked this post");
@@ -427,8 +368,8 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         post.likes.push({
-          likerId: req.session.userObject.id,
-          likerUsername: req.session.userObject.username,
+          likerId: req.user._id,
+          likerUsername: req.user.username,
         });
         await user.save();
   
@@ -439,15 +380,13 @@ functionRoutes.get("/user-search", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to like a post");
-    }
+    
   });
   
-  functionRoutes.post("/comment-post", async (req, res) => {
+  functionRoutes.post("/comment-post", auth, async (req, res) => {
     const { postId, comment, profileUsername } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const user = await User.findOne({ username: profileUsername });
         if (!user) {
@@ -460,8 +399,8 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         post.comments.push({
-          commenterId: req.session.userObject.id,
-          commenterUsername: req.session.userObject.username,
+          commenterId: req.user._id,
+          commenterUsername: req.user.username,
           comment: comment,
         });
   
@@ -474,27 +413,16 @@ functionRoutes.get("/user-search", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to comment on a post");
-    }
+   
   });
   
-  functionRoutes.get("/home-feed", async (req, res) => {
-    if (!req.session.userObject) {
-        return res.status(400).send("You must be logged in");
-    }
-
+  functionRoutes.get("/home-feed", auth, async (req, res) => {
     try {
-        const user = await User.findOne({
-            username: req.session.userObject.username,
-        });
-
-        if (!user) return res.status(404).send("No users found");
-
+    
         const allPosts = []; // Changed variable name to avoid confusion
 
         // Fetch all users that the current user is following
-        const followees = await User.find({ username: { $in: user.following.map(f => f.username) } })
+        const followees = await User.find({ username: { $in: req.user.following.map(f => f.username) } })
             .populate("posts letters");
 
         for (const u of followees) {

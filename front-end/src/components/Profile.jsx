@@ -17,7 +17,7 @@ const Profile = () => {
 
   const { username } = useParams();
 
-
+  const token = localStorage.getItem('token');
 
   const [userData, setUserData] = useState({
     username: "",
@@ -37,7 +37,14 @@ const Profile = () => {
     globalGroups: false
   })
 
-  const [windowWidth, setWindowWidth] = useState(window.screen.width);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    // Code inside useEffect runs only on the client side
+    setWindowWidth(window.screen.width);
+
+  }, []);
+
   const [state, setState] = useState("Letters")
   const [sideState, setSideState] = useState(false)
   useEffect(() => {
@@ -59,8 +66,10 @@ const Profile = () => {
       const response = await axios.get(
         `http://localhost:3003/user-profile?username=${username}`,
         {
-          withCredentials: true,
-        }
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
 
       if (response.data.Success) {

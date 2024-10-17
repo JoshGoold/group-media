@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react";
 
 const GroupPosts = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
-
+  const token = localStorage.getItem('token');
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
@@ -17,7 +17,11 @@ const GroupPosts = ({getData, groupid, groupData}) => {
           postId: post_id,
           groupid: groupid
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -48,7 +52,11 @@ const GroupPosts = ({getData, groupid, groupData}) => {
           groupid: groupid,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -70,7 +78,11 @@ const GroupPosts = ({getData, groupid, groupData}) => {
           id: id,
           groupid: groupid
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

@@ -7,6 +7,7 @@ const Home = ({userData}) => {
     const [feed, setFeed] = useState([])
     const [curMonth, setCurMonth] = useState("");
     const nav = useNavigate()
+    const token = localStorage.getItem('token');
 
 const [commentP, setCommentP] = useState("");
 const [likeState, setLikeState] = useState({ state: false, id: "" });
@@ -30,7 +31,11 @@ const [windowWidth, setWindowWidth] = useState(window.screen.width);
 
 async function getData(){
     try {
-        const response = await axios.get("http://localhost:3003/home-feed",{withCredentials: true})
+        const response = await axios.get("http://localhost:3003/home-feed",{
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }})
 
         if(response.data.Success){
             setFeed(response.data.feed)
@@ -47,7 +52,11 @@ async function getData(){
 
 async function getRecommended(){
   try {
-    const response = await axios.get("http://localhost:3003/recomendation", {withCredentials: true})
+    const response = await axios.get("http://localhost:3003/recomendation", {
+      headers: {
+      'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+      'Content-Type': 'application/json'
+    }})
     if(response.data.Success){
       setFeed(prevFeed => [...response.data.recomended, ...prevFeed])
     }else{
@@ -66,7 +75,11 @@ const likePost = async (post_id, username) => {
           postId: post_id,
           profileUsername: username,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -94,7 +107,11 @@ const likePost = async (post_id, username) => {
           profileUsername: username,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

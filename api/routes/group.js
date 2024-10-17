@@ -4,6 +4,7 @@ const Message = require("../schemas/MessageSchema");
 const Conversation = require("../schemas/ConversationSchema");
 
 const multer = require("multer");
+const auth = require('../middleware/auth')
 
 const fs = require('fs');
 const path = require("path");
@@ -14,9 +15,9 @@ const express = require("express")
 
 const groupRoutes = express.Router()
 
-groupRoutes.post("/create-group", async (req, res) => {
+groupRoutes.post("/create-group", auth, async (req, res) => {
     const { group_name, group_description, memberCount, category, access } = req.body;
-    if (req.session.userObject) {
+
       try {
         const newGroup = new Group({
           groupName: group_name,
@@ -26,14 +27,14 @@ groupRoutes.post("/create-group", async (req, res) => {
           groupAccess: access,
           participants: [
             {
-              participant_id: req.session.userObject.id,
-              participant_name: req.session.userObject.username,
-              participant_profilePic: req.session.userObject.profilePic,
+              participant_id: req.user._id,
+              participant_name: req.user.username,
+              participant_profilePic: req.user.profilePic,
             },
           ],
           owner: {
-            id: req.session.userObject.id,
-            owner_name: req.session.userObject.username
+            id: req.user._id,
+            owner_name: req.user.username
           },
         });
   
@@ -43,14 +44,12 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error)
         res.status(500).send({Message: `"Server Error ---> " ${error}`, Success: false})
       }
-    } else{
-      res.status(404).send({Message: "You must be logged in to create a group", Success: false})
-    }
+    
   });
   
-  groupRoutes.get("/groups", async (req,res)=>{
+  groupRoutes.get("/groups", auth, async (req,res)=>{
      const {category} = req.query;
-     if(req.session.userObject){
+
       try {
         const groups = await Group.find({ groupCategory: category }); 
         if (!groups || groups.length === 0) { 
@@ -71,21 +70,19 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(`Server error ---> ${error}`)
       }
      
-     } else{
-      res.status(404).send({Message: "You must be logged in", Success: false})
-     }
+    
   })
   
-  groupRoutes.post("/join-group", async (req,res)=>{
+  groupRoutes.post("/join-group", auth, async (req,res)=>{
     const { groupid } = req.body;
-    if(req.session.userObject){
+
       try {
         const group = await Group.findById(groupid)
   
       if(!group){
         return res.status(404).send({Message: "No group found", Success: false})
       }
-      group.participants.push({participant_id: req.session.userObject.objID, participant_name: req.session.userObject.username, participant_profilePic: req.session.userObject.profilePic})
+      group.participants.push({participant_id: req.user._id, participant_name: req.user.username, participant_profilePic: req.user.profilePic})
   
       await group.save()
   
@@ -95,27 +92,25 @@ groupRoutes.post("/create-group", async (req, res) => {
         res.status(500).send({Message: `Server Error --> ${error.message}`, Success: false})
       }
       
-    } else{
-      res.status(404).send({Message: "You must be logged in", Success: false})
-    }
+   
   
   })
   
-  groupRoutes.post("/request-group", async (req,res)=>{
+  groupRoutes.post("/request-group", auth, async (req,res)=>{
     const {groupid} = req.body;
-    if(req.session.userObject){
+
       try {
         const group = await Group.findById(groupid)
         if(!group){
           return res.status(404).send({Message: "No groups found", Success: false})
         }
-        const isRequested = group.requested_participants.find(par => par.id === req.session.userObject.id)
+        const isRequested = group.requested_participants.find(par => par.id === String(req.user._id))
   
         if(isRequested){
           return res.status(400).send({Message: "Cannot request twice", Success: false})
         }
   
-        group.requested_participants.push({participant_id: req.session.userObject.id, participant_name: req.session.userObject.username, participant_profilePic: req.session.userObject.profilePic})
+        group.requested_participants.push({participant_id: req.user._id, participant_name: req.user.username, participant_profilePic: req.user.profilePic})
   
         await group.save()
         res.status(200).send({Message: "Request sent", Success: true})
@@ -123,16 +118,14 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(`Server error --> ${error}`)
         res.status(500).send({Message: `Server error --> ${error.messsage}`, Success: false})
       }
-    } else{
-      res.status(404).send({Message: "You must be logged in", Success: false})
-    }
+    
   
   })
   
-  groupRoutes.get("/your-groups", async (req,res)=>{
-    if(req.session.userObject){
+  groupRoutes.get("/your-groups", auth, async (req,res)=>{
+
      try {
-       const groups = await Group.find({ 'participants.participant_id': req.session.userObject.objID }); 
+       const groups = await Group.find({ 'participants.participant_id': req.user._id }); 
        if (!groups || groups.length === 0) { 
          return res.status(404).send({ Message: "No groups found", Success: false });
        }
@@ -151,22 +144,19 @@ groupRoutes.post("/create-group", async (req, res) => {
        console.error(`Server error ---> ${error}`)
      }
     
-    } else{
-     res.status(404).send({Message: "You must be logged in", Success: false})
-    }
+    
   })
   //send message to pre existing conversation endpoint
-  groupRoutes.post("/group-message", async (req, res) => {
+  groupRoutes.post("/group-message", auth, async (req, res) => {
     // you need a message, conversation id, and a recipent
     const { message, groupid } = req.body;
   
     //makes sure your logged in before sending the message
-    if (req.session.userObject) {
       try {
         //creates new message entry to database and saves it
         const newMessage = new Message({
           content: message,
-          sender: req.session.userObject.id,
+          sender: req.user._id,
         });
   
         await newMessage.save();
@@ -183,22 +173,20 @@ groupRoutes.post("/create-group", async (req, res) => {
         await conversation.save();
   
         res.status(200).send({
-          Message: `Message sent successfully\nFrom: ${req.session.userObject.username}\ngroup ID: ${groupid}`,
+          Message: `Message sent successfully\nFrom: ${req.user.username}\ngroup ID: ${groupid}`,
           Success: true,
         });
       } catch (error) {
         console.error(`Error: ${error.message}`);
         res.status(500).send(`Error occurred: ${error.message}`);
       }
-    } else {
-      res.status(401).send("Unauthorized");
-    }
+    
   });
-  groupRoutes.post("/delete-group-letter", async (req, res) => {
+  groupRoutes.post("/delete-group-letter", auth, async (req, res) => {
     const { id, groupid } = req.body;
   
     try {
-      if (req.session.userObject) {
+
         const group = await Group.findOne({
           _id: groupid,
         });
@@ -214,20 +202,18 @@ groupRoutes.post("/create-group", async (req, res) => {
         await group.save();
   
         res.send({ Message: "letter deleted successfully", Success: true });
-      } else {
-        res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
+      
     } catch (error) {
       console.error(error);
       res.send(error.message);
     }
   });
   
-  groupRoutes.post("/delete-group-post", async (req, res) => {
+  groupRoutes.post("/delete-group-post", auth, async (req, res) => {
     const { id, groupid } = req.body;
   
     try {
-      if (req.session.userObject) {
+
         const group = await Group.findOne({
           _id: groupid,
         });
@@ -243,21 +229,17 @@ groupRoutes.post("/create-group", async (req, res) => {
         await group.save();
   
         res.send({ Message: "post deleted successfully", Success: true });
-      } else {
-        res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
+      
     } catch (error) {
       console.error(error);
       res.send(error.message);
     }
   });
   
-  groupRoutes.post("/edit-group-letter", async (req, res) => {
+  groupRoutes.post("/edit-group-letter", auth, async (req, res) => {
     const { id, content, title, groupid } = req.body;
     try {
-      if (!req.session.userObject) {
-        return res.status(400).send({ Message: "Unauthorized", Success: false });
-      }
+   
       const group = await Group.findOne({
         _id: groupid,
       });
@@ -288,10 +270,10 @@ groupRoutes.post("/create-group", async (req, res) => {
     }
   });
   
-  groupRoutes.post("/new-group-letter", async (req, res) => {
+  groupRoutes.post("/new-group-letter", auth, async (req, res) => {
     const { title, contents, groupid } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const group = await Group.findOne({
           _id: groupid,
@@ -311,15 +293,12 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Internal server error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to post a letter");
-    }
+    
   });
   
-  groupRoutes.post("/like-group-letter", async (req, res) => {
+  groupRoutes.post("/like-group-letter", auth, async (req, res) => {
     const { letterId, groupid } = req.body;
-  
-    if (req.session.userObject) {
+
       try {
         const group = await Group.findOne({ _id: groupid });
         if (!group) {
@@ -332,7 +311,7 @@ groupRoutes.post("/create-group", async (req, res) => {
         }
   
         const alreadyLiked = letter.likes.find(
-          (like) => like.likerUsername === req.session.userObject.username
+          (like) => like.likerUsername === req.user.username
         );
         if (alreadyLiked) {
           res.status(400).send("You have already liked this letter");
@@ -340,8 +319,8 @@ groupRoutes.post("/create-group", async (req, res) => {
         }
   
         letter.likes.push({
-          likerId: req.session.userObject.id,
-          likerUsername: req.session.userObject.username,
+          likerId: req.user._id,
+          likerUsername: req.user.username,
         });
         await group.save();
   
@@ -352,14 +331,12 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to like a letter");
-    }
+    
   });
-  groupRoutes.post("/comment-group-letter", async (req, res) => {
+  groupRoutes.post("/comment-group-letter", auth, async (req, res) => {
     const { letterId, comment, groupid } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const group = await Group.findOne({ _id: groupid });
         if (!group) {
@@ -372,8 +349,8 @@ groupRoutes.post("/create-group", async (req, res) => {
         }
   
         letter.comments.push({
-          commenterId: req.session.userObject.id,
-          commenterUsername: req.session.userObject.username,
+          commenterId: req.user._id,
+          commenterUsername: req.user.username,
           comment: comment,
         });
         await group.save();
@@ -385,21 +362,17 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to comment on a letter");
-    }
+    
   });
   
   
   const gppUpload = multer({ storage: multer.memoryStorage() });
   
-  groupRoutes.post("/new-group-profilepicture", gppUpload.single("img"), async (req, res) => {
+  groupRoutes.post("/new-group-profilepicture", gppUpload.single("img"), auth, async (req, res) => {
     const img = req.file.buffer
     const {groupid} = req.body;
   
-    if (!req.session.userObject) {
-      return res.status(401).send("Unauthorized");
-    }
+
     const resizedImg = await imageResizer(img);
 
     const outputPath = path.join(__dirname, '../profilepictures/', `resized-image-${Date.now()}.webp`);
@@ -436,11 +409,11 @@ groupRoutes.post("/create-group", async (req, res) => {
   
   const GroupUpload = multer({ storage: multer.memoryStorage() });
   
-  groupRoutes.post("/new-group-post", GroupUpload.single("img"), async (req, res) => {
+  groupRoutes.post("/new-group-post", GroupUpload.single("img"), auth, async (req, res) => {
     const { description, groupid } = req.body;
     const img = req.file.buffer
   
-    if (req.session.userObject) {
+ 
       try {
         const group = await Group.findOne({
           _id: groupid,
@@ -463,15 +436,12 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error occurred: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to add a new post");
-    }
+   
   });
   
-  groupRoutes.post("/like-group-post", async (req, res) => {
+  groupRoutes.post("/like-group-post", auth, async (req, res) => {
     const { postId, groupid } = req.body;
   
-    if (req.session.userObject) {
       try {
         const group = await Group.findOne({ _id: groupid });
         if (!group) {
@@ -485,7 +455,7 @@ groupRoutes.post("/create-group", async (req, res) => {
   
         // Prevent duplicate likes
         const alreadyLiked = post.likes.find(
-          (like) => like.likerUsername === req.session.userObject.username
+          (like) => like.likerUsername === req.user.username
         );
         if (alreadyLiked) {
           res.status(400).send("You have already liked this post");
@@ -493,8 +463,8 @@ groupRoutes.post("/create-group", async (req, res) => {
         }
   
         post.likes.push({
-          likerId: req.session.userObject.id,
-          likerUsername: req.session.userObject.username,
+          likerId: req.user._id,
+          likerUsername: req.user.username,
         });
         await group.save();
   
@@ -505,15 +475,13 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to like a post");
-    }
+  
   });
   
-  groupRoutes.post("/comment-group-post", async (req, res) => {
+  groupRoutes.post("/comment-group-post", auth, async (req, res) => {
     const { postId, comment, groupid } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const group = await Group.findOne({ _id: groupid });
         if (!group) {
@@ -526,8 +494,8 @@ groupRoutes.post("/create-group", async (req, res) => {
         }
   
         post.comments.push({
-          commenterId: req.session.userObject.id,
-          commenterUsername: req.session.userObject.username,
+          commenterId: req.user._id,
+          commenterUsername: req.user.username,
           comment: comment,
         });
   
@@ -540,14 +508,12 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         return res.status(500).send(`Error: ${error.message}`);
       }
-    } else {
-      return res.status(401).send("You must be logged in to comment on a post");
-    }
+    
   });
   
-  groupRoutes.get("/group-data", async (req,res)=>{
+  groupRoutes.get("/group-data", auth, async (req,res)=>{
     const {id} = req.query;
-    if(req.session.userObject){
+
       try {
         const group = await Group.findById(id)
         if(!group){
@@ -572,16 +538,14 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(`Server Error --> ${error}`)
         res.status(500).send({Message: `Server Error --> ${error.message}`, Success: false})
       }
-    } else{
-      res.status(404).send({Message: "You must be logged in", Success: false})
-    }
+    
   })
   
   //message history endpoint
-  groupRoutes.get("/group-message-history", async (req, res) => {
+  groupRoutes.get("/group-message-history", auth, async (req, res) => {
     const {groupid} = req.query;
     //makes sure your logged in before grabbing the info
-    if (req.session.userObject) {
+
       try {
         //finds your user in object in database based off your id
         const group = await Group.findOne({ _id: groupid });
@@ -610,7 +574,7 @@ groupRoutes.post("/create-group", async (req, res) => {
             //maps out each message which was populated within the conversation object and extracts its content and sender info
             const msgs = conversation.messages.map((msg) => {
               return `${
-                msg.sender.equals(req.session.userObject.id) ? "You" : convo.participantName
+                msg.sender.equals(req.user._id) ? "You" : convo.participantName
               }: ${msg.content}`;
             });
     
@@ -632,20 +596,16 @@ groupRoutes.post("/create-group", async (req, res) => {
         console.error(error);
         res.status(500).send("An error occurred");
       }
-    } else {
-      res.status(401).send("Unauthorized");
-    }
+    
   });
   
-  groupRoutes.post("/create-group-conversation", async (req, res) => {
+  groupRoutes.post("/create-group-conversation", auth, async (req, res) => {
     const { message, groupid } = req.body;
   
-    if (req.session.userObject) {
+
       try {
         const group = await Group.findOne({ _id: groupid });
-        const your = await User.findOne({
-          username: req.session.userObject.username,
-        });
+
   
         if (!group) {
           return res.status(404).send("Group not found");
@@ -653,7 +613,7 @@ groupRoutes.post("/create-group", async (req, res) => {
   
         // Create an array of participants as ObjectIds
         const participants = [
-          your._id,
+          req.user._id,
           ...group.participants.map(p => p.participant_id),
         ];
   
@@ -668,7 +628,7 @@ groupRoutes.post("/create-group", async (req, res) => {
   
         const newMessage = {
           content: message,
-          sender: your._id,
+          sender: req.user._id,
         };
   
       
@@ -691,28 +651,25 @@ groupRoutes.post("/create-group", async (req, res) => {
   
         await conversation.save();
         await group.save();
-        await your.save();
+        await req.user.save();
   
         res.status(200).send({
-          Message: `Message sent successfully\nfrom user: ${req.session.userObject.username}\nfrom id: ${req.session.userObject.id}\nMessage Content: ${message}\nConversation created\nconvo id: ${conversation._id}`,
+          Message: `Message sent successfully\nfrom user: ${req.user.username}\nfrom id: ${req.user._id}\nMessage Content: ${message}\nConversation created\nconvo id: ${conversation._id}`,
           Success: true,
         });
       } catch (error) {
         console.error(`Error: ${error.message}`);
         res.status(500).send(`Internal server error: ${error.message}`);
       }
-    } else {
-      res.status(401).send("You must be logged in to send a message");
-    }
+    
   });
 
  
 
-    groupRoutes.post("/accept-participant", async (req, res) => {
+    groupRoutes.post("/accept-participant", auth, async (req, res) => {
       const { username, groupid } = req.body;
       console.log("Incoming Request:", req.body);
     
-      if (req.session.userObject) {
         try {
           const group = await Group.findById(groupid);
           if (!group) {
@@ -725,8 +682,8 @@ groupRoutes.post("/create-group", async (req, res) => {
           }
     
     
-          const isAdmin = group.groupAdmins.find(admin => admin.id === req.session.userObject.id);
-          if (group.owner.owner_name === req.session.userObject.username || isAdmin) {
+          const isAdmin = group.groupAdmins.find(admin => admin.id === req.user._id);
+          if (group.owner.owner_name === req.user.username || isAdmin) {
             // Remove requested participant
             group.requested_participants = group.requested_participants.filter(
               participant => !participant.participant_id.equals(requestedParticipant._id)
@@ -743,7 +700,7 @@ groupRoutes.post("/create-group", async (req, res) => {
     
             res.status(200).send({ Message: `Successfully Added ${requestedParticipant.username} to the group (${group.groupName})!`, Success: true });
           } else {
-            console.log("Permission Denied:", req.session.userObject.username);
+            console.log("Permission Denied:", req.user.username);
             res.status(400).send({ Message: "You do not have permission to accept join requests", Success: false });
           }
     
@@ -751,14 +708,12 @@ groupRoutes.post("/create-group", async (req, res) => {
           console.error("Error processing request:", error);
           res.status(500).send({ Message: `Internal Server Error ---> ${error.message}`, Success: false });
         }
-      } else {
-        res.status(401).send({ Message: "Unauthorized", Success: false });
-      }
+      
     });
 
-    groupRoutes.post("/deny-participant", async (req,res)=>{
+    groupRoutes.post("/deny-participant", auth, async (req,res)=>{
       const {username, groupid} = req.body;
-      if(req.session.userObject){
+
         try {
           const group = await Group.findById(groupid)
 
@@ -771,9 +726,9 @@ groupRoutes.post("/create-group", async (req, res) => {
             return res.status(404).send({Message: "No user found", Success: false})
           }
 
-          const isAdmin = group.groupAdmins.find(admin => admin.id === req.session.userObject.id);
+          const isAdmin = group.groupAdmins.find(admin => admin.id === req.user._id);
 
-          if(group.owner.owner_name === req.session.userObject.username || isAdmin){
+          if(group.owner.owner_name === req.user.username || isAdmin){
 
             group.requested_participants = group.requested_participants.filter(
               participant => !participant.participant_id.equals(requestedParticipant._id)
@@ -783,7 +738,7 @@ groupRoutes.post("/create-group", async (req, res) => {
 
             res.status(200).send({Message: "Successfully Denied Request", Success: true})
           } else{
-            console.log("Permission Denied:", req.session.userObject.username);
+            console.log("Permission Denied:", req.user.username);
             res.status(400).send({Message: "You do not have permission to accept join requests", Success: false})
           }
 
@@ -791,9 +746,7 @@ groupRoutes.post("/create-group", async (req, res) => {
           res.status(500).send({Message: `Internal Server Error ---> ${error.message}`, Success: false})
           console.error("Error processing request:", error);
         }
-      }else{
-        res.status(400).send({Message: "You must be logged in", Success: false})
-      }
+      
     })
 
   module.exports = groupRoutes;

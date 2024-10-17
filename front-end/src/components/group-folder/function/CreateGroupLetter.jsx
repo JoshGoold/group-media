@@ -5,6 +5,7 @@ import axios from "axios";
 const CreateGroupLetter = ({getData, groupid}) => {
   const [state, setState] = useState(false);
   const [letter, setLetter] = useState({ title: "", content: "" });
+  const token = localStorage.getItem('token');
 
   async function createLetter() {
     if (letter.title === "" || letter.content === "") {
@@ -18,7 +19,11 @@ const CreateGroupLetter = ({getData, groupid}) => {
             contents: letter.content,
             groupid: groupid
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
 
         if (response.data.Success) {

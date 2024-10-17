@@ -11,7 +11,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
     username: "",
     msgs: [],
   });
-
+  const token = localStorage.getItem('token');
   const conversationEndRef = useRef(null);
 
 
@@ -20,8 +20,10 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
       const response = await axios.get(
         `http://localhost:3003/group-message-history?groupid=${groupid}`,
         {
-          withCredentials: true,
-        }
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
 
       if (response.data.Success) {

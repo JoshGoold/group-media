@@ -5,6 +5,7 @@ import UserContext from "../../CookieContext";
 
 const CreateConversation = (props) => {
   const { handleUserConversations, user } = useContext(UserContext);
+  const token = localStorage.getItem('token');
 
   const [state, setState] = useState(false);
   const [message, setMessage] = useState("");
@@ -18,7 +19,11 @@ const CreateConversation = (props) => {
             toUsername: props.username,
             message: message,
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           alert("Conversation created successfully");

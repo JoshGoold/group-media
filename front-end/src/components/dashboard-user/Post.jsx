@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react";
 
 const Post = (props) => {
   const [curMonth, setCurMonth] = useState("");
+  const token = localStorage.getItem('token');
 
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
@@ -17,7 +18,11 @@ const Post = (props) => {
           postId: post_id,
           profileUsername: username,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -48,7 +53,11 @@ const Post = (props) => {
           profileUsername: username,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -68,7 +77,11 @@ const Post = (props) => {
         {
           id: id,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

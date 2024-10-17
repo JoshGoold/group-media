@@ -16,6 +16,14 @@ export default defineConfig({
   origin: "http://0.0.0.0:8080",
  },
  build: {
+  target: 'esnext',
+  rollupOptions: {
+    input: {
+      main: './src/entry-client.jsx',  // client entry point
+      ssr: './server.js' // dedicated SSR entry
+    }
+  },
+  ssr: true,
   outDir: 'dist',
  }
  

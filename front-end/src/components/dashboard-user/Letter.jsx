@@ -6,6 +6,7 @@ import CreateLetter from "../functions/CreateLetter";
 
 const Letter = (props) => {
   const [curMonth, setCurMonth] = useState("");
+  const token = localStorage.getItem('token');
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",
@@ -27,7 +28,11 @@ const Letter = (props) => {
           profileUsername: username,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -49,7 +54,11 @@ const Letter = (props) => {
           letterId: letter_id,
           profileUsername: username,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -69,7 +78,11 @@ const Letter = (props) => {
         {
           id: id,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -97,7 +110,11 @@ const Letter = (props) => {
             title: editState.title,
             content: editState.content,
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           props.handleUserProfile();

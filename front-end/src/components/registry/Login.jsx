@@ -20,15 +20,15 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:3003/login`,
+        `http://localhost:3003/login`,
         {
           username: userInfo.username,
           password: userInfo.password,
-        },
-        { withCredentials: true }
+        }
       );
       if (response.data.login) {
-        nav(`/dashboard/${response.data.userCookie.username}`);
+        localStorage.setItem('token', response.data.token);
+        nav(`/dashboard/${response.data.username}`);
       } else {
         alert("Invalid Credentials");
         console.error(response.data.Message);

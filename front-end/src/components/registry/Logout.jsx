@@ -4,18 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
   const nav = useNavigate();
+  const token = localStorage.getItem('token');
   // Logout handler
   const handleLogout = () => {
-    axios
-      .post("http://localhost:3003/logout", { withCredentials: true })
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          nav("/login");
-        } else {
-          alert("Error logging out");
-        }
-      })
-      .catch((err) => console.log(err));
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    nav('/login');
   };
   return (
     <div className="mt-3">

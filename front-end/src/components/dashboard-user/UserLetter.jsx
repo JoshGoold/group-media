@@ -9,6 +9,7 @@ const UserLetter = (props) => {
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
   const nav = useNavigate();
+  const token = localStorage.getItem('token');
 
   const commentLetter = async (e, id, username, comment) => {
     e.preventDefault();
@@ -20,7 +21,11 @@ const UserLetter = (props) => {
           profileUsername: username,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -43,7 +48,11 @@ const UserLetter = (props) => {
           letterId: letter_id,
           profileUsername: username,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

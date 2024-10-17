@@ -6,6 +6,7 @@ import CreateGroupLetter from "../function/CreateGroupLetter";
 
 const GroupLetters = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
+  const token = localStorage.getItem('token');
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",
@@ -27,7 +28,11 @@ const GroupLetters = ({getData, groupid, groupData}) => {
           groupid: id,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -49,7 +54,11 @@ const GroupLetters = ({getData, groupid, groupData}) => {
           letterId: letter_id,
           groupid: groupid,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         getData()
@@ -71,7 +80,11 @@ const GroupLetters = ({getData, groupid, groupData}) => {
           id: id,
           groupid: groupid
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -99,7 +112,11 @@ const GroupLetters = ({getData, groupid, groupData}) => {
             content: editState.content,
             groupid: groupid
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           getData

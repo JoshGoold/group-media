@@ -6,9 +6,14 @@ import { useNavigate } from 'react-router-dom'
 const YourGroups = ({user}) => {
   const [groups, setGroups] = useState([])
   const nav = useNavigate()
+  const token = localStorage.getItem('token');
   async function getGroups(){
     try {
-        const response = await axios.get(`http://localhost:3003/your-groups`,{withCredentials: true})
+        const response = await axios.get(`http://localhost:3003/your-groups`,{
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }})
         if(response.data.Success){
             setGroups(response.data.groups)
         } else{

@@ -8,6 +8,7 @@ const CreatePost = (props) => {
   const [description, setDescription] = useState("");
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
+  const token = localStorage.getItem('token');
 
   // Handle image input change
   const handleImageChange = (e) => {
@@ -28,8 +29,9 @@ const CreatePost = (props) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${token}`,
           },
-          withCredentials: true,
+          
         }
       );
       console.log(response.data);

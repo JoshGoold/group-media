@@ -12,9 +12,11 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get("http://127.0.0.1:3003/collect-cookie", {
-          withCredentials: true, // Include session cookies in the request
-        })
+        .get("http://localhost:3003/collect-cookie", {
+          headers: {
+          'Authorization': `Bearer `, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }})
         .then((res) => {
           if (res.data.valid) {
             setUser(res.data.userCookie);
@@ -34,10 +36,12 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:3003/message-history?username=${username}`,
+        `http://localhost:3003/message-history?username=${username}`,
         {
-          withCredentials: true,
-        }
+          headers: {
+          'Authorization': `Bearer `, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
 
       if (response.data.Success) {

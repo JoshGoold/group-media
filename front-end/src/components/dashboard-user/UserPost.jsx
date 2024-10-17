@@ -6,6 +6,7 @@ const UserPost = (props) => {
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
+  const token = localStorage.getItem('token');
 
   const likePost = async (post_id, username) => {
     try {
@@ -15,7 +16,11 @@ const UserPost = (props) => {
           postId: post_id,
           profileUsername: username,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -39,7 +44,11 @@ const UserPost = (props) => {
           profileUsername: username,
           comment: comment,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

@@ -3,12 +3,18 @@ import axios from "axios";
 import { useState } from "react";
 
 const Follow = (props) => {
+  const token = localStorage.getItem('token');
   async function follow() {
+
     if (!props.followState) {
       try {
         const response = await axios.get(
           `http://localhost:3003/follow?username=${props.username}`,
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           alert(response.data.Message);

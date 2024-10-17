@@ -9,6 +9,7 @@ import axios from "axios";
 const ProfileHead = (props) => {
   const [file, setFile] = useState("");
   const [state, setState] = useState(false);
+  const token = localStorage.getItem('token');
 
   async function changePicture() {
     try {
@@ -21,8 +22,10 @@ const ProfileHead = (props) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${token}`,
           },
-          withCredentials: true,
+          
+          
         }
       );
 

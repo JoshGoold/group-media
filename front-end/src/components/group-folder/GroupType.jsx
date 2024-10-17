@@ -5,6 +5,7 @@ import axios from "axios";
 
 const GroupType = () => {
   const nav = useNavigate();
+  const token = localStorage.getItem('token');
   const { username, grouptype } = useParams();
   const [state, setState] = useState(false);
   const [group, setGroup] = useState({
@@ -20,7 +21,11 @@ const GroupType = () => {
     try {
       const response = await axios.get(
         `http://localhost:3003/groups?category=${grouptype}`,
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         setGroups(response.data.groups);
@@ -57,7 +62,11 @@ const GroupType = () => {
           category: group.catergory,
           access: group.access,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(`Group: ${group.group_name} created successfully!`);
@@ -77,7 +86,11 @@ const GroupType = () => {
         {
           groupid: id,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);
@@ -97,7 +110,11 @@ const GroupType = () => {
         {
           groupid: id,
         },
-        { withCredentials: true }
+        {
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
       if (response.data.Success) {
         alert(response.data.Message);

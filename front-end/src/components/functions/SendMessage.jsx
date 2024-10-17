@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 const SendMessage = (props) => {
   const [message, setMessage] = useState("");
-
+  const token = localStorage.getItem('token');
   async function sendMessage() {
     if (message.length > 0) {
       try {
@@ -14,7 +14,11 @@ const SendMessage = (props) => {
             toUsername: props.username,
             convoID: props.id,
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           alert(`Message Sent to ${props.username}`);

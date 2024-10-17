@@ -15,6 +15,7 @@ import GroupSettings from './GroupSettings'
 const GroupPage = () => {
     const nav = useNavigate()
     const {username, groupname, groupid} = useParams()
+    const token = localStorage.getItem('token');
     const [navState, setNavState] = useState("Hub")
     const [groupData, setGroupData] = useState({
         conversations: [],
@@ -34,7 +35,11 @@ const GroupPage = () => {
 
     async function getGroupData(){
         try {
-            const response = await axios.get(`http://localhost:3003/group-data?id=${groupid}`,{withCredentials:true})
+            const response = await axios.get(`http://localhost:3003/group-data?id=${groupid}`,{
+                headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json'
+              }})
             if(response.data.Success){
                 setGroupData((prev)=> ({...prev, 
                     groupAccess: response.data.groupData.groupAccess,

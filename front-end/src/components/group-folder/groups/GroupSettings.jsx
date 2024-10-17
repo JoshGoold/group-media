@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 const GroupSettings = ({groupid, getData}) => {
     const [file, setFile] = useState("");
     const [state, setState] = useState(false);
+    const token = localStorage.getItem('token');
   
     async function changePicture() {
       try {
@@ -19,8 +20,9 @@ const GroupSettings = ({groupid, getData}) => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              'Authorization': `Bearer ${token}`,
             },
-            withCredentials: true,
+              
           }
         );
   

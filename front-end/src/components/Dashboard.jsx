@@ -17,7 +17,6 @@ const Dashboard = () => {
   const { username } = useParams();
 
 
-
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -35,10 +34,19 @@ const Dashboard = () => {
     profile: true,
     globalGroups: false
   })
-
-  const [windowWidth, setWindowWidth] = useState(window.screen.width);
+  const token = localStorage.getItem('token');
+  const [windowWidth, setWindowWidth] = useState(0);
   const [state, setState] = useState("Letters")
   const [sideState, setSideState] = useState(false)
+
+  useEffect(() => {
+    // Code inside useEffect runs only on the client side
+    setWindowWidth(window.screen.width);
+
+  }, []);
+
+
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -54,12 +62,14 @@ const Dashboard = () => {
   }, []);
 
   const handleUserProfile = async () => {
+    
     try {
       const response = await axios.get(
-        `http://localhost:3003/user-profile?username=${username}`,
-        {
-          withCredentials: true,
-        }
+        `http://localhost:3003/user-profile?username=${username}`,{
+          headers: {
+          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
       );
 
       if (response.data.Success) {

@@ -7,6 +7,7 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
 
   const [state, setState] = useState(false);
   const [message, setMessage] = useState("");
+  const token = localStorage.getItem('token');
 
   async function createGroupConversation() {
     try {
@@ -17,7 +18,11 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
             groupid: groupid,
             message: message,
           },
-          { withCredentials: true }
+          {
+            headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json'
+          }}
         );
         if (response.data.Success) {
           alert("Conversation created successfully");
