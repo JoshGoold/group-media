@@ -20,10 +20,7 @@ async function startServer() {
   // Create http server
   const app = express()
 
-  app.use(cors({
-    origin: true,
-    credentials: true
-  }))
+  app.use(cors())
 
   // Add Vite or respective production middlewares
   let vite
