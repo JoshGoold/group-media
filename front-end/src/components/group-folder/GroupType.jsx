@@ -43,7 +43,7 @@ const GroupType = () => {
 
   useEffect(() => {
     getGroups();
-  }, []);
+  }, [grouptype]);
 
   async function createGroup(e) {
     e.preventDefault();

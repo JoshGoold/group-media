@@ -59,7 +59,7 @@ functionRoutes.get("/user-search", async (req, res) => {
         }
   
         user.followers.push({ id: req.user._id, username: req.user.username });
-        you.following.push({ id: user._id, username: user.username });
+        req.user.following.push({ id: user._id, username: user.username });
   
         await user.save();
         await req.user.save();
@@ -69,7 +69,7 @@ functionRoutes.get("/user-search", async (req, res) => {
           Success: true,
         });
       } catch (error) {
-        res.status(400).send("error occurred: ", error.message);
+        res.status(400).send(`Error occured: ${error.message}`);
       }
     
   });

@@ -40,26 +40,33 @@ const Profile = () => {
 
   const [windowWidth, setWindowWidth] = useState(0);
 
-  useEffect(() => {
-    // Code inside useEffect runs only on the client side
-    setWindowWidth(window.screen.width);
-
-  }, []);
 
   const [state, setState] = useState("Letters")
   const [sideState, setSideState] = useState(false)
   useEffect(() => {
+    
+    if(typeof window !== 'undefined'){
+    setWindowWidth(window.screen.width)
+  }
+    // Define the handleResize function
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      if (typeof window !== 'undefined') {
+        setWindowWidth(window.innerWidth);
+      }
     };
-
-    window.addEventListener('resize', handleResize);
-    setWindowWidth(window.innerWidth)
+  
+    // Add event listener if window is available
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      setWindowWidth(window.innerWidth); // Set initial width
+    }
+  
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
     };
-    
   }, []);
 
   const handleUserProfile = async () => {

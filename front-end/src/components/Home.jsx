@@ -14,25 +14,36 @@ const [commentP, setCommentP] = useState("");
 const [likeState, setLikeState] = useState({ state: false, id: "" });
 const [commentState, setCommentState] = useState({ state: false, id: "" });
 
-const [windowWidth, setWindowWidth] = useState(window.screen.width);
+const [windowWidth, setWindowWidth] = useState(0);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    setWindowWidth(window.innerWidth)
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+useEffect(() => {
     
-  }, []);
+  if(typeof window !== 'undefined'){
+  setWindowWidth(window.screen.width)
+}
+  // Define the handleResize function
+  const handleResize = () => {
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+    }
+  };
+
+  // Add event listener if window is available
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', handleResize);
+    setWindowWidth(window.innerWidth); // Set initial width
+  }
+
+  // Cleanup the event listener on component unmount
+  return () => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', handleResize);
+    }
+  };
+}, []);
 
 async function getData(){
   const getToken = localStorage.getItem('token');
-  setToken(getToken)
     try {
         const response = await axios.get("http://localhost:3003/home-feed",{
           headers: {
@@ -54,10 +65,11 @@ async function getData(){
 }
 
 async function getRecommended(){
+  const getToken = localStorage.getItem('token');
   try {
     const response = await axios.get("http://localhost:3003/recomendation", {
       headers: {
-      'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+      'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
       'Content-Type': 'application/json'
     }})
     if(response.data.Success){
@@ -71,6 +83,7 @@ async function getRecommended(){
 }
 
 const likePost = async (post_id, username) => {
+  const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         "http://localhost:3003/like-post",
@@ -80,7 +93,7 @@ const likePost = async (post_id, username) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -101,6 +114,7 @@ const likePost = async (post_id, username) => {
   }
   
   const commentPost = async (e, id, username, comment) => {
+    const getToken = localStorage.getItem('token');
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -112,7 +126,7 @@ const likePost = async (post_id, username) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );

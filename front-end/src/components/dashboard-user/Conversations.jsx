@@ -65,7 +65,7 @@ const Conversations = (props) => {
         <li className="mt-3"><b className="text-white text-thin">Conversations</b></li>
         <li className="flex mt-4 flex-col-reverse">
           {props.userData.conversations.map((conversation, index) => (
-            <div key={index} className="bg-white rounded-md p-1 mb-3">
+            <div key={index} className="bg-white rounded-md p-4 mb-3">
               <h1
                 className="text-center flex flex-col  items-center gap-1 font-bold mb-3"
                 onClick={() =>{
@@ -77,7 +77,7 @@ const Conversations = (props) => {
                   }))}
                 }
               >
-                <img className="" height={50} width={50} src={props.userData.profilepic} />
+                
                 <span>{conversation.head}</span>
                 {!open.state && (
                 <small className="text-gray-400 flex items-center font-thin">{conversation?.msgs[conversation?.msgs?.length - 1].split(":")[0] === "You" ? "" : "🔵"}&nbsp; {conversation?.msgs[conversation?.msgs?.length-1]}</small>
