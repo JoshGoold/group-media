@@ -8,7 +8,11 @@ const CreateGroupPost = ({getData, groupid}) => {
   const [description, setDescription] = useState("");
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   // Handle image input change
   const handleImageChange = (e) => {

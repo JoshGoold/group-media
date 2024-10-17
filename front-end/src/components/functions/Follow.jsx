@@ -3,7 +3,11 @@ import axios from "axios";
 import { useState } from "react";
 
 const Follow = (props) => {
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   async function follow() {
 
     if (!props.followState) {

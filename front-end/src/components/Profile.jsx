@@ -17,7 +17,11 @@ const Profile = () => {
 
   const { username } = useParams();
 
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   const [userData, setUserData] = useState({
     username: "",

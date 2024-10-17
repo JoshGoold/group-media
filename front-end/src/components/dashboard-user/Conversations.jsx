@@ -9,7 +9,11 @@ const Conversations = (props) => {
     username: "",
     msgs: [],
   });
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   const conversationEndRef = useRef(null);
 

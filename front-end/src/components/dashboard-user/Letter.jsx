@@ -6,7 +6,11 @@ import CreateLetter from "../functions/CreateLetter";
 
 const Letter = (props) => {
   const [curMonth, setCurMonth] = useState("");
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",

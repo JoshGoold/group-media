@@ -5,7 +5,11 @@ import UserContext from "../../CookieContext";
 
 const CreateConversation = (props) => {
   const { handleUserConversations, user } = useContext(UserContext);
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   const [state, setState] = useState(false);
   const [message, setMessage] = useState("");

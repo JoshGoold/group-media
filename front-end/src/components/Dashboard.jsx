@@ -34,7 +34,11 @@ const Dashboard = () => {
     profile: true,
     globalGroups: false
   })
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   const [windowWidth, setWindowWidth] = useState(0);
   const [state, setState] = useState("Letters")
   const [sideState, setSideState] = useState(false)

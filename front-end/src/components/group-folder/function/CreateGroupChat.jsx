@@ -7,7 +7,11 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
 
   const [state, setState] = useState(false);
   const [message, setMessage] = useState("");
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   async function createGroupConversation() {
     try {

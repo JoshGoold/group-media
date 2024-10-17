@@ -5,7 +5,11 @@ import axios from "axios";
 const CreateLetter = (props) => {
   const [state, setState] = useState(false);
   const [letter, setLetter] = useState({ title: "", content: "" });
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   async function createLetter() {
     if (letter.title === "" || letter.content === "") {

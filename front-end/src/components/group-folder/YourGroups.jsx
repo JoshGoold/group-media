@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom'
 const YourGroups = ({user}) => {
   const [groups, setGroups] = useState([])
   const nav = useNavigate()
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   async function getGroups(){
     try {
         const response = await axios.get(`http://localhost:3003/your-groups`,{

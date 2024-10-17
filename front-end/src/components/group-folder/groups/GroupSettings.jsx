@@ -5,7 +5,11 @@ import { useState, useEffect } from 'react';
 const GroupSettings = ({groupid, getData}) => {
     const [file, setFile] = useState("");
     const [state, setState] = useState(false);
-    const token = localStorage.getItem('token');
+    const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   
     async function changePicture() {
       try {

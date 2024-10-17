@@ -3,7 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 const SendMessage = (props) => {
   const [message, setMessage] = useState("");
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   async function sendMessage() {
     if (message.length > 0) {
       try {

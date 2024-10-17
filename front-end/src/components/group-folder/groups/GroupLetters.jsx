@@ -6,7 +6,11 @@ import CreateGroupLetter from "../function/CreateGroupLetter";
 
 const GroupLetters = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",

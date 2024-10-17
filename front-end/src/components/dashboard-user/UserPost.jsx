@@ -6,7 +6,11 @@ const UserPost = (props) => {
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   const likePost = async (post_id, username) => {
     try {

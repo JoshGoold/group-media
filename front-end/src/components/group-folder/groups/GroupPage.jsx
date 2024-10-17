@@ -15,7 +15,11 @@ import GroupSettings from './GroupSettings'
 const GroupPage = () => {
     const nav = useNavigate()
     const {username, groupname, groupid} = useParams()
-    const token = localStorage.getItem('token');
+    const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
     const [navState, setNavState] = useState("Hub")
     const [groupData, setGroupData] = useState({
         conversations: [],

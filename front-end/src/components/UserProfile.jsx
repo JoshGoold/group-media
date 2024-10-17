@@ -10,10 +10,44 @@ import UserLetter from "./dashboard-user/UserLetter.jsx";
 import UserPost from "./dashboard-user/UserPost.jsx";
 import Follow from "./functions/Follow.jsx";
 const UserProfile = () => {
-  const { user } = useContext(UserContext);
+  
+  const [user, setUser] = useState("")
+  const getUserFromToken = () => {
+    const token = localStorage.getItem('token');
+  
+    if (token) {
+      try {
+        // Decode the token to get the payload (username, email, etc.)
+        const decodedToken = jwt_decode(token);
+  
+        // Access the username or any other property from the token
+        const username = decodedToken.username;
+  
+        console.log('Decoded Username:', username);
+        return username;
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+      }
+    } else {
+      console.log('No token found in localStorage');
+      return null;
+    }
+  };
+
+  useEffect(()=>{
+    const user_name = getUserFromToken()
+    setUser(user_name)
+  },[])
+
   const { username } = useParams();
   const nav = useNavigate();
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
+  
 
   const [following, setFollowing] = useState(false);
   const [state, setState] = useState("Letters")
@@ -102,7 +136,7 @@ const UserProfile = () => {
     <div className="p-3 overflow-scroll  hide-scrollbar h-screen">
       <button
         className="p-2 bg-blue-500 text-white font-thin rounded-lg"
-        onClick={() => nav(`/dashboard/${user.username}`)}
+        onClick={() => nav(`/dashboard/${user}`)}
       >
         Back
       </button>

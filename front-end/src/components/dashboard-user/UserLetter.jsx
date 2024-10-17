@@ -9,7 +9,11 @@ const UserLetter = (props) => {
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
   const nav = useNavigate();
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
   const commentLetter = async (e, id, username, comment) => {
     e.preventDefault();

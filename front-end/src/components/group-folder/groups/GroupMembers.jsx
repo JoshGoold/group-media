@@ -6,7 +6,11 @@ import { FaUser } from 'react-icons/fa'
 
 const GroupMembers = ({groupData, groupid, getData}) => {
   const nav = useNavigate()
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   async function denyRequest(username){
     try {
       const response = await axios.post("http://localhost:3003/deny-participant", {

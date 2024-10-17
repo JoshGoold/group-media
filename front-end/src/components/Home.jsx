@@ -7,7 +7,11 @@ const Home = ({userData}) => {
     const [feed, setFeed] = useState([])
     const [curMonth, setCurMonth] = useState("");
     const nav = useNavigate()
-    const token = localStorage.getItem('token');
+    const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
 
 const [commentP, setCommentP] = useState("");
 const [likeState, setLikeState] = useState({ state: false, id: "" });

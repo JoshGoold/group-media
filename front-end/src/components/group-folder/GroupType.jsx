@@ -5,7 +5,11 @@ import axios from "axios";
 
 const GroupType = () => {
   const nav = useNavigate();
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(undefined)
+  useEffect(()=>{
+    const getToken = localStorage.getItem('token');
+    setToken(getToken)
+  },[])
   const { username, grouptype } = useParams();
   const [state, setState] = useState(false);
   const [group, setGroup] = useState({

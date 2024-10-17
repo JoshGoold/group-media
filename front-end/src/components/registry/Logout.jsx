@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
   const nav = useNavigate();
-  const token = localStorage.getItem('token');
   // Logout handler
   const handleLogout = () => {
     // Remove the token from localStorage
