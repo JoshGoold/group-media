@@ -37,7 +37,7 @@ COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 
 # Finish | Set WORKDIR and expose dashboard port
 WORKDIR /app/
-EXPOSE 3002
+EXPOSE 3500
 
 WORKDIR /app/api
 EXPOSE 3003 
