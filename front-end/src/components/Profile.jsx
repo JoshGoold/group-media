@@ -19,8 +19,11 @@ const Profile = () => {
 
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
 
   const [userData, setUserData] = useState({

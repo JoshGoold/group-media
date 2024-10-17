@@ -17,8 +17,11 @@ const GroupPage = () => {
     const {username, groupname, groupid} = useParams()
     const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+        // We're in the browser
+        const getToken = localStorage.getItem('token');
+        setToken(getToken);
+      }
   },[])
     const [navState, setNavState] = useState("Hub")
     const [groupData, setGroupData] = useState({

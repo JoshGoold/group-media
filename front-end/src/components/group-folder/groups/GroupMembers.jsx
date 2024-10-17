@@ -8,8 +8,11 @@ const GroupMembers = ({groupData, groupid, getData}) => {
   const nav = useNavigate()
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
   async function denyRequest(username){
     try {

@@ -10,8 +10,11 @@ const CreateGroupPost = ({getData, groupid}) => {
   const [file, setFile] = useState(null);
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
 
   // Handle image input change

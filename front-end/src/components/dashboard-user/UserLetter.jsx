@@ -11,8 +11,11 @@ const UserLetter = (props) => {
   const nav = useNavigate();
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
 
   const commentLetter = async (e, id, username, comment) => {

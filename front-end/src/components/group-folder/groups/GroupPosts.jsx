@@ -6,8 +6,11 @@ const GroupPosts = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });

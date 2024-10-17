@@ -7,8 +7,11 @@ const CreateGroupLetter = ({getData, groupid}) => {
   const [letter, setLetter] = useState({ title: "", content: "" });
   const [token, setToken] = useState(undefined)
   useEffect(()=>{
-    const getToken = localStorage.getItem('token');
-    setToken(getToken)
+    if (typeof window !== 'undefined') {
+      // We're in the browser
+      const getToken = localStorage.getItem('token');
+      setToken(getToken);
+    }
   },[])
 
   async function createLetter() {
