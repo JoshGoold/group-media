@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Follow = (props) => {
   const [token, setToken] = useState(undefined)

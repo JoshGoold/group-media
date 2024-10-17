@@ -3,7 +3,7 @@ import Followers from "./Followers";
 import Following from "./Following";
 import CreateLetter from "../functions/CreateLetter";
 import CreatePost from "../functions/CreatePost";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const ProfileHead = (props) => {

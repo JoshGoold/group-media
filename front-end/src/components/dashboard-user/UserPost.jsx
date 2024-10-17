@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 
 const UserPost = (props) => {
   const [commentP, setCommentP] = useState("");
