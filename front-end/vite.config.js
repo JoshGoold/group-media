@@ -13,7 +13,6 @@ export default defineConfig({
   port: 8080,
   strictPort: true,
   host: true,
-  hmr: mode === 'development',  // Enable HMR only in development
  },
  build: {
   target: 'esnext',
