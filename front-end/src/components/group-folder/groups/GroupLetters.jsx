@@ -7,13 +7,7 @@ import CreateGroupLetter from "../function/CreateGroupLetter";
 const GroupLetters = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",
@@ -26,6 +20,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   const nav = useNavigate();
 
   const commentLetter = async (e, letterid, id,   comment) => {
+    const getToken = localStorage.getItem('token');
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -37,7 +32,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -54,6 +49,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   };
 
   const likeLetter = async (letter_id) => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         "http://localhost:3003/like-group-letter",
@@ -63,7 +59,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -80,6 +76,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   };
 
   async function deleteLetter(id) {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         `http://localhost:3003/delete-group-letter`,
@@ -89,7 +86,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -105,6 +102,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
   }
 
   async function editLetter() {
+    const getToken = localStorage.getItem('token');
     if (
       editState.letterid.length > 0 &&
       editState.title.length > 0 &&
@@ -121,7 +119,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
           },
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

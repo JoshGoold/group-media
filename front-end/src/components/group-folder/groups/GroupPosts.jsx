@@ -5,18 +5,13 @@ import { useState, useContext, useEffect } from "react";
 const GroupPosts = ({getData, groupid, groupData}) => {
   const [curMonth, setCurMonth] = useState("");
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
 
   const likePost = async (post_id) => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         "http://localhost:3003/like-group-post",
@@ -26,7 +21,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -50,6 +45,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
   }
 
   const commentPost = async (e, id, comment) => {
+    const getToken = localStorage.getItem('token');
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -61,7 +57,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -78,6 +74,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     }
   };
   async function deletePost(id) {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         `http://localhost:3003/delete-group-post`,
@@ -87,7 +84,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );

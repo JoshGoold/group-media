@@ -6,15 +6,10 @@ const GroupSettings = ({groupid, getData}) => {
     const [file, setFile] = useState("");
     const [state, setState] = useState(false);
     const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   
     async function changePicture() {
+      const getToken = localStorage.getItem('token');
       try {
         const formData = new FormData();
         formData.append("img", file);
@@ -27,7 +22,7 @@ const GroupSettings = ({groupid, getData}) => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${getToken}`,
             },
               
           }

@@ -4,14 +4,9 @@ import axios from "axios";
 const SendMessage = (props) => {
   const [message, setMessage] = useState("");
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   async function sendMessage() {
+    const getToken = localStorage.getItem('token');
     if (message.length > 0) {
       try {
         const response = await axios.post(
@@ -23,7 +18,7 @@ const SendMessage = (props) => {
           },
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

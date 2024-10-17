@@ -10,13 +10,7 @@ const Conversations = (props) => {
     msgs: [],
   });
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
 
   const conversationEndRef = useRef(null);
 
@@ -29,12 +23,13 @@ const Conversations = (props) => {
   },[props.userData])
 
   const handleUserConversations = async () => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
         `http://localhost:3003/message-history?username=${props.user.username}`,
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -53,7 +48,7 @@ const Conversations = (props) => {
   };
   useEffect(() => {
     handleUserConversations();
-  }, [token]);
+  }, [props.user.username]);
 
   // Scroll to bottom whenever the component mounts or updates
   useEffect(() => {

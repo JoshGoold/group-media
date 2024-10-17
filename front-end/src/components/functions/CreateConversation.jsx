@@ -6,18 +6,13 @@ import UserContext from "../../CookieContext";
 const CreateConversation = (props) => {
   const { handleUserConversations, user } = useContext(UserContext);
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+ 
 
   const [state, setState] = useState(false);
   const [message, setMessage] = useState("");
 
   async function createConversation() {
+    const getToken = localStorage.getItem('token');
     try {
       if (message.length > 0) {
         const response = await axios.post(
@@ -28,7 +23,7 @@ const CreateConversation = (props) => {
           },
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

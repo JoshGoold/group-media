@@ -6,15 +6,10 @@ const CreateLetter = (props) => {
   const [state, setState] = useState(false);
   const [letter, setLetter] = useState({ title: "", content: "" });
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
 
   async function createLetter() {
+    const getToken = localStorage.getItem('token');
     if (letter.title === "" || letter.content === "") {
       return alert("Must fill in all available fields");
     } else {
@@ -27,7 +22,7 @@ const CreateLetter = (props) => {
           },
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

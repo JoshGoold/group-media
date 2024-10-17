@@ -4,22 +4,16 @@ import { useState, useEffect } from "react";
 
 const Follow = (props) => {
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+ 
   async function follow() {
-
+    const getToken = localStorage.getItem('token');
     if (!props.followState) {
       try {
         const response = await axios.get(
           `http://localhost:3003/follow?username=${props.username}`,
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

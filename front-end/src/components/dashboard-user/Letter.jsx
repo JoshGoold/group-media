@@ -7,13 +7,7 @@ import CreateLetter from "../functions/CreateLetter";
 const Letter = (props) => {
   const [curMonth, setCurMonth] = useState("");
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+ 
   const [editState, setEditState] = useState({
     state: false,
     letterid: "",
@@ -26,6 +20,7 @@ const Letter = (props) => {
   const nav = useNavigate();
 
   const commentLetter = async (e, id, username, comment) => {
+    const getToken = localStorage.getItem('token');
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -37,7 +32,7 @@ const Letter = (props) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -54,6 +49,7 @@ const Letter = (props) => {
   };
 
   const likeLetter = async (letter_id, username) => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         "http://localhost:3003/like-letter",
@@ -63,7 +59,7 @@ const Letter = (props) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -79,6 +75,7 @@ const Letter = (props) => {
   };
 
   async function deleteLetter(id) {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         `http://localhost:3003/delete-letter`,
@@ -87,7 +84,7 @@ const Letter = (props) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -104,6 +101,7 @@ const Letter = (props) => {
   }
 
   async function editLetter() {
+    const getToken = localStorage.getItem('token');
     if (
       editState.letterid.length > 0 &&
       editState.title.length > 0 &&
@@ -119,7 +117,7 @@ const Letter = (props) => {
           },
           {
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }}
         );

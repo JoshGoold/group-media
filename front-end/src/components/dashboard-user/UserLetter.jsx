@@ -10,15 +10,9 @@ const UserLetter = (props) => {
   const [commentState, setCommentState] = useState({ state: false, id: "" });
   const nav = useNavigate();
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
 
   const commentLetter = async (e, id, username, comment) => {
+    const getToken = localStorage.getItem('token');
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -30,7 +24,7 @@ const UserLetter = (props) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -48,6 +42,7 @@ const UserLetter = (props) => {
   };
 
   const likeLetter = async (letter_id, username) => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
         "http://localhost:3003/like-letter",
@@ -57,7 +52,7 @@ const UserLetter = (props) => {
         },
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );

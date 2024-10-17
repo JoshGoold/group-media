@@ -34,14 +34,7 @@ const Dashboard = () => {
     profile: true,
     globalGroups: false
   })
-  const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+
   const [windowWidth, setWindowWidth] = useState(0);
   const [state, setState] = useState("Letters")
   const [sideState, setSideState] = useState(false)
@@ -71,6 +64,7 @@ const Dashboard = () => {
   const handleUserProfile = async () => {
     
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get(
         `http://localhost:3003/user-profile?username=${username}`,{
           headers: {
@@ -102,7 +96,7 @@ const Dashboard = () => {
   // Fetch user profile and conversations
   useEffect(() => {
     handleUserProfile();
-  }, [token]);
+  }, [username]);
 
   return (
     <div className="flex w-full  h-screen">

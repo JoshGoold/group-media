@@ -7,18 +7,13 @@ const YourGroups = ({user}) => {
   const [groups, setGroups] = useState([])
   const nav = useNavigate()
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   async function getGroups(){
+    const getToken = localStorage.getItem('token');
     try {
         const response = await axios.get(`http://localhost:3003/your-groups`,{
             headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'
           }})
         if(response.data.Success){
@@ -33,7 +28,7 @@ const YourGroups = ({user}) => {
 }
 useEffect(()=>{
   getGroups()
-},[token])
+},[])
 
   return (
     <div>

@@ -8,13 +8,7 @@ const Home = ({userData}) => {
     const [curMonth, setCurMonth] = useState("");
     const nav = useNavigate()
     const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
 
 const [commentP, setCommentP] = useState("");
 const [likeState, setLikeState] = useState({ state: false, id: "" });
@@ -37,10 +31,12 @@ const [windowWidth, setWindowWidth] = useState(window.screen.width);
   }, []);
 
 async function getData(){
+  const getToken = localStorage.getItem('token');
+  setToken(getToken)
     try {
         const response = await axios.get("http://localhost:3003/home-feed",{
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }})
 
@@ -135,7 +131,7 @@ const likePost = async (post_id, username) => {
 useEffect(()=>{
     getData()
     getMonth();
-},[token])
+},[])
 
 
 

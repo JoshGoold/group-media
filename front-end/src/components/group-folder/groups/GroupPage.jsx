@@ -16,13 +16,7 @@ const GroupPage = () => {
     const nav = useNavigate()
     const {username, groupname, groupid} = useParams()
     const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-        // We're in the browser
-        const getToken = localStorage.getItem('token');
-        setToken(getToken);
-      }
-  },[])
+ 
     const [navState, setNavState] = useState("Hub")
     const [groupData, setGroupData] = useState({
         conversations: [],
@@ -41,10 +35,11 @@ const GroupPage = () => {
     })
 
     async function getGroupData(){
+        const getToken = localStorage.getItem('token');
         try {
             const response = await axios.get(`http://localhost:3003/group-data?id=${groupid}`,{
                 headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
                 'Content-Type': 'application/json'
               }})
             if(response.data.Success){
@@ -72,7 +67,7 @@ const GroupPage = () => {
 
     useEffect(()=>{
         getGroupData()
-    },[token])
+    },[groupid])
   return (
     <div className="p-3 overflow-scroll h-screen hide-scrollbar">
         <div className="flex justify-between p-4">

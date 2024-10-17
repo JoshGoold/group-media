@@ -7,21 +7,16 @@ import { FaUser } from 'react-icons/fa'
 const GroupMembers = ({groupData, groupid, getData}) => {
   const nav = useNavigate()
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
   async function denyRequest(username){
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post("http://localhost:3003/deny-participant", {
         groupid: groupid,
         username: username
       }, {
         headers: {
-        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+        'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
         'Content-Type': 'application/json'
       }})
 
@@ -36,13 +31,14 @@ const GroupMembers = ({groupData, groupid, getData}) => {
     }
   }
   async function acceptRequest(username){
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post("http://localhost:3003/accept-participant", {
         groupid: groupid,
         username: username
       }, {
         headers: {
-        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+        'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
         'Content-Type': 'application/json'
       }})
 

@@ -24,7 +24,5 @@ export default defineConfig({
   },
   ssr: true,
   outDir: 'dist',
- }
- 
-    
+ } 
 })

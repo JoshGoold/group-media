@@ -11,24 +11,18 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
     username: "",
     msgs: [],
   });
-  const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+
   const conversationEndRef = useRef(null);
 
 
   const handleGroupConversations = async () => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
         `http://localhost:3003/group-message-history?groupid=${groupid}`,
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -49,7 +43,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
   };
   useEffect(() => {
     handleGroupConversations();
-  }, [token]);
+  }, [groupid]);
 
   // Scroll to bottom whenever the component mounts or updates
   useEffect(() => {

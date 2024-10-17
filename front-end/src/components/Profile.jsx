@@ -18,13 +18,7 @@ const Profile = () => {
   const { username } = useParams();
 
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
 
   const [userData, setUserData] = useState({
     username: "",
@@ -69,12 +63,13 @@ const Profile = () => {
   }, []);
 
   const handleUserProfile = async () => {
+    const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
         `http://localhost:3003/user-profile?username=${username}`,
         {
           headers: {
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
         }}
       );
@@ -102,7 +97,7 @@ const Profile = () => {
   // Fetch user profile and conversations
   useEffect(() => {
     handleUserProfile();
-  }, [token]);
+  }, [username]);
 
   return (
     <div className="flex  h-screen">

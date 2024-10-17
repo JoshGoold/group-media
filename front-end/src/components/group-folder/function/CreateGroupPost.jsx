@@ -9,13 +9,7 @@ const CreateGroupPost = ({getData, groupid}) => {
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
   const [token, setToken] = useState(undefined)
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      // We're in the browser
-      const getToken = localStorage.getItem('token');
-      setToken(getToken);
-    }
-  },[])
+  
 
   // Handle image input change
   const handleImageChange = (e) => {
@@ -25,6 +19,7 @@ const CreateGroupPost = ({getData, groupid}) => {
   };
 
   const createPost = async () => {
+    const getToken = localStorage.getItem('token');
     const formData = new FormData();
     formData.append("img", file);
     formData.append("description", description);
@@ -37,7 +32,7 @@ const CreateGroupPost = ({getData, groupid}) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${getToken}`,
           },
             
         }
