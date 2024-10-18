@@ -5,6 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   root: './',
  plugins: [react()],
+ server: {
+
+    hmr: process.env.NODE_ENV !== 'production',
+  
+ },
  build: {
   target: 'esnext',
   rollupOptions: {
