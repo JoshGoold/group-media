@@ -31,7 +31,7 @@ app.use(express.json());
 //sets strict origin of calls to be from local host port
 app.use(
   cors({
-    origin: true,
+    origin: ["http://localhost:3500", "http://172.18.0.1:3500", "https://jginc.org"],
     credentials: true,
   })
 );
