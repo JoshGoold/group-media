@@ -50,7 +50,7 @@ mongoose
   .then(() => {
     console.log("DATABASE INITIALIZED");
     //Start node js server after database connects
-    app.listen(process.env.SERVER_PORT, "0.0.0.0", () => {
+    app.listen(process.env.SERVER_PORT, () => {
       console.log(`SERVER STARTED ON PORT: ${process.env.SERVER_PORT}`);
     });
   })
