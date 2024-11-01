@@ -30,7 +30,7 @@ app.use(express.json());
 //sets strict origin of calls to be from local host port
 app.use(
   cors({
-    origin: true,
+    origin: "https://groupmedia.jginc.org",
     credentials: true
   })
 );
