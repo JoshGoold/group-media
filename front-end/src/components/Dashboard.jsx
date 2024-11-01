@@ -65,7 +65,7 @@ const Dashboard = () => {
       if (typeof window !== "undefined") { // Ensure client-side execution
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3003/user-profile?username=${username}`,
+          `http://139.177.195.151:3003/user-profile?username=${username}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the Authorization header
