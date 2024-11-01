@@ -45,7 +45,7 @@ useEffect(() => {
 async function getData(){
   const getToken = localStorage.getItem('token');
     try {
-        const response = await axios.get("https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/home-feed",{
+        const response = await axios.get(`${process.env.API_ROUTE}home-feed`,{
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
           'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ async function getData(){
 async function getRecommended(){
   const getToken = localStorage.getItem('token');
   try {
-    const response = await axios.get("https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/recomendation", {
+    const response = await axios.get(`${process.env.API_ROUTE}recomendation`, {
       headers: {
       'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
       'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ const likePost = async (post_id, username) => {
   const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/like-post",
+        `${process.env.API_ROUTE}like-post`,
         {
           postId: post_id,
           profileUsername: username,
@@ -118,7 +118,7 @@ const likePost = async (post_id, username) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/comment-post`,
+        `${process.env.API_ROUTE}comment-post`,
         {
           postId: id,
           profileUsername: username,

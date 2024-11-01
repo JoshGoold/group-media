@@ -24,7 +24,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/comment-group-letter`,
+        `${process.env.API_ROUTE}comment-group-letter`,
         {
           letterId: letterid,
           groupid: id,
@@ -52,7 +52,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/like-group-letter",
+        `${process.env.API_ROUTE}like-group-letter`,
         {
           letterId: letter_id,
           groupid: groupid,
@@ -79,7 +79,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/delete-group-letter`,
+        `${process.env.API_ROUTE}delete-group-letter`,
         {
           id: id,
           groupid: groupid
@@ -110,7 +110,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     ) {
       try {
         const response = await axios.post(
-          "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/edit-group-letter",
+          `${process.env.API_ROUTE}edit-group-letter`,
           {
             id: editState.letterid,
             title: editState.title,

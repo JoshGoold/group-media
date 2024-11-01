@@ -65,7 +65,7 @@ const Dashboard = () => {
       if (typeof window !== "undefined") { // Ensure client-side execution
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/user-profile?username=${username}`,
+          `${process.env.API_ROUTE}user-profile?username=${username}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the Authorization header

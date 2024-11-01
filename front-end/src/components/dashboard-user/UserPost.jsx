@@ -13,7 +13,7 @@ const UserPost = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/like-post",
+        `${process.env.API_ROUTE}like-post`,
         {
           postId: post_id,
           profileUsername: username,
@@ -41,7 +41,7 @@ const UserPost = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/comment-post`,
+        `${process.env.API_ROUTE}comment-post`,
         {
           postId: id,
           profileUsername: username,
@@ -68,7 +68,7 @@ const UserPost = (props) => {
   // async function deletePost(id) {
   //   try {
   //     const response = await axios.post(
-  //       `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/delete-post`,
+  //       `${process.env.API_ROUTE}delete-post`,
   //       {
   //         id: id,
   //       },

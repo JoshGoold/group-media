@@ -37,7 +37,7 @@ const GroupPage = () => {
     async function getGroupData(){
         const getToken = localStorage.getItem('token');
         try {
-            const response = await axios.get(`https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/group-data?id=${groupid}`,{
+            const response = await axios.get(`${process.env.API_ROUTE}group-data?id=${groupid}`,{
                 headers: {
                 'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
                 'Content-Type': 'application/json'

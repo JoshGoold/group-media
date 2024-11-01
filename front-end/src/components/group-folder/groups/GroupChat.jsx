@@ -19,7 +19,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/group-message-history?groupid=${groupid}`,
+        `${process.env.API_ROUTE}group-message-history?groupid=${groupid}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

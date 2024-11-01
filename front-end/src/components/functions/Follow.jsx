@@ -10,7 +10,7 @@ const Follow = (props) => {
     if (!props.followState) {
       try {
         const response = await axios.get(
-          `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/follow?username=${props.username}`,
+          `${process.env.API_ROUTE}follow?username=${props.username}`,
           {
             headers: {
             'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

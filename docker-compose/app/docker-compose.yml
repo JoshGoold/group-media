@@ -6,6 +6,7 @@ services:
     environment:
       TZ: America/New_York
       SERVER_PORT: 3003
+      API_ROUTE: 'https://group-media-geiwtdvjg-joshs-projects-9174c388.vercel.app/'
       DB_CONNECT: 'mongodb+srv://joshgoold2:D94uw6y8!!@nodejs-1.t5hzt.mongodb.net/?retryWrites=true&w=majority&appName=nodejs-1'
       JWT_SECRET: 'VERYS3CRETk3y'
       
