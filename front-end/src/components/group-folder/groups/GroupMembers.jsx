@@ -11,7 +11,7 @@ const GroupMembers = ({groupData, groupid, getData}) => {
   async function denyRequest(username){
     const getToken = localStorage.getItem('token');
     try {
-      const response = await axios.post("https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/deny-participant", {
+      const response = await axios.post("https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/deny-participant", {
         groupid: groupid,
         username: username
       }, {
@@ -33,7 +33,7 @@ const GroupMembers = ({groupData, groupid, getData}) => {
   async function acceptRequest(username){
     const getToken = localStorage.getItem('token');
     try {
-      const response = await axios.post("https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/accept-participant", {
+      const response = await axios.post("https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/accept-participant", {
         groupid: groupid,
         username: username
       }, {

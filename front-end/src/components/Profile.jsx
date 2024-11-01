@@ -73,7 +73,7 @@ const Profile = () => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/user-profile?username=${username}`,
+        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/user-profile?username=${username}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

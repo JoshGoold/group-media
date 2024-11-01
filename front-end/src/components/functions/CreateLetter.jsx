@@ -15,7 +15,7 @@ const CreateLetter = (props) => {
     } else {
       try {
         const response = await axios.post(
-          "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/new-letter",
+          "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/new-letter",
           {
             title: letter.title,
             contents: letter.content,

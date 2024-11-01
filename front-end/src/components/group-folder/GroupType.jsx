@@ -23,7 +23,7 @@ const GroupType = () => {
     setToken(getToken)
     try {
       const response = await axios.get(
-        `https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/groups?category=${grouptype}`,
+        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/groups?category=${grouptype}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
@@ -56,7 +56,7 @@ const GroupType = () => {
     }
     try {
       const response = await axios.post(
-        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/create-group",
+        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/create-group",
         {
           group_name: group.group_name,
           group_description: group.group_description,
@@ -85,7 +85,7 @@ const GroupType = () => {
   async function joinGroup(id) {
     try {
       const response = await axios.post(
-        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/join-group",
+        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/join-group",
         {
           groupid: id,
         },
@@ -109,7 +109,7 @@ const GroupType = () => {
   async function requestGroup(id) {
     try {
       const response = await axios.post(
-        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/request-group",
+        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/request-group",
         {
           groupid: id,
         },

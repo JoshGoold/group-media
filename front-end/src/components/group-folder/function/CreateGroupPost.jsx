@@ -27,7 +27,7 @@ const CreateGroupPost = ({getData, groupid}) => {
 
     try {
       const response = await axios.post(
-        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/new-group-post",
+        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/new-group-post",
         formData,
         {
           headers: {

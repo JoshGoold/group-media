@@ -14,7 +14,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/like-group-post",
+        "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/like-group-post",
         {
           postId: post_id,
           groupid: groupid
@@ -49,7 +49,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/comment-group-post`,
+        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/comment-group-post`,
         {
           postId: id,
           groupid: groupid,
@@ -77,7 +77,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/delete-group-post`,
+        `https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/delete-group-post`,
         {
           id: id,
           groupid: groupid

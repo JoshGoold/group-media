@@ -10,7 +10,7 @@ const SendMessage = (props) => {
     if (message.length > 0) {
       try {
         const response = await axios.post(
-          "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/send-message",
+          "https://group-media-mvuqkmvh6-joshs-projects-9174c388.vercel.app/send-message",
           {
             message: message,
             toUsername: props.username,
