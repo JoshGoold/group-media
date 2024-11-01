@@ -9,7 +9,6 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 //cors so you can only make calls from a specific endpoint
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const path = require("path");
 
 
@@ -35,7 +34,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.json());
 //set up session ccokies to be secure and safe withy max age of 1 day
 app.set('trust proxy', 1)
 
@@ -72,6 +70,8 @@ app.get("/ping", (req, res) => {
     console.log(error.message);
   }
 });
+
+module.exports = app;
 
 
 
