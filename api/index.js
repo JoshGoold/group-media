@@ -31,12 +31,11 @@ app.use(express.json());
 //sets strict origin of calls to be from local host port
 app.use(
   cors({
-    origin: ["http://localhost:3500", "http://172.18.0.1:3500", "http://139.177.195.151:3500"],
-    credentials: true,
+    credentials: true
   })
 );
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(express.json());
 //set up session ccokies to be secure and safe withy max age of 1 day
 app.set('trust proxy', 1)
 
