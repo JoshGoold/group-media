@@ -28,12 +28,15 @@ app.use("/profilepictures", express.static("profilepictures"));
 //parses data to json format
 app.use(express.json());
 //sets strict origin of calls to be from local host port
-app.use(
-  cors({
-    origin: "https://groupmedia.jginc.org",
-    credentials: true
-  })
-);
+const corsOptions = {
+  origin: "https://groupmedia.jginc.org",
+  credentials: true,
+  optionsSuccessStatus: 200 // Some browsers (like Chrome) require a 200 for successful preflight.
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 app.use(cookieParser());
 //set up session ccokies to be secure and safe withy max age of 1 day
 app.set('trust proxy', 1)
