@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  min-height: 100vh; /* Full height of the viewport */
+  padding: 40px;
+}
+
+/* Styling for the fetch section */
+.fetch-container {
+  display: flex;
+  flex-direction: column; /* Stack button and image vertically */
+  align-items: center; /* Center them horizontally */
+  margin-top: 20px;
+}
+
+.fetch-container img {
+  margin-top: 15px; /* Space between button and image */
+  width: 100%; 
+  max-width: 200px; /* Control the size of the image */
+  border-radius: 8px; /* Optional: Add some border radius */
+}
+
+/* Style for each file fetched (centering the text and image) */
+.fetch-multiple-files div {
+  text-align: center; /* Center the text */
+  margin-bottom: 20px; /* Space between each fetched file */
+}
+
+.fetch-multiple-files img {
+  margin-top: 10px; /* Space between filename and image */
+  width: 100%;
+  max-width: 200px; /* Control the size of the image */
+  border-radius: 8px; /* Optional: Add some border radius */
+}
+
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center them horizontally */
+  margin-bottom: 20px;
+}
+
+.file-upload-container input {
+  margin-bottom: 20px; /* Add padding/space below the input */
+}
+
+h1,
+h2,
+h3 {
+  text-align: center; /* Centers the headers */
+  font-family: Arial, sans-serif;
+  margin-bottom: 20px;
+}
+
+input {
+  background-color: #626262;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Button hover effect with smooth transition */
+button:hover {
+  background-color: #0056b3;
+  transition: background-color 1s ease;
+}
