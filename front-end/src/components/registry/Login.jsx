@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}login`,
+        `${process.env.REACT_APP_API_ROUTE}login`,
         {
           username: userInfo.username,
           password: userInfo.password,

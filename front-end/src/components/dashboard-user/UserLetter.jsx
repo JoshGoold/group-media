@@ -16,7 +16,7 @@ const UserLetter = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}comment-letter`,
+        `${process.env.REACT_APP_API_ROUTE}comment-letter`,
         {
           letterId: id,
           profileUsername: username,
@@ -45,7 +45,7 @@ const UserLetter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}like-letter`,
+        `${process.env.REACT_APP_API_ROUTE}like-letter`,
         {
           letterId: letter_id,
           profileUsername: username,

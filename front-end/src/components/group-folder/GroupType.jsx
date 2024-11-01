@@ -23,7 +23,7 @@ const GroupType = () => {
     setToken(getToken)
     try {
       const response = await axios.get(
-        `${process.env.API_ROUTE}groups?category=${grouptype}`,
+        `${process.env.REACT_APP_API_ROUTE}groups?category=${grouptype}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
@@ -56,7 +56,7 @@ const GroupType = () => {
     }
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}create-group`,
+        `${process.env.REACT_APP_API_ROUTE}create-group`,
         {
           group_name: group.group_name,
           group_description: group.group_description,
@@ -85,7 +85,7 @@ const GroupType = () => {
   async function joinGroup(id) {
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}join-group`,
+        `${process.env.REACT_APP_API_ROUTE}join-group`,
         {
           groupid: id,
         },
@@ -109,7 +109,7 @@ const GroupType = () => {
   async function requestGroup(id) {
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}request-group`,
+        `${process.env.REACT_APP_API_ROUTE}request-group`,
         {
           groupid: id,
         },

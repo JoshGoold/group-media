@@ -24,7 +24,7 @@ const Letter = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}comment-letter`,
+        `${process.env.REACT_APP_API_ROUTE}comment-letter`,
         {
           letterId: id,
           profileUsername: username,
@@ -52,7 +52,7 @@ const Letter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}like-letter`,
+        `${process.env.REACT_APP_API_ROUTE}like-letter`,
         {
           letterId: letter_id,
           profileUsername: username,
@@ -78,7 +78,7 @@ const Letter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}delete-letter`,
+        `${process.env.REACT_APP_API_ROUTE}delete-letter`,
         {
           id: id,
         },
@@ -109,7 +109,7 @@ const Letter = (props) => {
     ) {
       try {
         const response = await axios.post(
-          `${process.env.API_ROUTE}edit-letter`,
+          `${process.env.REACT_APP_API_ROUTE}edit-letter`,
           {
             id: editState.letterid,
             title: editState.title,

@@ -15,7 +15,7 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          `${process.env.API_ROUTE}create-group-conversation`,
+          `${process.env.REACT_APP_API_ROUTE}create-group-conversation`,
           {
             groupid: groupid,
             message: message,

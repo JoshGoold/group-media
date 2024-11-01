@@ -96,7 +96,7 @@ const UserProfile = () => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `${process.env.API_ROUTE}user-profile?username=${username}`,
+        `${process.env.REACT_APP_API_ROUTE}user-profile?username=${username}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

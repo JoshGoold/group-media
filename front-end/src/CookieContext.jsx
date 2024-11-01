@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get(`${process.env.API_ROUTE}collect-cookie`, {
+        .get(`${process.env.REACT_APP_API_ROUTE}collect-cookie`, {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header
           'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `${process.env.API_ROUTE}message-history?username=${username}`,
+        `${process.env.REACT_APP_API_ROUTE}message-history?username=${username}`,
         {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header

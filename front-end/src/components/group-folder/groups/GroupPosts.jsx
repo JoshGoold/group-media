@@ -14,7 +14,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}like-group-post`,
+        `${process.env.REACT_APP_API_ROUTE}like-group-post`,
         {
           postId: post_id,
           groupid: groupid
@@ -49,7 +49,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}comment-group-post`,
+        `${process.env.REACT_APP_API_ROUTE}comment-group-post`,
         {
           postId: id,
           groupid: groupid,
@@ -77,7 +77,7 @@ const GroupPosts = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.API_ROUTE}delete-group-post`,
+        `${process.env.REACT_APP_API_ROUTE}delete-group-post`,
         {
           id: id,
           groupid: groupid

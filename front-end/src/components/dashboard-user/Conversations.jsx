@@ -26,7 +26,7 @@ const Conversations = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `${process.env.API_ROUTE}message-history?username=${props.user.username}`,
+        `${process.env.REACT_APP_API_ROUTE}message-history?username=${props.user.username}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

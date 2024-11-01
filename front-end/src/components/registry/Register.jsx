@@ -19,7 +19,7 @@ const Register = () => {
 
   useEffect(()=>{
     async function pingCheck(){
-      const response = await fetch(`${process.env.API_ROUTE}ping`)
+      const response = await fetch(`${process.env.REACT_APP_API_ROUTE}ping`)
       const data = await response.json();
       console.log(response.status + " \n" + data)
     }
@@ -42,7 +42,7 @@ const Register = () => {
       return; // Exit function if email is invalid
     }
     try {
-      const response = await axios.post(`${process.env.API_ROUTE}register`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_ROUTE}register`, {
         username: userInfo.username,
         email: userInfo.email,
         password: userInfo.password,

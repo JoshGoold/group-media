@@ -10,7 +10,7 @@ const Follow = (props) => {
     if (!props.followState) {
       try {
         const response = await axios.get(
-          `${process.env.API_ROUTE}follow?username=${props.username}`,
+          `${process.env.REACT_APP_API_ROUTE}follow?username=${props.username}`,
           {
             headers: {
             'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

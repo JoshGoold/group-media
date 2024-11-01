@@ -12,7 +12,7 @@ const Search = () => {
   async function userSearch() {
     try {
       const response = await axios.get(
-        `${process.env.API_ROUTE}user-search?searchQuery=${query}`
+        `${process.env.REACT_APP_API_ROUTE}user-search?searchQuery=${query}`
       );
       if (response.data.Message === "Success") {
         setUserList(response.data.list);
