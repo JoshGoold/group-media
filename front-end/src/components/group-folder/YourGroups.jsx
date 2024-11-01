@@ -11,7 +11,7 @@ const YourGroups = ({user}) => {
   async function getGroups(){
     const getToken = localStorage.getItem('token');
     try {
-        const response = await axios.get(`https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/your-groups`,{
+        const response = await axios.get(`https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/your-groups`,{
             headers: {
             'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'

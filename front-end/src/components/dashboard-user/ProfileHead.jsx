@@ -19,7 +19,7 @@ const ProfileHead = (props) => {
       formData.append("img", file);
 
       const response = await axios.post(
-        "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/new-profilepicture",
+        "https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/new-profilepicture",
         formData,
         {
           headers: {

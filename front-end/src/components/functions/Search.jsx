@@ -12,7 +12,7 @@ const Search = () => {
   async function userSearch() {
     try {
       const response = await axios.get(
-        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/user-search?searchQuery=${query}`
+        `https://group-media-n7igozkfp-joshs-projects-9174c388.vercel.app/user-search?searchQuery=${query}`
       );
       if (response.data.Message === "Success") {
         setUserList(response.data.list);
