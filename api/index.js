@@ -66,5 +66,13 @@ app.get("/", (req, res) => {
   }
 });
 
+app.get("/ping", (req, res) => {
+  try {
+    res.status(200).send({Message: `We have a connection!`, Success: true});
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,15 @@ const Register = () => {
   const validateEmailComprehensive = (email) => {
     return re.test(email);
   };
+
+  useEffect(()=>{
+    async function pingCheck(){
+      const response = await fetch('http://localhost:3003/ping')
+      const data = await response.json();
+      console.log(response.status + " \n" + data)
+    }
+    pingCheck()
+  })
 
   const handleRegister = async (e) => {
     e.preventDefault();
