@@ -15,7 +15,7 @@ const CreateGroupConversation = ({groupid, handleGroupConversations}) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          "http://localhost:3003/create-group-conversation",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/create-group-conversation",
           {
             groupid: groupid,
             message: message,

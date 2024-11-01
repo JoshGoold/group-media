@@ -24,7 +24,7 @@ const Letter = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3003/comment-letter`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/comment-letter`,
         {
           letterId: id,
           profileUsername: username,
@@ -52,7 +52,7 @@ const Letter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "http://localhost:3003/like-letter",
+        "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/like-letter",
         {
           letterId: letter_id,
           profileUsername: username,
@@ -78,7 +78,7 @@ const Letter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `http://localhost:3003/delete-letter`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/delete-letter`,
         {
           id: id,
         },
@@ -109,7 +109,7 @@ const Letter = (props) => {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:3003/edit-letter",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/edit-letter",
           {
             id: editState.letterid,
             title: editState.title,

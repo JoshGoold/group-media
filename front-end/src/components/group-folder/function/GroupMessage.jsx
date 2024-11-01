@@ -11,7 +11,7 @@ const GroupMessage = (props) => {
     if (message.length > 0) {
       try {
         const response = await axios.post(
-          "http://localhost:3003/group-message",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/group-message",
           {
             message: message,
             groupid: props.id,

@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:3003/collect-cookie", {
+        .get("https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/collect-cookie", {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header
           'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `http://localhost:3003/message-history?username=${username}`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/message-history?username=${username}`,
         {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header

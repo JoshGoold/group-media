@@ -19,7 +19,7 @@ const Register = () => {
 
   useEffect(()=>{
     async function pingCheck(){
-      const response = await fetch('http://localhost:3003/ping')
+      const response = await fetch('https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/ping')
       const data = await response.json();
       console.log(response.status + " \n" + data)
     }
@@ -42,7 +42,7 @@ const Register = () => {
       return; // Exit function if email is invalid
     }
     try {
-      const response = await axios.post(`http://localhost:3003/register`, {
+      const response = await axios.post(`https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/register`, {
         username: userInfo.username,
         email: userInfo.email,
         password: userInfo.password,

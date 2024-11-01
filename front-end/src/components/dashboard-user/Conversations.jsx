@@ -26,7 +26,7 @@ const Conversations = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `http://localhost:3003/message-history?username=${props.user.username}`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/message-history?username=${props.user.username}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header

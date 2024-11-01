@@ -16,7 +16,7 @@ const CreateConversation = (props) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          "http://localhost:3003/create-conversation",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/create-conversation",
           {
             toUsername: props.username,
             message: message,

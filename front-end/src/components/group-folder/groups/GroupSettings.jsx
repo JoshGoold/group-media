@@ -16,7 +16,7 @@ const GroupSettings = ({groupid, getData}) => {
         formData.append("groupid", groupid)
   
         const response = await axios.post(
-          "http://localhost:3003/new-group-profilepicture",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/new-group-profilepicture",
           formData,
           
           {

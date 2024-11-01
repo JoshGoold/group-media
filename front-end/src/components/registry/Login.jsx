@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3003/login`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/login`,
         {
           username: userInfo.username,
           password: userInfo.password,

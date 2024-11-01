@@ -15,7 +15,7 @@ const CreateGroupLetter = ({getData, groupid}) => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:3003/new-group-letter",
+          "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/new-group-letter",
           {
             title: letter.title,
             contents: letter.content,

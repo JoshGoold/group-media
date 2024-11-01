@@ -16,7 +16,7 @@ const UserLetter = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3003/comment-letter`,
+        `https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/comment-letter`,
         {
           letterId: id,
           profileUsername: username,
@@ -45,7 +45,7 @@ const UserLetter = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        "http://localhost:3003/like-letter",
+        "https://group-media-4tf1q58sf-joshs-projects-9174c388.vercel.app/like-letter",
         {
           letterId: letter_id,
           profileUsername: username,
