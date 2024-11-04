@@ -13,8 +13,9 @@ export default defineConfig({
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api/, '') // Removes '/api' prefix when forwarding
     },
-    historyApiFallback: true,
-  }
+    
+  },
+  historyApiFallback: true,
 },
  build: {
   target: 'esnext',
