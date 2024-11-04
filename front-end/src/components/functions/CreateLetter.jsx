@@ -15,7 +15,7 @@ const CreateLetter = (props) => {
     } else {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}new-letter`,
+          `/api/new-letter`,
           {
             title: letter.title,
             contents: letter.content,

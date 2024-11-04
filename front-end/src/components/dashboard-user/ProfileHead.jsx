@@ -19,7 +19,7 @@ const ProfileHead = (props) => {
       formData.append("img", file);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}new-profilepicture`,
+        `/api/new-profilepicture`,
         formData,
         {
           headers: {

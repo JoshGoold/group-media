@@ -26,7 +26,7 @@ const CreatePost = (props) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}new-post`,
+        `/api/new-post`,
         formData,
         {
           headers: {

@@ -11,7 +11,7 @@ const GroupMessage = (props) => {
     if (message.length > 0) {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}group-message`,
+          `/api/group-message`,
           {
             message: message,
             groupid: props.id,

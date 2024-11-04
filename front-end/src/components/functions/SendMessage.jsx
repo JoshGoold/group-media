@@ -10,7 +10,7 @@ const SendMessage = (props) => {
     if (message.length > 0) {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}send-message`,
+          `/api/send-message`,
           {
             message: message,
             toUsername: props.username,

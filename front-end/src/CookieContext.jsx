@@ -2,6 +2,9 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const apiRoute = process.env.REACT_APP_API_ROUTE;
+
+
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -12,7 +15,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       axios
-        .get(`${process.env.REACT_APP_API_ROUTE}collect-cookie`, {
+        .get(`/api/collect-cookie`, {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header
           'Content-Type': 'application/json'
@@ -36,7 +39,7 @@ export const UserProvider = ({ children }) => {
   const handleUserConversations = async (username) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ROUTE}message-history?username=${username}`,
+        `/api/message-history?username=${username}`,
         {
           headers: {
           'Authorization': `Bearer `, // Include the token in the Authorization header

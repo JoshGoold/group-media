@@ -16,7 +16,7 @@ const CreateConversation = (props) => {
     try {
       if (message.length > 0) {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}create-conversation`,
+          `/api/create-conversation`,
           {
             toUsername: props.username,
             message: message,

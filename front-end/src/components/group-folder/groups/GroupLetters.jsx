@@ -24,7 +24,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}comment-group-letter`,
+        `/api/comment-group-letter`,
         {
           letterId: letterid,
           groupid: id,
@@ -52,7 +52,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}like-group-letter`,
+        `/api/like-group-letter`,
         {
           letterId: letter_id,
           groupid: groupid,
@@ -79,7 +79,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}delete-group-letter`,
+        `/api/delete-group-letter`,
         {
           id: id,
           groupid: groupid
@@ -110,7 +110,7 @@ const GroupLetters = ({getData, groupid, groupData}) => {
     ) {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}edit-group-letter`,
+          `/api/edit-group-letter`,
           {
             id: editState.letterid,
             title: editState.title,

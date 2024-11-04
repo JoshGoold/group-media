@@ -15,7 +15,7 @@ const Post = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}like-post`,
+        `/api/like-post`,
         {
           postId: post_id,
           profileUsername: username,
@@ -50,7 +50,7 @@ const Post = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}comment-post`,
+        `/api/comment-post`,
         {
           postId: id,
           profileUsername: username,
@@ -77,7 +77,7 @@ const Post = (props) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}delete-post`,
+        `/api/delete-post`,
         {
           id: id,
         },

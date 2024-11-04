@@ -15,7 +15,7 @@ const CreateGroupLetter = ({getData, groupid}) => {
     } else {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}new-group-letter`,
+          `/api/new-group-letter`,
           {
             title: letter.title,
             contents: letter.content,

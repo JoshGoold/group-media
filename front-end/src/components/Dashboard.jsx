@@ -65,7 +65,7 @@ const Dashboard = () => {
       if (typeof window !== "undefined") { // Ensure client-side execution
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${process.env.REACT_APP_API_ROUTE}user-profile?username=${username}`,
+          `/api/user-profile?username=${username}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the Authorization header

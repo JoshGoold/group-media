@@ -37,7 +37,7 @@ const GroupPage = () => {
     async function getGroupData(){
         const getToken = localStorage.getItem('token');
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_ROUTE}group-data?id=${groupid}`,{
+            const response = await axios.get(`/api/group-data?id=${groupid}`,{
                 headers: {
                 'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
                 'Content-Type': 'application/json'

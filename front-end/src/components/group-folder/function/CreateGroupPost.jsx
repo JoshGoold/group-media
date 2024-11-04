@@ -27,7 +27,7 @@ const CreateGroupPost = ({getData, groupid}) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ROUTE}new-group-post`,
+        `/api/new-group-post`,
         formData,
         {
           headers: {

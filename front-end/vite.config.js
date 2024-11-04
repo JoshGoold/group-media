@@ -6,10 +6,14 @@ export default defineConfig({
   root: './',
  plugins: [react()],
  server: {
-
-    hmr: process.env.NODE_ENV !== 'production',
-  
- },
+  proxy: {
+    '/api': {
+      target: 'https://group-media-geiwtdvjg-joshs-projects-9174c388.vercel.app/', // The API server URL
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, '') // Removes '/api' prefix when forwarding
+    }
+  }
+},
  build: {
   target: 'esnext',
   rollupOptions: {

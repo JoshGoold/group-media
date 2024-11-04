@@ -11,7 +11,7 @@ const YourGroups = ({user}) => {
   async function getGroups(){
     const getToken = localStorage.getItem('token');
     try {
-        const response = await axios.get(`${process.env.REACT_APP_API_ROUTE}your-groups`,{
+        const response = await axios.get(`/api/your-groups`,{
             headers: {
             'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
             'Content-Type': 'application/json'

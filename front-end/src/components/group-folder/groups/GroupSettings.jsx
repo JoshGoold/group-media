@@ -16,7 +16,7 @@ const GroupSettings = ({groupid, getData}) => {
         formData.append("groupid", groupid)
   
         const response = await axios.post(
-          `${process.env.REACT_APP_API_ROUTE}new-group-profilepicture`,
+          `/api/new-group-profilepicture`,
           formData,
           
           {

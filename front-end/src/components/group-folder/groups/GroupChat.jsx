@@ -19,7 +19,7 @@ const GroupChat = ({groupid, groupData, groupname, getData, setGroupData}) => {
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ROUTE}group-message-history?groupid=${groupid}`,
+        `/api/group-message-history?groupid=${groupid}`,
         {
           headers: {
           'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
