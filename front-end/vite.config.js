@@ -9,7 +9,7 @@ export default defineConfig({
  server: {
   proxy: {
     '/api': {
-      target: 'https://group-media-geiwtdvjg-joshs-projects-9174c388.vercel.app/', // The API server URL
+      target: 'https://group-media-jgwdx7vzz-joshs-projects-9174c388.vercel.app/', // The API server URL
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api/, '') // Removes '/api' prefix when forwarding
     },
