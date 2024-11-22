@@ -2,6 +2,7 @@ const Group = require("../schemas/GroupSchema");
 const User = require("../schemas/UserSchema");
 const Message = require("../schemas/MessageSchema");
 const Conversation = require("../schemas/ConversationSchema");
+const { put } = require("@vercel/blob");
 
 const multer = require("multer");
 const auth = require("../middleware/auth");
@@ -164,7 +165,7 @@ groupRoutes.get("/your-groups", auth, async (req, res) => {
       groups.map(async (group) => {
         const filepath = group.groupProfilePicture;
         return {
-          profilepic: filePath,
+          profilepic: filepath,
           ...group._doc,
         };
       })
@@ -557,14 +558,12 @@ groupRoutes.get("/group-data", auth, async (req, res) => {
         .send({ Message: "No group found", Success: false });
     }
     const filepath = group.groupProfilePicture;
-    const base64Image = await getBase64(filepath);
 
     const posts = await Promise.all(
       group.posts.map(async (post) => {
         const filePath = post.postImg;
-        const base64PostImage = await getBase64(filePath);
         return {
-          img: `data:image/webp;base64,${base64PostImage}`,
+          img: filePath,
           ...post._doc,
         };
       })
@@ -576,7 +575,7 @@ groupRoutes.get("/group-data", auth, async (req, res) => {
         Success: true,
         groupData: group,
         groupPosts: posts,
-        profilepic: `data:image/webp;base64,${base64Image}`,
+        profilepic: filepath,
       });
   } catch (error) {
     console.error(`Server Error --> ${error}`);
