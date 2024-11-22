@@ -114,7 +114,7 @@ groupRoutes.post("/join-group", auth, async (req, res) => {
       .send({ Message: `Server Error --> ${error.message}`, Success: false });
   }
 });
-s
+
 groupRoutes.post("/request-group", auth, async (req, res) => {
   const { groupid } = req.body;
 
