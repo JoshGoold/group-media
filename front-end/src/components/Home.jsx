@@ -188,7 +188,7 @@ useEffect(()=>{
                   >
                     ❣️
                   </button>
-                  {post?.likes.map((like, index) => (
+                  {post.likes && post.likes.length > 0 && (post?.likes.map((like, index) => (
                     <div key={index} className="">
                       {likeState.state && (
                         <div className="">
@@ -200,7 +200,7 @@ useEffect(()=>{
                         </div>
                       )}
                     </div>
-                  )) || 0}</div>
+                  )))}</div>
                 
                 <div className="items-center">
                   {" "}
