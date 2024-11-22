@@ -14,6 +14,7 @@
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server"
   },
   "dependencies": {
+    "@vercel/blob": "^0.26.0",
     "axios": "^1.7.7",
     "compression": "^1.7.4",
     "connect-mongo": "^5.1.0",
@@ -26,7 +27,8 @@
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.27.0",
-    "sirv": "^3.0.0"
+    "sirv": "^3.0.0",
+    "vercel": "^39.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.8",

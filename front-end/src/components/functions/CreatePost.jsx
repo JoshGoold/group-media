@@ -21,6 +21,7 @@ const CreatePost = (props) => {
   const createPost = async () => {
     const getToken = localStorage.getItem('token');
     const formData = new FormData();
+    
     formData.append("img", file);
     formData.append("description", description);
 

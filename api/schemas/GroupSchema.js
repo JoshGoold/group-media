@@ -72,7 +72,7 @@ const GroupSchema = new mongoose.Schema({
         },
         participant_profilePic: {
             type: String,
-            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
+            default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243931610-defaultgroup.png-5L3BQnWmfnTB8Gp9VrY2vbeuBmRsl5.png"
         }
     }],
     posts: [

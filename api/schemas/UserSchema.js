@@ -42,7 +42,7 @@ const userSchama = new mongoose.Schema({
   },
   profilepic: {
     type: String,
-    default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp",
+    default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243758227-defaultpic-xSo3tO0fcbretv54zGHgMpuo7xz2Av.png",
   },
   posts: [
     {
