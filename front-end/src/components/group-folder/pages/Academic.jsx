@@ -21,8 +21,8 @@ const Academic = ({user}) => {
         { name: "American Sociological Association", abbreviation: "ASA" },
       ];
   return (
-    <div>
-      <ul className='text-white flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
+    <div className='p-4'>
+      <ul className='text-white overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
             {academicGroups.map((group,index)=>(
                 <li onClick={()=> nav(`/dashboard/${user}/groups/${group.name}`)} title={group.name} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index}>{group.abbreviation}</li>
             ))}

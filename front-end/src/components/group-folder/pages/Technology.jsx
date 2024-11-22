@@ -21,7 +21,7 @@ const Technology = ({user}) => {
       ];
   return (
     <div>
-      <ul className='text-white flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
+      <ul className='text-white  overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
             {techIndustries.map((tech,index)=>(
                 <li onClick={()=> nav(`/dashboard/${user}/groups/${tech.name}`)} title={tech.name} className='cursor-pointer font-thin p-2 hover:bg-white hover:bg-opacity-30' key={index}>{tech.abbreviation}</li>
             ))}

@@ -140,7 +140,7 @@ const GroupType = () => {
           <FaHome />
         </div>
         <div className="">
-          <h1 className="text-white text-3xl font-thin">
+          <h1 className="text-white lg:text-3xl font-thin">
             Welcome to the {grouptype} lounge
           </h1>
         </div>
@@ -148,7 +148,7 @@ const GroupType = () => {
       <div className="">
         {!state && (
           <button
-            className="text-white bg-blue-500 p-2 rounded-md"
+            className="text-white bg-blue-500 lg:p-2 p-1 rounded-md"
             onClick={() => setState(true)}
           >
             Create Group
@@ -159,7 +159,7 @@ const GroupType = () => {
         {state && (
           <form
             onSubmit={(e) => createGroup(e)}
-            className="bg-white flex flex-col gap-4 w-[50%] p-2 rounded-md shadow-md shadow-black"
+            className="bg-white flex flex-col gap-4 lg:w-[50%] p-10 rounded-md shadow-md shadow-black"
           >
             <ul className="flex gap-4 flex-col">
               <li className="flex flex-col">

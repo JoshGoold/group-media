@@ -92,11 +92,11 @@ const GroupPage = () => {
         {navState === "Hub" && (
             <div className="mt-3">
                 <GroupHub groupData={groupData}/>
-                <div className="flex mt-3">
-                    <div className="w-[50%]">
+                <div className="flex lg:flex-row flex-col mt-3">
+                    <div className="lg:w-[50%] my-2">
                     <GroupLetters groupData={groupData} groupid={groupid} getData={getGroupData}/>
                     </div>
-                    <div className="w-[50%]">
+                    <div className="lg:w-[50%]">
                     <GroupPosts groupData={groupData} groupid={groupid} getData={getGroupData}/>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ const GroupPage = () => {
                 <div className="mb-3">
                     <CreateGroupPost getData={getGroupData} groupid={groupid}/>
                 </div>
-                <div className="max-w-[40%] ml-auto mr-auto">
+                <div className="lg:max-w-[40%] ml-auto mr-auto">
                 <GroupPosts groupData={groupData} groupid={groupid} getData={getGroupData}/>
                 </div>
             </div>

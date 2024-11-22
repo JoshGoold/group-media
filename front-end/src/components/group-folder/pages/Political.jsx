@@ -18,7 +18,7 @@ const Political = ({user}) => {
       ];
   return (
     <div>
-      <ul className='text-white flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
+      <ul className='text-white  overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
         {politicalParties.map((party, index)=>(
             <li onClick={()=> nav(`/dashboard/${user}/groups/${party.name}`)} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index} title={party.name}>{party.abbreviation}</li>
         ))}
