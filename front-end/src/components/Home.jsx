@@ -1,259 +1,114 @@
-import React from 'react'
-import axios from 'axios'
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Post from "./dashboard-user/Post";
+import Letter from "./dashboard-user/Letter";
 
-const Home = ({userData}) => {
-    const [feed, setFeed] = useState([])
-    const [curMonth, setCurMonth] = useState("");
-    const nav = useNavigate()
-    const [token, setToken] = useState(undefined)
-  
+const Home = ({ userData }) => {
+  const [feed, setFeed] = useState([]);
+  const [curMonth, setCurMonth] = useState("");
+  const nav = useNavigate();
 
-const [commentP, setCommentP] = useState("");
-const [likeState, setLikeState] = useState({ state: false, id: "" });
-const [commentState, setCommentState] = useState({ state: false, id: "" });
 
-const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
 
-useEffect(() => {
-    
-  if(typeof window !== 'undefined'){
-  setWindowWidth(window.screen.width)
-}
-  // Define the handleResize function
-  const handleResize = () => {
-    if (typeof window !== 'undefined') {
-      setWindowWidth(window.innerWidth);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.screen.width);
     }
-  };
+    // Define the handleResize function
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        setWindowWidth(window.innerWidth);
+      }
+    };
 
-  // Add event listener if window is available
-  if (typeof window !== 'undefined') {
-    window.addEventListener('resize', handleResize);
-    setWindowWidth(window.innerWidth); // Set initial width
-  }
-
-  // Cleanup the event listener on component unmount
-  return () => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', handleResize);
+    // Add event listener if window is available
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      setWindowWidth(window.innerWidth); // Set initial width
     }
-  };
-}, []);
 
-async function getData(){
-  const getToken = localStorage.getItem('token');
+    // Cleanup the event listener on component unmount
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+
+  async function getData() {
+    const getToken = localStorage.getItem("token");
     try {
-        const response = await axios.get(`/api/home-feed`,{
-          headers: {
-          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
-          'Content-Type': 'application/json'
-        }})
-
-        if(response.data.Success){
-            setFeed(response.data.feed)
-        }
-        else{
-            alert(response.data)
-        }
-    } catch (error) {
-        console.error(error)
-    }finally{
-      getRecommended()
-    }
-}
-
-async function getRecommended(){
-  const getToken = localStorage.getItem('token');
-  try {
-    const response = await axios.get(`/api/recomendation`, {
-      headers: {
-      'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
-      'Content-Type': 'application/json'
-    }})
-    if(response.data.Success){
-      setFeed(prevFeed => [...response.data.recomended, ...prevFeed])
-    }else{
-      alert(response.data.Message)
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const likePost = async (post_id, username) => {
-  const getToken = localStorage.getItem('token');
-    try {
-      const response = await axios.post(
-        `/api/like-post`,
-        {
-          postId: post_id,
-          profileUsername: username,
+      const response = await axios.get(`/api/home-feed`, {
+        headers: {
+          Authorization: `Bearer ${getToken}`, // Include the token in the Authorization header
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
-          'Content-Type': 'application/json'
-        }}
-      );
+      });
+
       if (response.data.Success) {
-        alert(response.data.Message);
-        props.handleUserProfile();
+        setFeed(response.data.feed);
       } else {
         alert(response.data);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      getRecommended();
     }
-  };
-  
+  }
+
+  async function getRecommended() {
+    const getToken = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`/api/recomendation`, {
+        headers: {
+          Authorization: `Bearer ${getToken}`, // Include the token in the Authorization header
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.data.Success) {
+        setFeed((prevFeed) => [...response.data.recomended, ...prevFeed]);
+      } else {
+        alert(response.data.Message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   function getMonth() {
     const date = new Date();
     setCurMonth(date.getMonth() + 1);
   }
-  
-  const commentPost = async (e, id, username, comment) => {
-    const getToken = localStorage.getItem('token');
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        `/api/comment-post`,
-        {
-          postId: id,
-          profileUsername: username,
-          comment: comment,
-        },
-        {
-          headers: {
-          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
-          'Content-Type': 'application/json'
-        }}
-      );
-      if (response.data.Success) {
-        alert(response.data.Message);
-        props.handleUserProfile();
-        setCommentP("");
-      } else {
-        alert(response.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-useEffect(()=>{
-    getData()
+
+  useEffect(() => {
+    getData();
     getMonth();
-},[])
-
-
-
+  }, []);
 
   return (
     <div className="h-screen flex justify-center overflow-scroll">
       {feed.length > 0 ? (
-        <div className={`p-2 ${windowWidth > 1000 ? "max-w-[60%]" : "w-full"} flex flex-col gap-3`}>
+        <div
+          className={`p-2 ${
+            windowWidth > 1000 ? "max-w-[60%]" : "w-full"
+          } flex flex-col gap-3`}
+        >
           {feed.map((post, index) => (
-            <div
-              className="border-t-gray-300 shadow-md rounded-md p-3 bg-white border"
-              id={post._id}
-              key={index}
-            >
-              {!userData.following.some(user => user.username === post.username) && (
-                <h1 className="font-bold">Recommended to you:</h1>
+            <div key={index} className="">
+              {post.recomended && (
+                <>
+                  {post.postImg && <Post data={post} handleUserProfile={getData} />}
+                  {post.letterHead && <Letter data={post} handleUserProfile={getData}/>}
+                </>
               )}
-             
-              <h1 onClick={()=> nav(`/user-profile/${post.username}`)} className='cursor-pointer font-bold my-3'>{post.username}</h1>
-              {post.img ? (<img src={post.img} alt="Post" />) : ""}
-              {post.letterHead ? (<h1 className='font-bold text-2xl'>{post.letterHead}</h1>) : ""}
-              {post.postContent ? (<p>{post.postContent}</p>) : ""}
-              {post.letterContent ? (<p>{post.letterContent}</p>) : ""}
-              <small className="text-sm text-gray-400 font-thin">
-                {curMonth}/{post.createdAt}
-              </small>
-              <div  className="flex mt-10 justify-between">
-                <div className="">
-                <small
-                  onClick={() =>
-                    setLikeState({ state: !likeState.state, id: post._id })
-                  }
-                >
-                  {post?.likes?.length > 0
-                    ? post.likes.length
-                    : 0}{" "}
-                  Likes:{" "}</small>
-                  <button
-                    onClick={() => likePost(post._id, post.username)}
-                  >
-                    ❣️
-                  </button>
-                  {post.likes && post.likes.length > 0 && (post?.likes.map((like, index) => (
-                    <div key={index} className="">
-                      {likeState.state && (
-                        <div className="">
-                          {likeState.id === post._id && (
-                            <div key={index}>
-                              <h1>{like.likerUsername}</h1>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )))}</div>
-                
-                <div className="items-center">
-                  {" "}
-                  
-                  <small
-                    onClick={() => {
-                      setCommentState({
-                        state: !commentState.state,
-                        id: post._id,
-                      });
-                    }}
-                  >
-                   {post?.comments?.length > 0
-                    ? post.comments.length
-                    : 0}{" "} Comments:{" "}
-                  </small>
-                  <form
-                    onSubmit={(e) =>
-                      commentPost(
-                        e,
-                        post._id,
-                        post.username,
-                        commentP
-                      )
-                    }
-                  >
-                    <input
-                      className="border border-gray-400 rounded-md p-1"
-                      value={commentP}
-                      onChange={(e) => setCommentP(e.target.value)}
-                      type="text"
-                      placeholder="Leave a comment"
-                    />
-                    <button type="submit">📩</button>
-                  </form>
-                  </div>
-                  </div>
-                  {post.comments?.map((comment, index) => (
-                    <div key={index} className="">
-                      {commentState.state && (
-                        <div className="">
-                          {commentState.id === post._id && (
-                            <div  className="shadow-sm flex mb-1 rounded-md border-t-gray-300 border border-l-gray-300 gap-2 p-2" id={comment._id} key={index}>
-                              <h1>{comment.commenterUsername}</h1>
-                              <h2>{comment.comment}</h2>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )) || 0}
-                
-              
+              {post.postImg && <Post data={post} handleUserProfile={getData}/>}
+              {post.letterHead && <Letter data={post} handleUserProfile={getData}/>}
             </div>
           )) || "N/A"}
         </div>
@@ -261,7 +116,7 @@ useEffect(()=>{
         <h1 className="text-center text-gray-600 mt-20">Refresh Feed</h1>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

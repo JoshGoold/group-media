@@ -17,6 +17,10 @@ const GroupSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    groupType: {
+      type: String,
+      required: true
+    },
     groupAccess: {
         type: String,
         required: true

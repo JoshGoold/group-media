@@ -28,6 +28,8 @@ const Login = () => {
       );
       if (response.data.login) {
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('id', response.data.userid)
+        localStorage.setItem('username', response.data.username)
         nav(`/dashboard/${response.data.username}`);
       } else {
         alert("Invalid Credentials");

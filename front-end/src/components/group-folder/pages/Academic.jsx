@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import List from '../List';
 const Academic = ({user}) => {
     const nav = useNavigate()
     const academicGroups = [
@@ -24,10 +24,12 @@ const Academic = ({user}) => {
     <div className='p-4'>
       <ul className='text-white overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
             {academicGroups.map((group,index)=>(
-                <li onClick={()=> nav(`/dashboard/${user}/groups/${group.name}`)} title={group.name} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index}>{group.abbreviation}</li>
+                <li onClick={()=> nav(`/dashboard/${user}/groups/${group.name}/Academic`)} title={group.name} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index}>{group.abbreviation}</li>
             ))}
         </ul>
-      
+        <div className="">
+          <List category="Academic"/>
+        </div>
     </div>
   )
 }

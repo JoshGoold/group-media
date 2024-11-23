@@ -7,12 +7,13 @@ const GroupType = () => {
   const nav = useNavigate();
   const [token, setToken] = useState(undefined)
   
-  const { username, grouptype } = useParams();
+  const { username, grouptype, groupcategory } = useParams();
   const [state, setState] = useState(false);
   const [group, setGroup] = useState({
     group_name: "",
     group_description: "",
     catergory: grouptype,
+    type: groupcategory,
     member_count: "",
     access: "",
   });
@@ -20,6 +21,7 @@ const GroupType = () => {
 
   async function getGroups() {
     const getToken = localStorage.getItem('token');
+
     setToken(getToken)
     try {
       const response = await axios.get(
@@ -60,6 +62,7 @@ const GroupType = () => {
         {
           group_name: group.group_name,
           group_description: group.group_description,
+          type: group.type,
           memberCount:
             group.member_count === "" ? undefined : group.member_count,
           category: group.catergory,

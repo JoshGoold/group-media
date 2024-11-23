@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import List from '../List';
 const Political = ({user}) => {
     const nav = useNavigate()
     const politicalParties = [
@@ -20,9 +20,12 @@ const Political = ({user}) => {
     <div>
       <ul className='text-white  overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
         {politicalParties.map((party, index)=>(
-            <li onClick={()=> nav(`/dashboard/${user}/groups/${party.name}`)} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index} title={party.name}>{party.abbreviation}</li>
+            <li onClick={()=> nav(`/dashboard/${user}/groups/${party.name}/Political`)} className='cursor-pointer p-2 font-thin hover:bg-white hover:bg-opacity-30' key={index} title={party.name}>{party.abbreviation}</li>
         ))}
       </ul>
+      <div className="">
+          <List category="Political"/>
+        </div>
     </div>
   )
 }

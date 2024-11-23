@@ -17,7 +17,7 @@ const express = require("express");
 const groupRoutes = express.Router();
 
 groupRoutes.post("/create-group", auth, async (req, res) => {
-  const { group_name, group_description, memberCount, category, access } =
+  const { group_name, group_description, memberCount, category, access, type } =
     req.body;
 
   try {
@@ -25,6 +25,7 @@ groupRoutes.post("/create-group", auth, async (req, res) => {
       groupName: group_name,
       groupDescription: group_description,
       memberCount: memberCount,
+      groupType: type,
       groupCategory: category,
       groupAccess: access,
       participants: [
@@ -815,5 +816,28 @@ groupRoutes.post("/deny-participant", auth, async (req, res) => {
     console.error("Error processing request:", error);
   }
 });
+
+groupRoutes.get('/groups-list', auth, async (req, res) => {
+  const { type } = req.query;
+
+  try {
+    const groups = await Group.find({ groupType: type }).limit(25).skip(0).lean();
+
+    if (!groups.length) {
+      return res.status(404).send({ Message: "No groups found", Success: false });
+    }
+
+    return res.status(200).send({ Message: "Groups found", groups: groups, Success: true });
+  } catch (error) {
+    console.error(`Error occurred finding groups by type\nUrl: ${req.url}\nError: ${error}`);
+    return res.status(500).send({
+      Message: "An error occurred finding groups by type",
+      error: error.message,
+      url: req.url,
+      Success: false,
+    });
+  }
+});
+
 
 module.exports = groupRoutes;

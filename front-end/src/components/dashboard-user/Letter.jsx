@@ -146,6 +146,110 @@ const Letter = (props) => {
 
   return (
     <div>
+      {props?.data?.feed || props?.data?.reccomended ? (
+        <div className="p-2 flex flex-col gap-3">
+          <div
+            className="border-t-gray-300 shadow-md rounded-md p-3 bg-white border"
+            id={props.data._id}
+          >
+            <h1 className="text-sm font-thin">{props.data.reccomended && "Recommended"}</h1>
+            <h1 onClick={()=> nav(`/user-profile/${props.data.username}`)} className="text-2xl py-2 cursor-pointer hover:underline font-thin">{props.data.username}</h1>
+            <div className=" font-bold flex justify-between items-center  text-2xl">
+                  <h1>{props.data.letterHead}</h1>
+                  
+                </div>
+                <div className="">
+                  <p>{props.data.letterContent}</p>
+                  <small className="text-sm text-gray-400 font-thin">
+                    {curMonth}/{props.data.createdAt}
+                  </small>
+                </div>
+            <div className="flex mt-10 justify-between">
+              <div className="">
+              <small
+                onClick={() =>
+                  setLikeState({ state: !likeState.state, id: props.data._id })
+                }
+              >
+                {props?.data?.likes?.length > 0
+                  ? props.data.likes.length
+                  : 0}{" "}
+                Likes:</small>
+                <button
+                  onClick={() => likeLetter(props.data._id, props.data.username)}
+                >
+                  ❣️
+                </button>
+                {props.data?.likes.map((like, index) => (
+                  <div key={index} className="">
+                    {likeState.state && (
+                      <div className="">
+                        {likeState.id === props.data._id && (
+                          <div key={index}>
+                            <h1>{like.likerUsername}</h1>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )) || 0}</div>
+              
+              <div className="items-center">
+              <small
+                    onClick={() => {
+                      setCommentState({
+                        state: !commentState.state,
+                        id: props.data._id,
+                      });
+                    }}
+                    className="font-thin"
+                  >
+                    {props?.data?.comments?.length > 0
+                      ? props.data.comments.length
+                      : 0}{" "}
+                    Comments
+                  </small>
+                <form
+                  onSubmit={(e) =>
+                    commentLetter(
+                      e,
+                      props.data._id,
+                      props.data.username,
+                      commentL
+                    )
+                  }
+                >
+                  <input
+                    className="border border-gray-400 rounded-md p-1"
+                    value={commentL}
+                    onChange={(e) => setCommentL(e.target.value)}
+                    type="text"
+                    placeholder="Leave a comment"
+                  />
+                  <button type="submit">📩</button>
+                </form>
+                </div>
+              </div>
+                {props.data.comments?.map((comment, index) => (
+                  <div key={index} className="">
+                    {commentState.state && (
+                      <div className="">
+                        {commentState.id === props.data._id && (
+                          <div className="shadow-sm flex mb-1 rounded-md border-t-gray-300 border border-l-gray-300 gap-2 p-2" id={comment._id} key={index}>
+                            <h1>{comment.commenterUsername}</h1>
+                            <h2>{comment.comment}</h2>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )) || 0}
+               </div>
+        </div>
+      )
+      :
+      (
+        <div>
       {props.userData?.letters?.length > 0 ? (
         <div className="flex flex-col-reverse gap-3">
           {props.userData.letters.map((letter, index) => (
@@ -325,7 +429,7 @@ const Letter = (props) => {
         <h1 className="text-center text-gray-600 mt-20">
           User has no letters yet
         </h1>
-      )}
+      )}</div>)}
     </div>
   );
 };

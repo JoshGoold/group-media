@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import List from '../List';
 
 const Sports = ({user}) => {
     const nav = useNavigate()
@@ -26,10 +27,12 @@ const Sports = ({user}) => {
     <div>
         <ul className='text-white overflow-x-scroll m-3 flex gap-2 justify-center items-center bg-blue-500 bg-opacity-40'>
             {sports.map((sport,index)=>(
-                <li onClick={()=> nav(`/dashboard/${user}/groups/${sport.name}`)} title={sport.name} className='cursor-pointer font-thin p-2 hover:bg-white hover:bg-opacity-30' key={index}>{sport.abbreviation}</li>
+                <li onClick={()=> nav(`/dashboard/${user}/groups/${sport.name}/Sports`)} title={sport.name} className='cursor-pointer font-thin p-2 hover:bg-white hover:bg-opacity-30' key={index}>{sport.abbreviation}</li>
             ))}
         </ul>
-      
+        <div className="">
+          <List category="Sports"/>
+        </div>
     </div>
   )
 }

@@ -84,7 +84,8 @@ userRoutes.post("/register", async (req, res) => {
           message: `LOGIN SUCESS. WELCOME BACK ${user.username}`,
           login: true,
           token: token,
-          username: user.username
+          username: user.username,
+          userid: user._id
         });
       } else {
         res.status(400).send({ Message: "Invalid Credentials", login: false });
@@ -271,6 +272,23 @@ userRoutes.post("/register", async (req, res) => {
       }
    
   });
+
+  userRoutes.get("/conversation", async (req,res)=>{
+    const {id} = req.query;
+    try {
+      const conversation = await Conversation.findById(id).populate("messages");
+
+      if(!conversation){
+        return res.status(404).send({Message: "No conversation found", Success: false})
+      }
+
+      return res.status(200).send({Message: "Conversation found", data: conversation, Success: true})
+
+    } catch (error) {
+      console.error(`Error occurred finding conversation by id\nURL: ${req.url}\nError: ${error}`)
+      return res.status(500).send({Message: "Server error", url: req.url, error: error.message, Success: false})
+    }
+  })
   
 
   module.exports = userRoutes;

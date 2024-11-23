@@ -7,7 +7,7 @@ const imageResizer = require("../js/imageResize");
 const getBase64 = require("../js/getBase64");
 
 const auth = require("../middleware/auth");
-
+const mongoose = require("mongoose")
 const fs = require("fs");
 
 const express = require("express");
@@ -355,7 +355,7 @@ functionRoutes.post("/like-post", auth, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    const post = user.posts.find((post) => post._id === postId);
+    const post = user.posts.find((post) => post.id === postId);
     if (!post) {
       return res.status(404).send("Post not found");
     }
@@ -422,7 +422,7 @@ functionRoutes.get("/home-feed", auth, async (req, res) => {
     // Fetch all users that the current user is following
     const followees = await User.find({
       username: { $in: req.user.following.map((f) => f.username) },
-    }).populate("posts letters");
+    }).select("posts letters username _id");
 
     for (const u of followees) {
       // Process posts
@@ -434,6 +434,7 @@ functionRoutes.get("/home-feed", auth, async (req, res) => {
               ...post.toObject(),
               username: u.username,
               img: filePath,
+              feed: true
             };
           })
         );
@@ -443,7 +444,7 @@ functionRoutes.get("/home-feed", auth, async (req, res) => {
       // Process letters
       if (u.letters && u.letters.length > 0) {
         u.letters.forEach((letter) =>
-          allPosts.push({ ...letter.toObject(), username: u.username })
+          allPosts.push({ ...letter.toObject(), username: u.username, feed: true })
         );
       }
     }
@@ -514,6 +515,7 @@ functionRoutes.get("/recomendation", auth, async (req, res) => {
                 ...post.toObject(),
                 username: user.username,
                 img: filePath,
+                reccomended: true,
               };
             })
           );
@@ -525,6 +527,7 @@ functionRoutes.get("/recomendation", auth, async (req, res) => {
             recomendedPosts.push({
               ...letter.toObject(),
               username: user.username,
+              reccomended: true,
             })
           );
         }
