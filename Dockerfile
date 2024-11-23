@@ -19,9 +19,7 @@ RUN cd /app/front-end && npm install && npm run build \
 FROM node:18.19.1-slim
 
 # Install only production dependencies and supervisor
-RUN apt-get update && apt-get install -y \
-    supervisor \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y supervisor && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy build files from Stage 1 into Final Stage image
 COPY --from=build-node /app /app
