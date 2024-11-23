@@ -67,7 +67,7 @@ const ConversationPage = () => {
                 )}
             </div>
 
-            <div className="flex fixed w-full p-3 bottom-0">
+            <div className="flex w-full p-3 mt-auto">
                 <SendMessage
                     reload={getData}
                     id={id}
