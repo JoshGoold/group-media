@@ -11,7 +11,7 @@ const GroupSchema = new mongoose.Schema({
     },
     groupProfilePicture: {
         type: String,
-        default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
+        default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243931610-defaultgroup.png-5L3BQnWmfnTB8Gp9VrY2vbeuBmRsl5.png"
     },
     groupCategory: {
         type: String,
@@ -33,7 +33,7 @@ const GroupSchema = new mongoose.Schema({
         },
         participant_profilePic: {
             type: String,
-            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
+            default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243758227-defaultpic-xSo3tO0fcbretv54zGHgMpuo7xz2Av.png"
         }
     }],
     memberCount: {
@@ -48,7 +48,7 @@ const GroupSchema = new mongoose.Schema({
         },
         admin_profilePic: {
             type: String,
-            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
+            default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243758227-defaultpic-xSo3tO0fcbretv54zGHgMpuo7xz2Av.png"
         }
     }],
     groupModerators: [{
@@ -60,7 +60,7 @@ const GroupSchema = new mongoose.Schema({
         },
         moderator_profilePic: {
             type: String,
-            default: "/home/josh/group-media/api/profilepictures/resized-image-1728497009425.webp"
+            default: "https://q596ewgrcavwwqaq.public.blob.vercel-storage.com/1732243758227-defaultpic-xSo3tO0fcbretv54zGHgMpuo7xz2Av.png"
         }
     }],
     owner: {

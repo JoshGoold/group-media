@@ -38,17 +38,18 @@ const ConversationPage = () => {
     },[])
   return (
           <div id={id} className="w-full h-full relative ">
-            <div className="absolute top-0 left-0"><button title='back' className='text-3xl text-white p-2' onClick={()=> nav(`/dashboard/${rootUser.username}`)}>←</button></div>
-            <div className="absolute top-0 right-0"><button title={`Visit ${username}'s profile`} className='text-sm pt-4 text-white p-2' onClick={()=> nav(`/user-profile/${username}`)}>View Profile</button></div>
+            
 
-            <div className="bg-white flex flex-col justify-center items-center bg-opacity-75 w-full h-[150px] mb-4">
-                <div className="text-2xl text-white">{username}</div>
+            <div className="bg-white flex flex-col w-full h-[100px] mb-4">
+            <div className="flex justify-between"><button title='back' className='text-3xl p-2' onClick={()=> nav(`/dashboard/${rootUser.username}`)}>←</button>
+            <button title={`Visit ${username}'s profile`} className='text-sm pt-4 p-2' onClick={()=> nav(`/user-profile/${username}`)}>View Profile</button></div>
+                <div className="text-2xl text-center">{username}</div>
             </div>
             <div className="">
                 { data.messages && (
 
                 
-              <div className="flex flex-col p-3 gap-2">
+              <div className="flex flex-col overflow-y-scroll hide-scrollbar p-3 h-full gap-2">
                 {data.messages.map((msg, index) => (
                   <h1
                     className={`p-1 hover:-translate-y-1 hover:shadow-lg max-w-[50%] w-auto bg-blue-500 text-white rounded-md ${
@@ -64,7 +65,7 @@ const ConversationPage = () => {
               </div>)}
             </div>
 
-            <div className="flex absolute w-full p-3 bottom-0">
+            <div className="flex fixed w-full p-3 bottom-0">
         
               <SendMessage
                 reload={getData}
