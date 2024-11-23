@@ -17,7 +17,7 @@ const Sidepanel = (props) => {
         user={props.user}
       />
       )}
-      <div className="mt-auto">
+      <div className="py-2">
         <Logout />
       </div>
     </div>
