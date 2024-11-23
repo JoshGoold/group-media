@@ -35,7 +35,7 @@ useEffect(()=>{
        {groups.length > 0 ? (
                 <div className='  lg:w-[70%] flex flex-col gap-3 ml-auto mr-auto'>
                     {groups.map((group, index)=>(
-                        <div onClick={()=> nav(`/dashboard/${user}/groups/${group.groupName}/${String(group._id)}`)} key={index} className="bg-white p-3 cursor-pointer rounded-md">
+                        <div onClick={()=> nav(`/dashboard/${user}/groups/${group.groupName}/${String(group._id)}/1`)} key={index} className="bg-white p-3 cursor-pointer rounded-md">
                             <div className="flex gap-2 my-2 items-center">
                             <img className='rounded-full' src={group.profilepic} height={100} width={100}/>
                             <h1 className='font-bold text-2xl'>{group.groupName}</h1>

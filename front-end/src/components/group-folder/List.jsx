@@ -47,7 +47,7 @@ const List = ({ category }) => {
               nav(
                 `/dashboard/${rootUser.username}/groups/${group.groupName}/${String(
                   group._id
-                )}`
+                )}/1`
               );
             }
           }}

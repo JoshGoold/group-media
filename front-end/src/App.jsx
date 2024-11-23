@@ -20,7 +20,7 @@ const App = ({ Router, location }) => {
             <Route path="/dashboard/:username" element={<Dashboard />} />
             <Route path="/user-profile/:username" element={<UserProfile />} />
             <Route path="/dashboard/:username/groups/:grouptype/:groupcategory" element={<GroupType/>}/>
-            <Route path="/dashboard/:username/groups/:groupname/:groupid" element={<GroupPage/>}/>
+            <Route path="/dashboard/:username/groups/:groupname/:groupid/1" element={<GroupPage/>}/>
             <Route path="/dashboard/conversation/:id/:username" element={<ConversationPage/>}/>
           </Routes>
         </UserProvider>

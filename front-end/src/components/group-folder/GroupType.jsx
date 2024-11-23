@@ -250,7 +250,7 @@ const GroupType = () => {
                     nav(
                       `/dashboard/${username}/groups/${
                         group.groupName
-                      }/${String(group._id)}`
+                      }/${String(group._id)}/1`
                     );
                   }
                 }}
