@@ -39,7 +39,7 @@ const ConversationPage = () => {
     }, []);
 
     return (
-        <div id={id} className="w-full min-h-screen flex flex-col">
+        <div id={id} className="w-full relative min-h-screen flex flex-col">
             <div className="bg-white flex flex-col w-full h-[100px] p-3 mb-4">
                 <div className="flex justify-between">
                     <button title="back" className="text-3xl p-2" onClick={() => nav(`/dashboard/${rootUser.username}`)}>←</button>
