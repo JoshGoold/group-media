@@ -5,6 +5,8 @@ const multer = require("multer");
 const path = require("path");
 const imageResizer = require("../js/imageResize");
 const getBase64 = require("../js/getBase64");
+const Notification = require("../schemas/NotificationSchema")
+const mailer = require("../js/Mailer")
 
 const auth = require("../middleware/auth");
 const mongoose = require("mongoose")
@@ -60,6 +62,25 @@ functionRoutes.get("/follow", auth, async (req, res) => {
 
     await user.save();
     await req.user.save();
+
+    const notification = new Notification({
+      content: `${req.user.username} has followed you!`,
+      subject: `You have a new follower`,
+      
+    })
+    await notification.save();
+
+    mailer(user.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    user.notifications.push(notification._id)
+
+    await user.save()
 
     res.status(200).send({
       Message: `You are now following ${user.username}`,
@@ -227,6 +248,25 @@ functionRoutes.post("/like-letter", auth, async (req, res) => {
     });
     await user.save();
 
+    const notification = new Notification({
+      content: `${req.user.username} has liked your letter!`,
+      subject: `${letter.letterHead} got a new like`,
+      
+    })
+    await notification.save();
+
+    mailer(user.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    user.notifications.push(notification._id)
+
+    await user.save()
+
     return res
       .status(200)
       .send({ Message: "Liked letter successfully", Success: true });
@@ -255,6 +295,25 @@ functionRoutes.post("/comment-letter", auth, async (req, res) => {
       comment: comment,
     });
     await user.save();
+
+    const notification = new Notification({
+      content: `${req.user.username} commented on your letter!`,
+      subject: `${letter.letterHead} received a comment`,
+      
+    })
+    await notification.save();
+
+    mailer(user.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    user.notifications.push(notification._id)
+
+    await user.save()
 
     return res
       .status(200)
@@ -375,6 +434,25 @@ functionRoutes.post("/like-post", auth, async (req, res) => {
     });
     await user.save();
 
+    const notification = new Notification({
+      content: `${req.user.username} liked your post!`,
+      subject: `Your post received a like`,
+      
+    })
+    await notification.save();
+
+    mailer(user.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    user.notifications.push(notification._id)
+
+    await user.save()
+
     return res
       .status(200)
       .send({ Message: "Liked post successfully", Success: true });
@@ -393,22 +471,42 @@ functionRoutes.post("/comment-post", auth, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    const post = user.posts.find((post) => post._id === postId);
+    const post = user.posts.find((post) => post._id.toString() === postId);
     if (!post) {
       return res.status(404).send("Post not found");
     }
 
+    // Add comment to the post
     post.comments.push({
       commenterId: req.user._id,
       commenterUsername: req.user.username,
       comment: comment,
     });
 
+    // Create a new notification
+    const notification = new Notification({
+      content: `${req.user.username} commented on your post!`,
+      subject: `Your post received a comment`,
+    });
+
+    await notification.save(); // Save the notification
+
+    // Add the notification to the user's notifications array
+    user.notifications.push(notification._id);
+
+    // Save the user document (comments + notifications)
     await user.save();
 
-    return res
-      .status(200)
-      .send({ Message: "Commented successfully", Success: true });
+    // Send email notification
+    mailer(user.email, notification.subject, notification.content)
+      .then((info) => {
+        console.log("Email sent:", info.messageId);
+      })
+      .catch((err) => {
+        console.error("Failed to send email:", err);
+      });
+
+    return res.status(200).send({ Message: "Commented successfully", Success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Error: ${error.message}`);

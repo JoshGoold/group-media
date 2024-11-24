@@ -8,10 +8,13 @@ import { useParams } from "react-router-dom";
 import Home from "./Home.jsx";
 import Profile from "./Profile.jsx";
 import Groups from "./group-folder/Groups.jsx";
+import NotificationsPage from "./dashboard-user/NotificationsPage.jsx";
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
   const { username } = useParams();
+  
+  const [notifAmount, setNotifAmount] = useState(0);
 
   const [userData, setUserData] = useState({
     username: "",
@@ -29,6 +32,7 @@ const Dashboard = () => {
     conversations: false,
     profile: true,
     globalGroups: false,
+    notifications: false,
   });
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -110,6 +114,7 @@ const Dashboard = () => {
             userData={userData}
             setUserData={setUserData}
             user={user}
+            notifAmount={notifAmount}
           />
         </div>
       ) : (
@@ -150,6 +155,11 @@ const Dashboard = () => {
         {navState.globalGroups && (
           <div className="">
             <Groups />
+          </div>
+        )}
+        {navState.notifications && (
+          <div className="">
+            <NotificationsPage amount={setNotifAmount}/>
           </div>
         )}
       </div>

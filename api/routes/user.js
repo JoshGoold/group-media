@@ -2,6 +2,8 @@ const User = require("../schemas/UserSchema");
 const Message = require("../schemas/MessageSchema");
 const Conversation = require("../schemas/ConversationSchema");
 const jwt = require("jsonwebtoken");
+const mailer = require("../js/Mailer")
+const Notification = require('../schemas/NotificationSchema');
 
 
 const hash = require("../js/hash");
@@ -152,6 +154,22 @@ userRoutes.post("/register", async (req, res) => {
           id: conversation._id,
           participantName: user.username,
         });
+
+        const notification = new Notification({
+          content: `You received a message from ${user.username}`,
+          subject: `Message Notification`,
+        })
+        await notification.save();
+
+        mailer(user.email, notification.subject, notification.content)
+        .then(info => {
+          console.log("Email info:", info)
+        })
+        .catch(err => {
+          console.error("Failed to send email:", err)
+        })
+
+        user.notifications.push(notification._id)
   
         //saves all changes to database
         await conversation.save();
@@ -191,7 +209,9 @@ userRoutes.post("/register", async (req, res) => {
           content: message,
           sender: req.user._id,
         });
-  
+
+        const user = await User.findOne({username: toUsername}).select("email notifications username");
+        
         await newMessage.save();
   
         //finds conversation by id given to add the message to
@@ -203,7 +223,26 @@ userRoutes.post("/register", async (req, res) => {
         }
         //if the conversation is found it adds the new message to the conversation and saves it
         conversation.messages.push(newMessage._id);
+
         await conversation.save();
+
+        const notification = new Notification({
+          content: `You received a message from ${user.username}`,
+          subject: `Message Notification`,
+          
+        })
+        await notification.save();
+
+        mailer(user.email, notification.subject, notification.content)
+        .then(info => {
+          console.log("Email info:", info)
+        })
+        .catch(err => {
+          console.error("Failed to send email:", err)
+        })
+
+        user.notifications.push(notification._id)
+        await user.save()
         console.log(`message sent to conversation ${conversation._id}`)
         res.status(200).send({
           Message: `Message sent successfully\nTo user: ${toUsername}\nFrom: ${req.user.username}\nConvo ID: ${convoID}`,
@@ -288,6 +327,23 @@ userRoutes.post("/register", async (req, res) => {
       console.error(`Error occurred finding conversation by id\nURL: ${req.url}\nError: ${error}`)
       return res.status(500).send({Message: "Server error", url: req.url, error: error.message, Success: false})
     }
+  })
+
+  userRoutes.get("/notifications", auth, async (req,res)=>{
+    try {
+      const user = await User.findOne({username: req.user.username}).select("notifications").populate("notifications").lean()
+
+      if(!user){
+        res.status(404).send({Message: "You have no notifications", Success: false})
+      } 
+      console.log(user.notifications)
+      res.send({Success: true, notifications: user.notifications})
+
+    } catch (error) {
+      console.error(`Error fetching notifications\nError: ${error}`)
+      res.status(500).send({Message: "Error fetching notifications", url: req.url, error: error.message, Success: false})
+    }
+    
   })
   
 

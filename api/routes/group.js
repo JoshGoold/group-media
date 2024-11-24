@@ -2,10 +2,12 @@ const Group = require("../schemas/GroupSchema");
 const User = require("../schemas/UserSchema");
 const Message = require("../schemas/MessageSchema");
 const Conversation = require("../schemas/ConversationSchema");
+const Notification = require('../schemas/NotificationSchema')
 const { put } = require("@vercel/blob");
 
 const multer = require("multer");
 const auth = require("../middleware/auth");
+const mailer = require('../js/Mailer');
 
 const fs = require("fs");
 const path = require("path");
@@ -102,6 +104,29 @@ groupRoutes.post("/join-group", auth, async (req, res) => {
 
     await group.save();
 
+    const owner = await User.findOne({username: group.owner.owner_name}).select("email notifications username")
+
+
+
+    const notification = new Notification({
+      content: `The member ${req.user.username} just joined your group - ${group.groupName}`,
+      subject: `New member in ${group.groupName}`,
+      
+    })
+    await notification.save();
+
+    mailer(owner.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    owner.notifications.push(notification._id)
+
+    await owner.save()
+
     res
       .status(200)
       .send({
@@ -143,6 +168,29 @@ groupRoutes.post("/request-group", auth, async (req, res) => {
     });
 
     await group.save();
+    const owner = await User.findOne({username: group.owner.owner_name}).select("email notifications username")
+
+
+
+    const notification = new Notification({
+      content: `The member ${req.user.username} requested to join your group - ${group.groupName}`,
+      subject: `New request to join ${group.groupName}`,
+      
+    })
+    await notification.save();
+
+    mailer(owner.email, notification.subject, notification.content)
+    .then(info => {
+      console.log("Email info:", info)
+    })
+    .catch(err => {
+      console.error("Failed to send email:", err)
+    })
+
+    owner.notifications.push(notification._id)
+
+    await owner.save()
+
     res.status(200).send({ Message: "Request sent", Success: true });
   } catch (error) {
     console.error(`Server error --> ${error}`);
@@ -739,6 +787,25 @@ groupRoutes.post("/accept-participant", auth, async (req, res) => {
 
       await group.save();
 
+      const notification = new Notification({
+        content: `You have been accepted into the group - ${group.groupName}`,
+        subject: `Your now a member of ${group.groupName}`,
+        
+      })
+      await notification.save();
+  
+      mailer(requestedParticipant.email, notification.subject, notification.content)
+      .then(info => {
+        console.log("Email info:", info)
+      })
+      .catch(err => {
+        console.error("Failed to send email:", err)
+      })
+  
+      requestedParticipant.notifications.push(notification._id)
+  
+      await requestedParticipant.save()
+
       res
         .status(200)
         .send({
@@ -793,6 +860,24 @@ groupRoutes.post("/deny-participant", auth, async (req, res) => {
       );
 
       await group.save();
+      const notification = new Notification({
+        content: `You have been denied into the group - ${group.groupName}`,
+        subject: `Your request to join ${group.groupName} was denied`,
+        
+      })
+      await notification.save();
+  
+      mailer(requestedParticipant.email, notification.subject, notification.content)
+      .then(info => {
+        console.log("Email info:", info)
+      })
+      .catch(err => {
+        console.error("Failed to send email:", err)
+      })
+  
+      requestedParticipant.notifications.push(notification._id)
+  
+      await requestedParticipant.save()
 
       res
         .status(200)

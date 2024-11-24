@@ -8,7 +8,7 @@ const Sidepanel = (props) => {
   return (
     <div className="flex flex-col bg-white bg-opacity-10 overfolow-y-auto p-3 h-full">
       <Search />
-      <NavBar setSideState={(props.setSideState)} setNavState={props.setNavState} navState={props.navState}/>
+      <NavBar amount={props.notifAmount} setSideState={(props.setSideState)} setNavState={props.setNavState} navState={props.navState}/>
 
       {props.navState.conversations === true && (
         <Conversations

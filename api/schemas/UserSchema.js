@@ -154,6 +154,10 @@ const userSchama = new mongoose.Schema({
       },
     },
   ],
+  notifications: [{
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Notification"
+  }]
 });
 
 module.exports = mongoose.model("User", userSchama);
