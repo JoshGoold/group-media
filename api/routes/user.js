@@ -156,7 +156,7 @@ userRoutes.post("/register", async (req, res) => {
         });
 
         const notification = new Notification({
-          content: `You received a message from ${user.username}`,
+          content: `You received a message from ${req.user.username}`,
           subject: `Message Notification`,
         })
         await notification.save();
@@ -227,7 +227,7 @@ userRoutes.post("/register", async (req, res) => {
         await conversation.save();
 
         const notification = new Notification({
-          content: `You received a message from ${user.username}`,
+          content: `You received a message from ${req.user.username}`,
           subject: `Message Notification`,
           
         })
@@ -344,6 +344,17 @@ userRoutes.post("/register", async (req, res) => {
       res.status(500).send({Message: "Error fetching notifications", url: req.url, error: error.message, Success: false})
     }
     
+  })
+
+  userRoutes.delete("/notifications", auth, async (req,res)=>{
+    try {
+      req.user.notifications = [];
+      await req.user.save()
+      res.send({Message: "deleted successfully", Success: true})
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({Message: "Error deleting notifications", Success: false})
+    }
   })
   
 

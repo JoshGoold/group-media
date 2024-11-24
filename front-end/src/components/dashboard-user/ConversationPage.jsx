@@ -74,6 +74,7 @@ const ConversationPage = () => {
                     username={username}
                 />
             </div>
+            <div className="h-[100px] bg-white"></div>
         </div>
     );
 };
