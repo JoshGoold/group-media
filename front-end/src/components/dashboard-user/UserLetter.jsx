@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CreateLetter from "../functions/CreateLetter";
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 
 const UserLetter = (props) => {
   const [commentL, setCommentL] = useState("");
@@ -10,7 +11,7 @@ const UserLetter = (props) => {
   const [commentState, setCommentState] = useState({ state: false, id: "" });
   const nav = useNavigate();
   const [token, setToken] = useState(undefined)
-
+  const [username, setUsername] = useState("")
   const commentLetter = async (e, id, username, comment) => {
     const getToken = localStorage.getItem('token');
     e.preventDefault();
@@ -67,6 +68,10 @@ const UserLetter = (props) => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    const rootUsername = localStorage.getItem('username'); 
+    setUsername(rootUsername)
+  }, []);
 
   return (
     <div>
@@ -102,7 +107,7 @@ const UserLetter = (props) => {
                         likeLetter(letter._id, props.userData.username)
                       }
                     >
-                      ❣️
+                      {letter.likes.find(like => like.likerUsername === username) ? <FcLike/> : <FcLikePlaceholder/>}
                     </button>
                     {letter?.likes.map((like, index) => (
                       <div key={index} className="">

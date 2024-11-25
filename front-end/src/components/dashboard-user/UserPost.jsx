@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 
 const UserPost = (props) => {
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
   const [token, setToken] = useState(undefined)
-  
+  const [username, setUsername] = useState("")
 
   const likePost = async (post_id, username) => {
     const getToken = localStorage.getItem('token');
@@ -65,6 +66,10 @@ const UserPost = (props) => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    const rootUsername = localStorage.getItem('username'); 
+    setUsername(rootUsername)
+  }, []);
   // async function deletePost(id) {
   //   try {
   //     const response = await axios.post(
@@ -119,7 +124,7 @@ const UserPost = (props) => {
                   <button
                     onClick={() => likePost(post._id, props.userData.username)}
                   >
-                    ❣️
+                    {post.likes.find(like => like.likerUsername === username) ? <FcLike/> : <FcLikePlaceholder/>}
                   </button>
                   {post?.likes.map((like, index) => (
                     <div key={index} className="">

@@ -1,15 +1,19 @@
 import React from "react";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 const Post = (props) => {
   const [curMonth, setCurMonth] = useState("");
   const [token, setToken] = useState(undefined)
-  
+  const [username, setUsername] = useState("")
 
   const [commentP, setCommentP] = useState("");
   const [likeState, setLikeState] = useState({ state: false, id: "" });
   const [commentState, setCommentState] = useState({ state: false, id: "" });
+  const nav = useNavigate();
+  
 
   const likePost = async (post_id, username) => {
     const getToken = localStorage.getItem('token');
@@ -99,6 +103,10 @@ const Post = (props) => {
       console.error(error);
     }
   }
+  useEffect(()=>{
+    const rootUsername = localStorage.getItem('username'); 
+    setUsername(rootUsername)
+  },[])
 
   return (
     <div className="-mt-2">
@@ -130,7 +138,7 @@ const Post = (props) => {
                 <button
                   onClick={() => likePost(props.data._id, props.data.username)}
                 >
-                  ❣️
+                  {props.data.likes.find(like => like.likerUsername === username) ? <FcLike/> : <FcLikePlaceholder/>}
                 </button>
                 {props.data?.likes.map((like, index) => (
                   <div key={index} className="">
@@ -237,7 +245,7 @@ const Post = (props) => {
                   <button
                     onClick={() => likePost(post._id, props.userData.username)}
                   >
-                    ❣️
+                    {post.likes.find(like => like.likerUsername === username) ? <FcLike/> : <FcLikePlaceholder/>}
                   </button>
                   {post?.likes.map((like, index) => (
                     <div key={index} className="">

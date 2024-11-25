@@ -23,7 +23,7 @@ const NavBar = ({navState, setNavState, setSideState, amount}) => {
             <li onClick={()=> {
             setNavState({home: false, profile: false, globalGroups: false, conversations: false, notifications: true})
             setSideState(false)
-            }} title='Notifications' className={`hover:scale-110 ${!navState.conversations ? "flex items-center gap-2" : ""} hover:text-neutral-200 ${amount !== 0 && "text-red-700"}  cursor-pointer duration-200  ${navState.notifications === true ? "text-blue-500" : "text-white"}`}><IoIosNotifications/><small>{!navState.conversations ? "Notifications" : ""}</small></li>
+            }} title='Notifications' className={`hover:scale-110 ${!navState.conversations ? "flex items-center gap-2" : ""} hover:text-neutral-200 cursor-pointer duration-200  ${navState.notifications === true ? "text-blue-500" : "text-white"}`}><IoIosNotifications className={`${amount !== 0 && "text-red-700"} `}/><small>{!navState.conversations ? "Notifications" : ""}</small></li>
         <li onClick={()=> {
             setNavState((prev)=> ({...prev, conversations: !navState.conversations}))
             setSideState(false)}} title='Conversations' className={`hover:scale-110 ${!navState.conversations ? "flex items-center gap-2" : ""} hover:text-neutral-200  cursor-pointer duration-200  ${navState.conversations === true ? "text-blue-500" : "text-white"}`}><TbMessages/><small>{!navState.conversations ? "Chats" : ""}</small></li>

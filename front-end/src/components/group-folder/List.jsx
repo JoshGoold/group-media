@@ -8,6 +8,54 @@ const List = ({ category }) => {
   const [message, setMessage] = useState("");
   const [state, setState] = useState(false)
   const [rootUser, setRootUser] = useState({id: null, username: null});
+  async function joinGroup(id) {
+    const getToken = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `/api/join-group`,
+        {
+          groupid: id,
+        },
+        {
+          headers: {
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
+      );
+      if (response.data.Success) {
+        alert(response.data.Message);
+        getGroups();
+      } else {
+        alert(response.data.Message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function requestGroup(id) {
+    const getToken = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `/api/request-group`,
+        {
+          groupid: id,
+        },
+        {
+          headers: {
+          'Authorization': `Bearer ${getToken}`, // Include the token in the Authorization header
+          'Content-Type': 'application/json'
+        }}
+      );
+      if (response.data.Success) {
+        alert(response.data.Message);
+        getGroups();
+      } else {
+        alert(response.data.Message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async function getGroups() {
     const getToken = localStorage.getItem("token");
     const userid = localStorage.getItem('id')
@@ -57,7 +105,7 @@ const List = ({ category }) => {
           <div className="flex gap-2 my-2 items-center">
             <img
               className="rounded-full"
-              src={group.profilepic}
+              src={group.groupProfilePicture}
               height={100}
               width={100}
             />
