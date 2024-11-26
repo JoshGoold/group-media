@@ -160,13 +160,13 @@ functionRoutes.post("/delete-post", auth, async (req, res) => {
   try {
     const post = req.user.posts.find((post) => post._id.equals(id));
 
-    if (!letter) {
+    if (!post) {
       res.status(404).send({ Message: "no posts found", Success: false });
     }
 
     await post.deleteOne();
 
-    await user.save();
+    await req.user.save();
 
     res.send({ Message: "post deleted successfully", Success: true });
   } catch (error) {

@@ -93,6 +93,7 @@ const UserProfile = () => {
   }, []);
 
   const handleUserProfile = async () => {
+    
     const getToken = localStorage.getItem('token');
     try {
       const response = await axios.get(
@@ -125,9 +126,10 @@ const UserProfile = () => {
   };
 
   function checkFollowing() {
+    const rootUsername = localStorage.getItem('username')
     try {
       const isFollowing = userData?.followers.find(
-        (follower) => follower.id === user.id
+        (follower) => follower.username === rootUsername
       );
 
       if (isFollowing) {
