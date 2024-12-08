@@ -7,16 +7,20 @@ const Followers = (props) => {
     const [state,setState] = useState(false)
   return (
     <div>
-      <div onClick={()=>setState(!state)}>
-        Followers: {props.userData?.followers?.length || 0} 
+      <div className='flex flex-col gap-2' onClick={()=>{
+        setState(!state)
+        props.setView(prev => !prev)
+        }}>Followers: {props.userData?.followers?.length || 0}
+          {state && (<>
+          
                     {props.userData.followers.map((follower, index)=>(
-                    <div key={index}>
-                    {state && (
+                    <div title={`View ${follower.username}'s profile`} className='bg-white text-black px-2  ' key={index}>
+                    
                       <p className="cursor-pointer" key={index} onClick={()=> nav(`/user-profile/${follower.username}`)} id={follower.id}>{follower.username}</p>
-                    )}
+                   
                     
                     </div>
-                ))}
+                ))} </>)}
         </div>
     </div>
   )

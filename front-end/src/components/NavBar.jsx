@@ -1,7 +1,7 @@
 import React from 'react'
 import { TbMessages } from "react-icons/tb";
 import { MdOutlineGroups2 } from "react-icons/md";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaSearch } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 
@@ -9,6 +9,10 @@ const NavBar = ({navState, setNavState, setSideState, amount}) => {
   return (
     <div className='mt-4 text-center'>
      <ul className={`flex justify-center items-center text-white text-3xl gap-4 ${!navState.conversations ? "flex-col gap-12": "flex-row"}`}>
+     <li onClick={()=> {
+            setNavState({home: false, search: true, profile: false, globalGroups: false, conversations: false, notifications: false})
+            setSideState(false)
+            }} title='Search' className={`hover:scale-110 ${!navState.conversations ? "flex items-center gap-2" : ""} hover:text-neutral-200  cursor-pointer duration-200 ${navState.search === true ? "text-blue-500" : "text-white"}`}><FaSearch/><small>{!navState.conversations ? "Search" : ""}</small></li>
         <li onClick={()=> {
             setNavState({home: true, profile: false, globalGroups: false, conversations: false, notifications: false})
             setSideState(false)

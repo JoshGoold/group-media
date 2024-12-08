@@ -49,7 +49,7 @@ const UserProfile = () => {
   const nav = useNavigate();
   const [token, setToken] = useState(undefined)
   
-  
+  const [viewFollow, setViewFollow] = useState(false)
 
   const [following, setFollowing] = useState(false);
   const [state, setState] = useState("Letters")
@@ -159,9 +159,9 @@ const UserProfile = () => {
         Back
       </button>
 
-      <div className="p-2 flex w-full  flex-col justify-center items-center">
-        <div className="">
-          <UserProfileHead userData={userData} />
+      <div className="p-2 flex w-full  flex-col justify-center items-center"> 
+          <UserProfileHead setView={setViewFollow} view={viewFollow} userData={userData} />
+          {!viewFollow && (<>
           <div className="flex flex-col">
             <Follow
               followState={following}
@@ -170,7 +170,7 @@ const UserProfile = () => {
             />
             <CreateConversation username={userData.username} />
           </div>
-        </div>
+        
         {windowWidth > 1000 ? (
         <div className="flex w-full gap-2 mt-5">
           <div className="shadow-md rounded-lg bg-opacity-10  bg-white w-full p-2">
@@ -206,7 +206,7 @@ const UserProfile = () => {
             <UserPost userData={userData} />
           </div>)}
         </div>
-        )}
+        )}</>)}
       </div>
     </div>
   );

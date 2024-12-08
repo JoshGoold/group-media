@@ -18,6 +18,7 @@ const Profile = () => {
   const { username } = useParams();
 
   const [token, setToken] = useState(undefined)
+  const [viewFollow, setViewFollow] = useState(false)
   
 
   const [userData, setUserData] = useState({
@@ -131,7 +132,11 @@ const Profile = () => {
           setUserData={setUserData}
           handleUserProfile={handleUserProfile}
           user={user}
+          setView={setViewFollow}
+          view={viewFollow}
         />
+        {!viewFollow &&(
+          <>
         {windowWidth > 1000 ? (
           <div className="flex w-full gap-2 mt-5">
             <div className="shadow-md rounded-lg bg-opacity-10 bg-white w-full p-2">
@@ -199,7 +204,7 @@ const Profile = () => {
 
           )}
         </div>
-        )}
+        )}</>)}
       </div>
     </div>
   );

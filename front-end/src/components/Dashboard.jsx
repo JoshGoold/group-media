@@ -9,6 +9,7 @@ import Home from "./Home.jsx";
 import Profile from "./Profile.jsx";
 import Groups from "./group-folder/Groups.jsx";
 import NotificationsPage from "./dashboard-user/NotificationsPage.jsx";
+import SearchPage from "./dashboard-user/SearchPage.jsx";
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
@@ -33,6 +34,7 @@ const Dashboard = () => {
     profile: true,
     globalGroups: false,
     notifications: false,
+    search: false
   });
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -160,6 +162,11 @@ const Dashboard = () => {
         {navState.notifications && (
           <div className="">
             <NotificationsPage amount={setNotifAmount}/>
+          </div>
+        )}
+        {navState.search && (
+          <div className="p-4">
+            <SearchPage/>
           </div>
         )}
       </div>

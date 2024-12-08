@@ -21,8 +21,8 @@ const UserProfileHead = (props) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <Followers userData={props.userData} />
-        <Following userData={props.userData} />
+        <Followers setView={props.setView} userData={props.userData} />
+        <Following setView={props.setView} userData={props.userData} />
       </div>
     </div>
   );

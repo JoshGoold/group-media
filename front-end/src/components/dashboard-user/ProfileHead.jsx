@@ -84,9 +84,10 @@ const ProfileHead = (props) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <Followers userData={props.userData} />
-        <Following userData={props.userData} />
+        <Followers setView={props.setView} userData={props.userData} />
+        <Following setView={props.setView} userData={props.userData} />
       </div>
+      {!props.view && (
       <div className="flex items-center gap-4">
         <CreateLetter
           userData={props.userData}
@@ -100,7 +101,7 @@ const ProfileHead = (props) => {
           setUserData={props.setUserData}
           user={props.user}
         />
-      </div>
+      </div>)}
     </div>
   );
 };

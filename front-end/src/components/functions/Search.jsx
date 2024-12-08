@@ -28,18 +28,21 @@ const Search = () => {
     if (query.length > 0) {
       userSearch();
     }
+    if (query.length === 0){
+      setUserList([])
+    }
   }, [query]);
   return (
-    <div className="">
+    <div className="w-full">
       <input
-        className="rounded-md p-2"
+        className="rounded-md w-full mb-2 p-2"
         type="text"
         list="users"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search users"
       />
-      {userList.length > 0 && (
+      {userList.length > 0 ? (
         <ul className="user-list">
           {userList.map((person) => (
             <li
@@ -56,7 +59,7 @@ const Search = () => {
             </li>
           ))}
         </ul>
-      )}
+      ): (<p className="text-white">No users found</p>)}
     </div>
   );
 };
